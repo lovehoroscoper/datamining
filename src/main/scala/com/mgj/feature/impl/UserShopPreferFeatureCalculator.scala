@@ -45,7 +45,7 @@ class UserShopPreferFeatureCalculator extends FeatureCalculator {
 
     val feature = sampleDF.map(x => {
       val featureVals: List[String] = featureNames.map(name => x.getAs[String](name))
-      val featureVal: String = score(x.getAs[String](userField), Math.round(x.getAs[String](itemField).toDouble).toString).toString
+      val featureVal: String = score(x.getAs[String](userField), x.getAs[String](itemField)).toString
       val uVal: String = x.getAs[String](FeatureConstant.USER_KEY)
       val iVal: String = x.getAs[String](FeatureConstant.ITEM_KEY)
       Row((uVal :: iVal :: featureVal :: featureVals): _*)
@@ -76,7 +76,7 @@ class UserShopPreferFeatureCalculator extends FeatureCalculator {
     println(userField + " DataFrame")
     userShopPreferDF.show
 
-    val itemShopFeatureDF = sqlContext.sql("select cast(tradeitemid as string) as " + itemKeyAlias + ", cast(shopid as string) as " + itemField + " from v_dw_trd_tradeitem")
+    val itemShopFeatureDF = sqlContext.sql("select cast(tradeitemid as string) as " + itemKeyAlias + ", cast(shopid as string) as " + itemField + " from v_dw_trd_tradeitem where tradeitemid is not null and shopid is not null")
     println(itemField + " DataFrame")
     itemShopFeatureDF.show()
 

@@ -45,7 +45,7 @@ class UserCategoryPreferFeatureCalculator extends FeatureCalculator {
 
     val feature = sampleDF.map(x => {
       val featureVals: List[String] = featureNames.map(name => x.getAs[String](name))
-      val featureVal: String = score(x.getAs[String](userField), Math.round(x.getAs[String](itemField).toDouble).toString).toString
+      val featureVal: String = score(x.getAs[String](userField), x.getAs[String](itemField)).toString
       val uVal: String = x.getAs[String](FeatureConstant.USER_KEY)
       val iVal: String = x.getAs[String](FeatureConstant.ITEM_KEY)
       Row((uVal :: iVal :: featureVal :: featureVals): _*)
