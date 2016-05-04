@@ -36,9 +36,9 @@ object ItemGraph {
     val rawFeatureMerge = originalSimFeature.map(x => (x._1 + x._2, x)).fullOuterJoin(bigraphSimFeature.map(x => (x._1 + x._2, x)))
       .map(x => {
         if (x._2._1 != None && x._2._2 != None) {
-          (x._2._1.get._1, x._2._1.get._2, x._2._1.get._5 * Math.random(), x._2._1.get._6 * Math.random(), x._2._1.get._7 * Math.random(), x._2._1.get._8, x._2._2.get._3)
+          (x._2._1.get._1, x._2._1.get._2, x._2._1.get._5, x._2._1.get._6 * Math.random(), x._2._1.get._7, x._2._1.get._8, x._2._2.get._3)
         } else if (x._2._1 != None && x._2._2 == None) {
-          (x._2._1.get._1, x._2._1.get._2, x._2._1.get._5 * Math.random(), x._2._1.get._6 * Math.random(), x._2._1.get._7 * Math.random(), x._2._1.get._8, 0d)
+          (x._2._1.get._1, x._2._1.get._2, x._2._1.get._5, x._2._1.get._6 * Math.random(), x._2._1.get._7, x._2._1.get._8, 0d)
         } else {
           (x._2._2.get._1, x._2._2.get._2, 0d, 0d, 0d, 0d, x._2._2.get._3)
         }
