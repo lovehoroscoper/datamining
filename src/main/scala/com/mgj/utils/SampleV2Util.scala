@@ -38,13 +38,13 @@ object SampleV2Util {
       return Math.abs(1.0 * (datex.getTime() - datey.getTime()) / 1000 / 60)
     }
 
-    val clickSampleLog = getClickSampleLog(sqlContext, appIds: _*).select("user_id", "entity_id", "time", "pos", "label")
+    val clickSampleLog = getClickSampleLog(sqlContext, appIds: _*).select("user_id", "item_id", "time", "pos", "label")
     println("click sample log")
     clickSampleLog.show()
 
     val clickSampleRDD = clickSampleLog.rdd.filter(x => x.anyNull == false).map(x => (x(0).toString, x(1).toString, x(2).toString, x(3).toString, x(4).toString))
 
-    // user_id, entity_id, time, pos, label.
+    // user_id, item_id, time, pos, label.
     // skip above.
     val sampleFinal = clickSampleRDD
       .groupBy(x => x._1)
