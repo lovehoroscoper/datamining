@@ -109,7 +109,7 @@ object SampleV2Util {
     val isContain = udf { (appId: String) => if (appIdSet.contains(appId)) true else false }
     val sql = SqlUtil.getSql(path)
     val sampleLog = sqlContext.sql(sql)
-    val sampleLogFilter = sqlContext.sql(sql).filter(isContain(sampleLog(appId)))
+    val sampleLogFilter = sampleLog.filter(isContain(sampleLog(appId)))
     sampleLogFilter.show()
     return sampleLogFilter
   }
