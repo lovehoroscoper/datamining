@@ -15,7 +15,8 @@ YESTERDAY=`date -d "${CUR_DATE} -1 day" +"%Y-%m-%d %H:%M:%S"`
 
 # SEARCH: 129,139,130,134,307
 # TUAN: 295,291,280
-APP_IDS="295,291,280"
+#APP_IDS="295,291,280"
+APP_IDS="1389,1661,1662"
 echo "app_ids:${APP_IDS}"
 
 TABLE="s_dg_click_sample"
