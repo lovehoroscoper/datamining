@@ -4,7 +4,7 @@ SELECT
 	entity_id AS item_id,
 	exp_id AS app_id,
 	time,
-	user_define as gmv,
+	user_define1 as gmv,
 	pos,
 	label
 FROM
