@@ -1,6 +1,6 @@
 package com.mgj.ml.sample
 
-import com.mgj.utils.SampleUtil
+import com.mgj.utils.{SampleV2Util, SampleUtil}
 import org.apache.spark.sql.hive.HiveContext
 import org.apache.spark.{SparkConf, SparkContext}
 import scala.collection.JavaConversions._
@@ -27,7 +27,7 @@ object BuildResourceSample {
     println(s"table:${table}")
 
     // user_id, entity_id, expose_time, click_time, pos, label.
-    val clickSampleDF = SampleUtil.getClickSample(sqlContext, appIds: _*)
+    val clickSampleDF = SampleV2Util.getClickSample(sqlContext, appIds: _*)
     clickSampleDF.show()
 
     clickSampleDF.registerTempTable(table + "_temp")
