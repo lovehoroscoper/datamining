@@ -1,10 +1,8 @@
 package com.mgj.utils
 
-import java.math.BigInteger
 import java.text.SimpleDateFormat
 import java.util
 
-import org.apache.commons.lang3.math.NumberUtils
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.hive.HiveContext
 import org.apache.spark.sql.types.{StringType, StructField, StructType}
