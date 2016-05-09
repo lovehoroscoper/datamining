@@ -102,7 +102,7 @@ object SampleV2Util {
   }
 
   def getClickSampleLog(sqlContext: HiveContext, appIds: String*): DataFrame = {
-    val clickSample = getSampleLog(sqlContext, "/sql/get_click_sample.sql", "app_id_click", appIds: _*)
+    val clickSample = getSampleLog(sqlContext, "/sql/get_click_sample.sql", "app_id", appIds: _*)
     return clickSample
   }
 
