@@ -5,6 +5,7 @@ SELECT
 	exp_id AS app_id,
 	time,
 	user_define as gmv,
+	pos,
 	label
 FROM
 	s_algo_sample

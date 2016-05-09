@@ -4,6 +4,7 @@ SELECT
 	entity_id AS item_id,
 	exp_id AS app_id,
 	time,
+	pos,
 	label
 FROM
 	s_algo_sample
