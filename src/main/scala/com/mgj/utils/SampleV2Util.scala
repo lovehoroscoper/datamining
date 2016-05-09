@@ -90,7 +90,6 @@ object SampleV2Util {
 
     val sdf: SimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
     val sampleFinalDF = sqlContext.createDataFrame(sampleFinal.map(x => Row(x._1, x._2, sdf.format(x._3.toLong * 1000), Math.log(1 + x._4.toDouble).toString, x._5)), schema)
-    sampleFinalDF.show()
     return this.takeSample(sampleFinalDF)
   }
 
@@ -110,7 +109,6 @@ object SampleV2Util {
     val sql = SqlUtil.getSql(path)
     val sampleLog = sqlContext.sql(sql)
     val sampleLogFilter = sampleLog.filter(isContain(sampleLog(appId)))
-    sampleLogFilter.show()
     return sampleLogFilter
   }
 }
