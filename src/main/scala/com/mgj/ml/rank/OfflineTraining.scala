@@ -48,7 +48,7 @@ object OfflineTraining {
 
       clickSampleDF.registerTempTable(s"${sampleTable}_temp")
       sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
-      sqlContext.sql("drop table if exists ${sampleTable}")
+      sqlContext.sql(s"drop table if exists ${sampleTable}")
       sqlContext.sql(s"create table ${sampleTable} as select * from ${sampleTable}_temp")
     }
 
