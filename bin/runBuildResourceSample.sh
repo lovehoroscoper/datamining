@@ -15,6 +15,7 @@ DAY_SUB15=`date -d "${CUR_DATE} -15 day" +"%Y-%m-%d"`
 YESTERDAY=`date -d "${CUR_DATE} -1 day" +"%Y-%m-%d %H:%M:%S"`
 
 BIZDATE=${DAY_SUB2}
+echo "bizdate: ${BIZDATE}"
 # SEARCH: 129,139,130,134,307
 # TUAN: 295,291,280
 #APP_IDS="295,291,280"
