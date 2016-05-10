@@ -28,10 +28,10 @@ object SampleV2Util {
     return sampleFinal
   }
 
-  def getClickSample(sqlContext: HiveContext, appIds: String*): DataFrame = {
-    val bizdate = SqlUtil.getDate(-1)
-    return getClickSample(sqlContext, bizdate, appIds: _*)
-  }
+  //  def getClickSample(sqlContext: HiveContext, appIds: String*): DataFrame = {
+  //    val bizdate = SqlUtil.getDate(-1)
+  //    return getClickSample(sqlContext, bizdate, appIds: _*)
+  //  }
 
   def getClickSample(sqlContext: HiveContext, bizdate: String, appIds: String*): DataFrame = {
     def getTimeDiff(visitTimex: String, visitTimey: String): Double = {
@@ -41,7 +41,7 @@ object SampleV2Util {
       return Math.abs(1.0 * (datex.getTime() - datey.getTime()) / 1000 / 60)
     }
 
-    val clickSampleLog = getClickSampleLog(sqlContext, appIds: _*).select("user_id", "item_id", "time", "pos", "label")
+    val clickSampleLog = getClickSampleLog(sqlContext, bizdate, appIds: _*).select("user_id", "item_id", "time", "pos", "label")
     println("click sample log")
     clickSampleLog.show()
 
@@ -98,30 +98,30 @@ object SampleV2Util {
     return this.takeSample(sampleFinalDF)
   }
 
-  def getOrderSampleLog(sqlContext: HiveContext, appIds: String*): DataFrame = {
-    val bizdate = SqlUtil.getDate(-1)
-    return getOrderSampleLog(sqlContext, bizdate, appIds: _*)
-  }
+  //  def getOrderSampleLog(sqlContext: HiveContext, appIds: String*): DataFrame = {
+  //    val bizdate = SqlUtil.getDate(-1)
+  //    return getOrderSampleLog(sqlContext, bizdate, appIds: _*)
+  //  }
 
   def getOrderSampleLog(sqlContext: HiveContext, bizdate: String, appIds: String*): DataFrame = {
     val orderSample = getSampleLog(sqlContext, "/sql/get_order_sample.sql", "app_id", bizdate, appIds: _*)
     return orderSample
   }
 
-  def getClickSampleLog(sqlContext: HiveContext, appIds: String*): DataFrame = {
-    val bizdate = SqlUtil.getDate(-1)
-    return getClickSampleLog(sqlContext, bizdate, appIds: _*)
-  }
+  //  def getClickSampleLog(sqlContext: HiveContext, appIds: String*): DataFrame = {
+  //    val bizdate = SqlUtil.getDate(-1)
+  //    return getClickSampleLog(sqlContext, bizdate, appIds: _*)
+  //  }
 
   def getClickSampleLog(sqlContext: HiveContext, bizdate: String, appIds: String*): DataFrame = {
     val clickSample = getSampleLog(sqlContext, "/sql/get_click_sample.sql", "app_id", bizdate, appIds: _*)
     return clickSample
   }
 
-  def getSampleLog(sqlContext: HiveContext, path: String, appIdSchema: String, appIds: String*): DataFrame = {
-    val bizdate = SqlUtil.getDate(-1)
-    return getSampleLog(sqlContext, path, appIdSchema, bizdate, appIds: _*)
-  }
+  //  def getSampleLog(sqlContext: HiveContext, path: String, appIdSchema: String, appIds: String*): DataFrame = {
+  //    val bizdate = SqlUtil.getDate(-1)
+  //    return getSampleLog(sqlContext, path, appIdSchema, bizdate, appIds: _*)
+  //  }
 
   def getSampleLog(sqlContext: HiveContext, path: String, appIdSchema: String, bizdate: String, appIds: String*): DataFrame = {
     val appIdSet = appIds.toSet
