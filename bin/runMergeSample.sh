@@ -32,7 +32,7 @@ ${SUBMIT}														\
 	--num-executors	32											\
 	--executor-cores 2											\
 	--executor-memory 7373m										\
-	--class com.mgj.ml.lr.MergeSample							\
+	--class com.mgj.ml.rank.MergeSample							\
 	"${JAR_PATH}"												\
 	"${BIZDATE}"												\
 	"${FEATURES}"												\

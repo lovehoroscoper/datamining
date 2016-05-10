@@ -3,8 +3,8 @@ package com.mgj.feature
 import java.util
 
 /**
- * Created by xiaonuo on 12/5/15.
- */
+  * Created by xiaonuo on 12/5/15.
+  */
 class FeatureCalculatorFactory {
   private var calculators: util.HashMap[String, FeatureCalculator] = _
 
@@ -16,4 +16,7 @@ class FeatureCalculatorFactory {
     return calculators.get(name)
   }
 
+  def containsCalculator(name: String): Boolean = {
+    return calculators.containsKey(name)
+  }
 }

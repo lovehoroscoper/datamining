@@ -18,6 +18,6 @@ ${SUBMIT}														\
 	--num-executors	16											\
 	--executor-cores 2											\
 	--executor-memory 7373m										\
-	--class com.mgj.ml.lr.MergeTrain							\
+	--class com.mgj.ml.rank.MergeTrain							\
 	"${JAR_PATH}"												\
 	"${FEATURES}"												\

@@ -1,12 +1,10 @@
-package com.mgj.ml.lr
+package com.mgj.ml.rank
 
-import com.mgj.feature.impl.{ItemFeatureCalculator, UserRealItemPreferFeatureCalculator}
-import com.mgj.feature.{FeatureConstant, FeatureCalculatorFactory}
-import com.mgj.utils.LRLearnerV2
-import org.apache.spark.sql.types.{DoubleType, StructType, StringType, StructField}
-import org.apache.spark.sql.{Column, Row, DataFrame}
+import com.mgj.feature.FeatureCalculatorFactory
 import org.apache.spark.sql.hive.HiveContext
-import org.apache.spark.{SparkContext, SparkConf}
+import org.apache.spark.sql.types.{DoubleType, StructField, StructType}
+import org.apache.spark.sql.{Column, DataFrame, Row}
+import org.apache.spark.{SparkConf, SparkContext}
 import org.springframework.context.ApplicationContext
 import org.springframework.context.support.ClassPathXmlApplicationContext
 

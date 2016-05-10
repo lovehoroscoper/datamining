@@ -1,8 +1,8 @@
-package com.mgj.ml.lr
+package com.mgj.ml.rank
 
 import com.mgj.utils.LRLearnerV2
 import org.apache.spark.sql.hive.HiveContext
-import org.apache.spark.{SparkContext, SparkConf}
+import org.apache.spark.{SparkConf, SparkContext}
 
 /**
   * Created by xiaonuo on 12/21/15.

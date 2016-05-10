@@ -1,9 +1,8 @@
-package com.mgj.ml.sample
+package com.mgj.ml.rank
 
-import com.mgj.utils.{SampleV2Util, SampleUtil}
+import com.mgj.utils.SampleV2Util
 import org.apache.spark.sql.hive.HiveContext
 import org.apache.spark.{SparkConf, SparkContext}
-import scala.collection.JavaConversions._
 
 /**
   * Created by xiaonuo on 11/18/15.
