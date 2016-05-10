@@ -33,6 +33,35 @@ object SampleV2Util {
   //    return getClickSample(sqlContext, bizdate, appIds: _*)
   //  }
 
+  def getOrderSample(sqlContext: HiveContext, bizdate: String, appIds: String*): DataFrame = {
+    def getTimeDiff(visitTimex: String, visitTimey: String): Double = {
+      val df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
+      val datex = df.parse(visitTimex)
+      val datey = df.parse(visitTimey)
+      return Math.abs(1.0 * (datex.getTime() - datey.getTime()) / 1000 / 60)
+    }
+
+    val orderSampleLog = getOrderSampleLog(sqlContext, bizdate, appIds: _*).select("user_id", "item_id", "time", "pos", "label")
+    println("click sample log")
+    orderSampleLog.show()
+
+    val orderSampleRDD = orderSampleLog.rdd.filter(x => x.anyNull == false).map(x => (x(0).toString, x(1).toString, x(2).toString, x(3).toString, x(4).toString))
+
+    // user_id, item_id, time, pos, label.
+    // skip above.
+    val schema =
+      StructType(
+        StructField("user_id", StringType, true) ::
+          StructField("item_id", StringType, true) ::
+          StructField("time", StringType, true) ::
+          StructField("pos", StringType, true) ::
+          StructField("label", StringType, true) :: Nil)
+
+    val sdf: SimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+    val sampleFinalDF = sqlContext.createDataFrame(orderSampleRDD.map(x => Row(x._1, x._2, sdf.format(x._3.toLong * 1000), Math.log(1 + x._4.toDouble).toString, x._5)), schema)
+    return this.takeSample(sampleFinalDF)
+  }
+
   def getClickSample(sqlContext: HiveContext, bizdate: String, appIds: String*): DataFrame = {
     def getTimeDiff(visitTimex: String, visitTimey: String): Double = {
       val df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
