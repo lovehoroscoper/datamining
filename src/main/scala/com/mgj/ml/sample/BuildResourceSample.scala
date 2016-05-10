@@ -23,11 +23,13 @@ object BuildResourceSample {
 
     val appIds = args(0).split(",")
     val table = args(1)
+    val bizdate = args(2)
     println(s"appIds:${appIds}")
     println(s"table:${table}")
+    println(s"bizdate:${bizdate}")
 
     // user_id, entity_id, expose_time, click_time, pos, label.
-    val clickSampleDF = SampleV2Util.getClickSample(sqlContext, appIds: _*)
+    val clickSampleDF = SampleV2Util.getClickSample(sqlContext, bizdate, appIds: _*)
     clickSampleDF.show()
 
     clickSampleDF.registerTempTable(table + "_temp")

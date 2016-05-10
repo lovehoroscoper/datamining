@@ -11,4 +11,4 @@ SELECT
 FROM
 	acm_expose_v1
 WHERE
-	visit_date = 'YESTERDAY'
+	visit_date = 'BIZDATE'

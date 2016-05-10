@@ -9,4 +9,4 @@ SELECT
 FROM
 	acm_click_v1
 WHERE
-	visit_date = 'YESTERDAY'
+	visit_date = 'BIZDATE'

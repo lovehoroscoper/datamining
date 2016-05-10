@@ -29,6 +29,11 @@ object SampleV2Util {
   }
 
   def getClickSample(sqlContext: HiveContext, appIds: String*): DataFrame = {
+    val bizdate = SqlUtil.getDate(-1)
+    return getClickSample(sqlContext, bizdate, appIds: _*)
+  }
+
+  def getClickSample(sqlContext: HiveContext, bizdate: String, appIds: String*): DataFrame = {
     def getTimeDiff(visitTimex: String, visitTimey: String): Double = {
       val df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
       val datex = df.parse(visitTimex)
@@ -94,21 +99,36 @@ object SampleV2Util {
   }
 
   def getOrderSampleLog(sqlContext: HiveContext, appIds: String*): DataFrame = {
-    val orderSample = getSampleLog(sqlContext, "/sql/get_order_sample.sql", "app_id", appIds: _*)
+    val bizdate = SqlUtil.getDate(-1)
+    return getOrderSampleLog(sqlContext, bizdate, appIds: _*)
+  }
+
+  def getOrderSampleLog(sqlContext: HiveContext, bizdate: String, appIds: String*): DataFrame = {
+    val orderSample = getSampleLog(sqlContext, "/sql/get_order_sample.sql", "app_id", bizdate, appIds: _*)
     return orderSample
   }
 
   def getClickSampleLog(sqlContext: HiveContext, appIds: String*): DataFrame = {
-    val clickSample = getSampleLog(sqlContext, "/sql/get_click_sample.sql", "app_id", appIds: _*)
+    val bizdate = SqlUtil.getDate(-1)
+    return getClickSampleLog(sqlContext, bizdate, appIds: _*)
+  }
+
+  def getClickSampleLog(sqlContext: HiveContext, bizdate: String, appIds: String*): DataFrame = {
+    val clickSample = getSampleLog(sqlContext, "/sql/get_click_sample.sql", "app_id", bizdate, appIds: _*)
     return clickSample
   }
 
-  def getSampleLog(sqlContext: HiveContext, path: String, appId: String, appIds: String*): DataFrame = {
+  def getSampleLog(sqlContext: HiveContext, path: String, appIdSchema: String, appIds: String*): DataFrame = {
+    val bizdate = SqlUtil.getDate(-1)
+    return getSampleLog(sqlContext, path, appIdSchema, bizdate, appIds: _*)
+  }
+
+  def getSampleLog(sqlContext: HiveContext, path: String, appIdSchema: String, bizdate: String, appIds: String*): DataFrame = {
     val appIdSet = appIds.toSet
     val isContain = udf { (appId: String) => if (appIdSet.contains(appId)) true else false }
-    val sql = SqlUtil.getSql(path)
+    val sql = SqlUtil.getSql(path, bizdate)
     val sampleLog = sqlContext.sql(sql)
-    val sampleLogFilter = sampleLog.filter(isContain(sampleLog(appId)))
+    val sampleLogFilter = sampleLog.filter(isContain(sampleLog(appIdSchema)))
     return sampleLogFilter
   }
 }

@@ -10,6 +10,6 @@ SELECT
 FROM
 	s_algo_sample
 WHERE
-	pt = 'YESTERDAY'
+	pt = 'BIZDATE'
 	and type = 'order'
 	and platform = 'all'
