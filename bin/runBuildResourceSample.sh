@@ -7,12 +7,14 @@ source /home/digu/.bash_profile
 CUR_TIME=`date +%s`
 CUR_DATE=`date  +%Y-%m-%d`
 DAY_SUB1=`date -d "${CUR_DATE} -1 day" +"%Y-%m-%d"`
+DAY_SUB2=`date -d "${CUR_DATE} -2 day" +"%Y-%m-%d"`
 DAY_SUB3=`date -d "${CUR_DATE} -3 day" +"%Y-%m-%d"`
 DAY_SUB7=`date -d "${CUR_DATE} -7 day" +"%Y-%m-%d"`
 DAY_SUB10=`date -d "${CUR_DATE} -10 day" +"%Y-%m-%d"`
 DAY_SUB15=`date -d "${CUR_DATE} -15 day" +"%Y-%m-%d"`
 YESTERDAY=`date -d "${CUR_DATE} -1 day" +"%Y-%m-%d %H:%M:%S"`
 
+BIZDATE=${DAY_SUB2}
 # SEARCH: 129,139,130,134,307
 # TUAN: 295,291,280
 #APP_IDS="295,291,280"
@@ -37,3 +39,4 @@ ${SUBMIT}														\
 	"${JAR_PATH}"												\
 	"${APP_IDS}"									    		\
 	"${TABLE}"									    	    	\
+	"${BIZDATE}"									    	    \
