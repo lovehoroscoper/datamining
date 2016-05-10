@@ -45,7 +45,7 @@ object SampleV2Util {
     println("order sample log")
     orderSampleLog.show()
 
-    val orderSampleRDD = orderSampleLog.rdd.filter(x => x.anyNull == false).map(x => (x(0).toString, x(1).toString, x(2).toString, x(3).toString, x(4).toString))
+    val orderSampleRDD = orderSampleLog.rdd.filter(x => x.anyNull == false).map(x => (x(0).toString, x(1).toString, x(2).toString, "0", x(4).toString))
 
     // user_id, item_id, time, pos, label.
     // skip above.
