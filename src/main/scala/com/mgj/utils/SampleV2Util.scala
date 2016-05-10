@@ -42,7 +42,7 @@ object SampleV2Util {
     }
 
     val orderSampleLog = getOrderSampleLog(sqlContext, bizdate, appIds: _*).select("user_id", "item_id", "time", "pos", "label")
-    println("click sample log")
+    println("order sample log")
     orderSampleLog.show()
 
     val orderSampleRDD = orderSampleLog.rdd.filter(x => x.anyNull == false).map(x => (x(0).toString, x(1).toString, x(2).toString, x(3).toString, x(4).toString))
