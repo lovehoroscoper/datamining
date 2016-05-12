@@ -60,22 +60,6 @@ object ItemSimContentMerge {
     val wordSim = sc.textFile(wordSimPath).map(x => ((x.split(" ")(0), x.split(" ")(1)), x.split(" ")(2).toDouble)).groupBy(x => x._1._1).map(x => x._2.toList.sortWith((a, b) => a._2 > b._2).take(100)).flatMap(x => x).collect().toMap
     val wordIdf = sc.textFile(idfPath).map(x => (x.split(" ")(0), x.split(" ")(1).toDouble)).collect().toMap
 
-    def contentMerge(x: (Int, Array[(Int, Double)]), w1: Double, w2: Double): (Int, Array[(Int, Double)]) = {
-      val itemx = x._1
-      val listMerge = x._2.toList.map(x => (itemx, x._1, x._2, GetSimUtil.getSimScore(wordSim, wordTag, wordIdf, itemTitleSeg.get(itemx).get, itemTitleSeg.get(x._1).get)))
-      val maxItemSim = listMerge.map(x => x._3).max
-      val minItemSim = listMerge.map(x => x._3).min
-      val maxWordSim = listMerge.map(x => x._4).max
-      val minWordSim = listMerge.map(x => x._4).min
-
-      val list = listMerge.map(x => {
-        val scoreItemSim = NormalizeUtil.minMaxScaler(minItemSim, maxItemSim, x._3, 1d / const)
-        val scoreWordSim = NormalizeUtil.minMaxScaler(minWordSim, maxWordSim, x._4, 1d / const)
-        (x._2, Math.round(const * (w1 * scoreItemSim + w2 * scoreWordSim) / (w1 + w2)).toDouble)
-      }).sortWith((a, b) => a._2 > b._2)
-      (itemx, list.take(N).toArray)
-    }
-
     val itemSimWithContent = itemSim.map(x => x._2.map(t => (x._1, t._1, t._2))).flatMap(x => x).map(x => contentMergeV2(x))
     itemSim.unpersist(blocking = false)
 
