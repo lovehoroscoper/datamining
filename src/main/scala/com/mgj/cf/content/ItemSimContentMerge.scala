@@ -60,15 +60,13 @@ object ItemSimContentMerge {
     val wordSim = sc.textFile(wordSimPath).map(x => ((x.split(" ")(0), x.split(" ")(1)), x.split(" ")(2).toDouble)).groupBy(x => x._1._1).map(x => x._2.toList.sortWith((a, b) => a._2 > b._2).take(100)).flatMap(x => x).collect().toMap
     val wordIdf = sc.textFile(idfPath).map(x => (x.split(" ")(0), x.split(" ")(1).toDouble)).collect().toMap
 
-    val itemSimWithContent = itemSim.map(x => x._2.map(t => (x._1, t._1, t._2))).flatMap(x => x).map(x => contentMergeV2(x))
-    itemSim.unpersist(blocking = false)
-
-    def contentMergeV2(x: (Int, Int, Double)): (Int, Int, Double, Double) = {
+    val itemSimWithContent = itemSim.map(x => x._2.map(t => (x._1, t._1, t._2))).flatMap(x => x).map(x => {
       val itemx = x._1
       val itemy = x._2
       val score = GetSimUtil.getSimScore(wordSim, wordTag, wordIdf, itemTitleSeg.get(itemx).get, itemTitleSeg.get(itemy).get)
       (itemx, itemy, x._3, score)
-    }
+    })
+    itemSim.unpersist(blocking = false)
 
     val max = itemSimWithContent.map(x => x._4).max
     val min = itemSimWithContent.map(x => x._4).min
