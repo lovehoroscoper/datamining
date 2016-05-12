@@ -17,6 +17,7 @@ import scala.collection.JavaConversions._
   */
 object ItemGraphSimRawFeature {
   val const = 1e5d
+  val N = 50
 
   def main(args: Array[String]): Unit = {
     val conf = new SparkConf()
@@ -160,13 +161,13 @@ object ItemGraphSimRawFeature {
     val calendar = Calendar.getInstance()
     calendar.add(Calendar.DAY_OF_MONTH, -1)
 
-    cfSim.map(x => (x._1, x._2, x._6)).groupBy(_._1).map(x => x._1 + " " + sort(x._2, 50)).saveAsTextFile(itemSimResultPath + "/" + sdf.format(calendar.getTime))
+    cfSim.map(x => (x._1, x._2, x._6)).groupBy(_._1).map(x => x._1 + " " + sort(x._2, N)).saveAsTextFile(itemSimResultPath + "/" + sdf.format(calendar.getTime))
 
     val max = cfSim.map(x => x._6).max
     val min = cfSim.map(x => x._6).min
     cfSim.map(x => {
       val score = NormalizeUtil.minMaxScaler(min, max, x._6, 1d / const)
       (x._1, x._2, Math.round(score * const))
-    }).groupBy(_._1).map(x => x._1 + " " + x._2.map(x => x._2 + ":" + x._3).mkString(",")).saveAsTextFile(itemSimGlobalNormalizeResultPath + "/" + sdf.format(calendar.getTime))
+    }).groupBy(_._1).map(x => x._1 + " " + x._2.map(x => x._2 + ":" + x._3).take(N).mkString(",")).saveAsTextFile(itemSimGlobalNormalizeResultPath + "/" + sdf.format(calendar.getTime))
   }
 }
