@@ -119,7 +119,7 @@ if [ $? -eq 0 ] ;then
     hdfs dfs -rm -r ${ITEM_SIM_CONTENT_MERGE_PATH}
 fi
 
-W1="50"
+W1="100000"
 W2="1"
 SUBMIT="/home/spark/spark-1.6.0-bin-hadoop2.3/bin/spark-submit "
 
@@ -145,7 +145,7 @@ ${SUBMIT}														\
 	"${W1}"					                                    \
 	"${W2}"					                                    \
 
-W1="25"
+W1="5"
 W2="1"
 ${SUBMIT}														\
 	--master yarn												\
@@ -179,17 +179,17 @@ ${SUBMIT}														\
 	"${ITEM_SIM_MERGE_RESULT}"						    	    \
 
 # dump to rec sys
-TODAY=`date  +%Y%m%d`
-REC_HDFS_PATH="/user/fst/algo/recommend_sys/rec_data/${TODAY}/graph_digu_rec_v2"
-echo "rec hdfs path: ${REC_HDFS_PATH}"
-DAY_SUB1=`date -d "${CUR_DATE} -1 day" +"%Y-%m-%d"`
-echo "day sub:${DAY_SUB1}"
-TEMP_LOCAL_FILE="temp_local_file"
-hdfs dfs -getmerge ${ITEM_SIM_MERGE_RESULT}/${DAY_SUB1} ${TEMP_LOCAL_FILE}
-hdfs dfs -put ${TEMP_LOCAL_FILE} ${REC_HDFS_PATH}
-rm ${TEMP_LOCAL_FILE}
-curl "10.11.6.179:10849/sendAlgo?type=algoWithOutMap&date=${TODAY}&algoName=graph_digu_rec_v2"
-echo "success"
+#TODAY=`date  +%Y%m%d`
+#REC_HDFS_PATH="/user/fst/algo/recommend_sys/rec_data/${TODAY}/graph_digu_rec_v2"
+#echo "rec hdfs path: ${REC_HDFS_PATH}"
+#DAY_SUB1=`date -d "${CUR_DATE} -1 day" +"%Y-%m-%d"`
+#echo "day sub:${DAY_SUB1}"
+#TEMP_LOCAL_FILE="temp_local_file"
+#hdfs dfs -getmerge ${ITEM_SIM_MERGE_RESULT}/${DAY_SUB1} ${TEMP_LOCAL_FILE}
+#hdfs dfs -put ${TEMP_LOCAL_FILE} ${REC_HDFS_PATH}
+#rm ${TEMP_LOCAL_FILE}
+#curl "10.11.6.179:10849/sendAlgo?type=algoWithOutMap&date=${TODAY}&algoName=graph_digu_rec_v2"
+#echo "success"
 
 #DATA_DIR=${ITEM_SIM_MERGE_RESULT}
 #for k in $( seq 1 10 )
