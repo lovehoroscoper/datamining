@@ -70,7 +70,7 @@ curl "http://10.15.18.40:10850/dumpData?featureName=userShopPreferOrder&method=l
 curl "10.15.2.114:12000/Offline?featureName=userShopPrefer" &
 curl "10.17.36.57:12000/Offline?featureName=userShopPrefer" &
 curl "10.17.36.58:12000/Offline?featureName=userShopPrefer" &
-curl "10.11.8.53:12000/Offline?featureName=userShopPrefer" &
+curl "10.11.8.53:12000/Offline?featureName=userShopPrefer"
 
 curl "10.15.2.114:12000/Offline?featureName=userShopPreferOrder" &
 curl "10.17.36.57:12000/Offline?featureName=userShopPreferOrder" &

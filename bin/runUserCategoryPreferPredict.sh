@@ -76,7 +76,7 @@ ${SUBMIT}														\
 curl "10.15.2.114:12000/Offline?featureName=userGBPrefer" &
 curl "10.17.36.57:12000/Offline?featureName=userGBPrefer" &
 curl "10.17.36.58:12000/Offline?featureName=userGBPrefer" &
-curl "10.11.8.53:12000/Offline?featureName=userGBPrefer" &
+curl "10.11.8.53:12000/Offline?featureName=userGBPrefer"
 
 curl "10.15.2.114:12000/Offline?featureName=userGBPreferOrder" &
 curl "10.17.36.57:12000/Offline?featureName=userGBPreferOrder" &
