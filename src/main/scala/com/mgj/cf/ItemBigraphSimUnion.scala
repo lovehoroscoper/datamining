@@ -41,6 +41,7 @@ object ItemBigraphSimUnion {
     for (i <- 2 to dayCount) {
       calendar.add(Calendar.DAY_OF_MONTH, -1)
       i2i = i2i.union(sc.textFile(inputPath + "/" + sdf.format(calendar.getTime)).map(x => ((x.split(" ")(0), x.split(" ")(1), x.split(" ")(2), i - 1)))).coalesce(2000)
+      println(s"day count:${i}")
     }
 
     val i2iUnion = i2i.groupBy(x => (x._1, x._2)).map(x => {
