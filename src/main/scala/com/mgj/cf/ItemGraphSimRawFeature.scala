@@ -167,6 +167,6 @@ object ItemGraphSimRawFeature {
     cfSim.map(x => {
       val score = NormalizeUtil.minMaxScaler(min, max, x._6, 1d / const)
       (x._1, x._2, Math.round(score * const))
-    }).groupBy(_._1).map(x => x._1 + " " + x._2.map(x => x._2 + ":" + x._3).mkString(",")).saveAsTextFile(itemSimResultPath + "/" + sdf.format(calendar.getTime))
+    }).groupBy(_._1).map(x => x._1 + " " + x._2.map(x => x._2 + ":" + x._3).mkString(",")).saveAsTextFile(itemSimGlobalNormalizeResultPath + "/" + sdf.format(calendar.getTime))
   }
 }
