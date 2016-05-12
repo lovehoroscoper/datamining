@@ -76,8 +76,8 @@ object ItemSimContentMerge {
     calendar.add(Calendar.DAY_OF_MONTH, -1)
 
     itemSimWithContent.map(x => {
-      val score = NormalizeUtil.minMaxScaler(min, max, x._4.toDouble, 1d / const)
-      (x._1, x._2, (w1 * x._3 + w2 * Math.round(score * const)) / (w1 + w2))
+      val score = NormalizeUtil.minMaxScaler(min, max, x._4.toDouble, 0d)
+      (x._1, x._2, (w1 * x._3 + w2 * score) / (w1 + w2))
     }).groupBy(_._1).map(x => x._1 + " " + x._2.map(x => x._2 + ":" + x._3).mkString(",")).saveAsTextFile(outputPath)
 
   }
