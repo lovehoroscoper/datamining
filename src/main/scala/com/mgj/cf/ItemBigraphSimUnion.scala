@@ -13,6 +13,7 @@ import org.apache.spark.{SparkConf, SparkContext}
 
 object ItemBigraphSimUnion {
   val const = 1e5d
+  val N = 50
 
   def main(args: Array[String]): Unit = {
 
@@ -70,14 +71,14 @@ object ItemBigraphSimUnion {
       return list
     }
 
-    i2iUnion.map(x => (x._1, x._2, x._3.toDouble)).groupBy(_._1).map(x => x._1 + " " + sort(x._2, 50)).coalesce(2000).saveAsTextFile(outputGroupPath + "/" + sdf.format(calendarOutput.getTime))
-
     val max = i2iUnion.map(x => x._3.toDouble).max
     val min = i2iUnion.map(x => x._3.toDouble).min
 
     i2iUnion.map(x => {
       val score = NormalizeUtil.minMaxScaler(min, max, x._3.toDouble, 1d / const)
       (x._1, x._2, Math.round(score * const))
-    }).groupBy(_._1).map(x => x._1 + " " + x._2.map(x => x._2 + ":" + x._3).mkString(",")).saveAsTextFile(outputGroupGlobalNormalizePath + "/" + sdf.format(calendarOutput.getTime))
+    }).groupBy(_._1).map(x => x._1 + " " + x._2.map(x => x._2 + ":" + x._3).take(N).mkString(",")).coalesce(2000).saveAsTextFile(outputGroupGlobalNormalizePath + "/" + sdf.format(calendarOutput.getTime))
+
+    i2iUnion.map(x => (x._1, x._2, x._3.toDouble)).groupBy(_._1).map(x => x._1 + " " + sort(x._2, N)).coalesce(2000).saveAsTextFile(outputGroupPath + "/" + sdf.format(calendarOutput.getTime))
   }
 }
