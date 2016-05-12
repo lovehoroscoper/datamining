@@ -68,9 +68,19 @@ object ItemAllSimMerge {
           (x._1, Math.round(score * const))
         }).take(N))
       } else if (listA == None) {
-        (itemx, listB.get.toList.map(x => (x._1, Math.round(x._2.toDouble / 10))).take(N))
+        val max = listB.get.map(x => x._2).max
+        val min = listB.get.map(x => x._2).min
+        (itemx, listB.get.toList.map(x => {
+          val score = NormalizeUtil.minMaxScaler(min, max, x._2.toDouble, 1d / const)
+          (x._1, Math.round(score * const))
+        }).take(N))
       } else {
-        (itemx, listA.get.toList.map(x => (x._1, Math.round(x._2.toDouble / 10))).take(N))
+        val max = listA.get.map(x => x._2).max
+        val min = listA.get.map(x => x._2).min
+        (itemx, listA.get.toList.map(x => {
+          val score = NormalizeUtil.minMaxScaler(min, max, x._2.toDouble, 1d / const)
+          (x._1, Math.round(score * const))
+        }).take(N))
       }
     })
 
