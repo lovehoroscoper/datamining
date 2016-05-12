@@ -45,7 +45,7 @@ object ItemBigraphSimUnion {
 
     val i2iUnion = i2i.groupBy(x => (x._1, x._2)).map(x => {
       val score = x._2.map(x => x._3.toDouble * Math.pow(1.5, -x._4)).sum
-      (x._1._1, x._1._2, score.toString)
+      (x._1._1, x._1._2, score)
     })
 
     //    val itemInfo = sqlContext.sql("select tradeitemid, cid from v_dw_trd_tradeitem").rdd.filter(x => x.anyNull == false).map(x => (x(0).toString, x(1).toString))
@@ -68,8 +68,8 @@ object ItemBigraphSimUnion {
       return list
     }
 
-    val max = i2iUnion.map(x => x._3.toDouble).max
-    val min = i2iUnion.map(x => x._3.toDouble).min
+    val max = i2iUnion.map(x => x._3).max
+    val min = i2iUnion.map(x => x._3).min
 
     println(s"max value:${max}")
     println(s"min value:${min}")
@@ -78,12 +78,12 @@ object ItemBigraphSimUnion {
     calendarOutput.add(Calendar.DAY_OF_MONTH, -1)
 
     i2iUnion.map(x => {
-      val score = NormalizeUtil.minMaxScaler(min, max, x._3.toDouble, 0d)
+      val score = NormalizeUtil.minMaxScaler(min, max, x._3, 0d)
       (x._1, x._2, score)
     }).groupBy(_._1).map(x => x._1 + " " + x._2.toList.sortWith((a, b) => a._3 > b._3).map(x => x._2 + ":" + x._3).take(N).mkString(",")).coalesce(2000).saveAsTextFile(outputGroupGlobalNormalizePath + "/" + sdf.format(calendarOutput.getTime))
 
     i2iUnion.map(x => x._1 + " " + x._2 + " " + x._3).saveAsTextFile(outputPath + "/" + sdf.format(calendarOutput.getTime))
 
-    i2iUnion.map(x => (x._1, x._2, x._3.toDouble)).groupBy(_._1).map(x => x._1 + " " + sort(x._2, N)).coalesce(2000).saveAsTextFile(outputGroupPath + "/" + sdf.format(calendarOutput.getTime))
+    i2iUnion.map(x => (x._1, x._2, x._3)).groupBy(_._1).map(x => x._1 + " " + sort(x._2, N)).coalesce(2000).saveAsTextFile(outputGroupPath + "/" + sdf.format(calendarOutput.getTime))
   }
 }
