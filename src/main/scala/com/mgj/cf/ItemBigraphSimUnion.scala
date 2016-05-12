@@ -31,6 +31,7 @@ object ItemBigraphSimUnion {
     val outputPath = args(1)
     val outputGroupPath = args(2)
     val dayCount = args(3).toInt
+    val outputGroupGlobalNormalizePath = args(4)
 
     val sdf = new SimpleDateFormat("yyyy-MM-dd")
     val calendar = Calendar.getInstance()
@@ -69,5 +70,13 @@ object ItemBigraphSimUnion {
     }
 
     i2iFilter.map(x => (x._1, x._2, x._3.toDouble)).groupBy(_._1).map(x => x._1 + " " + sort(x._2, 50)).coalesce(2000).saveAsTextFile(outputGroupPath + "/" + sdf.format(calendarOutput.getTime))
+
+    val max = i2iFilter.map(x => x._3.toDouble).max
+    val min = i2iFilter.map(x => x._3.toDouble).min
+
+    i2iFilter.map(x => {
+      val score = NormalizeUtil.minMaxScaler(min, max, x._3.toDouble, 1d / const)
+      (x._1, x._2, Math.round(score * const))
+    }).groupBy(_._1).map(x => x._1 + " " + x._2.map(x => x._2 + ":" + x._3).mkString(",")).saveAsTextFile(outputGroupGlobalNormalizePath + "/" + sdf.format(calendarOutput.getTime))
   }
 }

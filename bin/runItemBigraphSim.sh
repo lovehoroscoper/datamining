@@ -28,6 +28,9 @@ echo "item sim result union: ${ITEM_SIM_RESULT_HDFS_DIR_UNION}"
 ITEM_SIM_RESULT_HDFS_DIR_UNION_GROUP="/user/digu/itemBigraphSim/resultUnionGroup"
 echo "item sim result union group: ${ITEM_SIM_RESULT_HDFS_DIR_UNION_GROUP}"
 
+ITEM_SIM_RESULT_HDFS_DIR_UNION_GROUP_GLOBAL_NORMALIZE="/user/digu/itemBigraphSim/resultUnionGroupGlobalNormalize"
+echo "item sim result union group global normalize: ${ITEM_SIM_RESULT_HDFS_DIR_UNION_GROUP_GLOBAL_NORMALIZE}"
+
 N="7"
 echo "number of days: ${N}"
 
@@ -63,6 +66,7 @@ ${SUBMIT}														\
 	"${ITEM_SIM_RESULT_HDFS_DIR_UNION}"							\
 	"${ITEM_SIM_RESULT_HDFS_DIR_UNION_GROUP}"					\
 	"${N}"			                                    		\
+	"${ITEM_SIM_RESULT_HDFS_DIR_UNION_GROUP_GLOBAL_NORMALIZE}"  \
 
 DATA_DIR=${ITEM_SIM_RESULT_HDFS_DIR_UNION_GROUP}
 for k in $( seq 1 10 )

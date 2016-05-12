@@ -7,7 +7,7 @@ source /home/digu/.bash_profile
 CUR_TIME=`date +%s`
 CUR_DATE=`date  +%Y-%m-%d`
 
-DATA_DIR="/user/digu/itemBigraphSim/resultUnionGroup"
+DATA_DIR="/user/digu/itemBigraphSim/resultUnionGroupGlobalNormalize"
 for k in $( seq 1 10 )
 do
 	DAY_SUB=`date -d "${CUR_DATE} -${k} day" +"%Y-%m-%d"`
@@ -85,7 +85,7 @@ fi
 head ${DICT_PATH}
 echo "dict path: ${DICT_PATH}"
 
-DATA_DIR="/user/digu/itemSim"
+DATA_DIR="/user/digu/itemSimGlobalNormalize"
 for k in $( seq 1 10 )
 do
 	DAY_SUB=`date -d "${CUR_DATE} -${k} day" +"%Y-%m-%d"`

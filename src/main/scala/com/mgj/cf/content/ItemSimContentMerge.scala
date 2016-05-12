@@ -76,12 +76,27 @@ object ItemSimContentMerge {
       (itemx, list.take(N).toArray)
     }
 
-    val itemSimWithContent = itemSim.map(x => contentMerge(x, w1, w2))
+    val itemSimWithContent = itemSim.map(x => x._2.map(t => (x._1, t._1, t._2))).flatMap(x => x).map(x => contentMergeV2(x))
     itemSim.unpersist(blocking = false)
+
+    def contentMergeV2(x: (Int, Int, Double)): (Int, Int, Double, Double) = {
+      val itemx = x._1
+      val itemy = x._2
+      val score = GetSimUtil.getSimScore(wordSim, wordTag, wordIdf, itemTitleSeg.get(itemx).get, itemTitleSeg.get(itemy).get)
+      (itemx, itemy, x._3, score)
+    }
+
+    val max = itemSimWithContent.map(x => x._4).max
+    val min = itemSimWithContent.map(x => x._4).min
 
     val sdf = new SimpleDateFormat("yyyy-MM-dd")
     val calendar = Calendar.getInstance()
     calendar.add(Calendar.DAY_OF_MONTH, -1)
-    itemSimWithContent.map(x => x._1 + " " + x._2.map(x => x._1 + ":" + x._2).mkString(",")).saveAsTextFile(outputPath)
+
+    itemSimWithContent.map(x => {
+      val score = NormalizeUtil.minMaxScaler(min, max, x._4.toDouble, 1d / const)
+      (x._1, x._2, (w1 * x._3 + w2 * Math.round(score * const)) / (w1 + w2))
+    }).groupBy(_._1).map(x => x._1 + " " + x._2.map(x => x._2 + ":" + x._3).mkString(",")).saveAsTextFile(outputPath)
+
   }
 }

@@ -34,6 +34,7 @@ object ItemGraphSimRawFeature {
     val bizdate = args(1)
     val bizdateSub = args(0)
     val itemSimResultPath = args(2)
+    val itemSimGlobalNormalizeResultPath = args(3)
 
     val clickLogSql = "select user_id, item_id, time, category_id from s_dg_user_base_log where pt >= '" + bizdateSub + "' and pt <= '" + bizdate + "' and action_type = 'click' and platform_type = 'app'"
     val userBaseLog = sqlContext.sql(clickLogSql).rdd.filter(r => r.anyNull == false).map(x => (x(0).toString, x(1).toString, x(2).toString, x(3).toString)).repartition(500)
@@ -160,5 +161,12 @@ object ItemGraphSimRawFeature {
     calendar.add(Calendar.DAY_OF_MONTH, -1)
 
     cfSim.map(x => (x._1, x._2, x._6)).groupBy(_._1).map(x => x._1 + " " + sort(x._2, 50)).saveAsTextFile(itemSimResultPath + "/" + sdf.format(calendar.getTime))
+
+    val max = cfSim.map(x => x._6).max
+    val min = cfSim.map(x => x._6).min
+    cfSim.map(x => {
+      val score = NormalizeUtil.minMaxScaler(min, max, x._6, 1d / const)
+      (x._1, x._2, Math.round(score * const))
+    }).groupBy(_._1).map(x => x._1 + " " + x._2.map(x => x._2 + ":" + x._3).mkString(",")).saveAsTextFile(itemSimResultPath + "/" + sdf.format(calendar.getTime))
   }
 }
