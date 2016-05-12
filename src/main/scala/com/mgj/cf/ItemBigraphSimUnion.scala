@@ -40,14 +40,14 @@ object ItemBigraphSimUnion {
     var i2i = sc.textFile(inputPath + "/" + sdf.format(calendar.getTime)).map(x => ((x.split(" ")(0), x.split(" ")(1), x.split(" ")(2), 0)))
     for (i <- 2 to dayCount) {
       calendar.add(Calendar.DAY_OF_MONTH, -1)
-      i2i = i2i.union(sc.textFile(inputPath + "/" + sdf.format(calendar.getTime)).map(x => ((x.split(" ")(0), x.split(" ")(1), x.split(" ")(2), i - 1))))
+      i2i = i2i.union(sc.textFile(inputPath + "/" + sdf.format(calendar.getTime)).map(x => ((x.split(" ")(0), x.split(" ")(1), x.split(" ")(2), i - 1)))).coalesce(2000)
     }
 
     val i2iUnion = i2i.groupBy(x => (x._1, x._2)).map(x => {
       val score = x._2.map(x => x._3.toDouble * Math.pow(1.5, -x._4)).sum
       (x._1._1, x._1._2, score)
     })
-
+    i2i.unpersist(blocking = false)
     //    val itemInfo = sqlContext.sql("select tradeitemid, cid from v_dw_trd_tradeitem").rdd.filter(x => x.anyNull == false).map(x => (x(0).toString, x(1).toString))
     //    val i2iFilter = i2iUnion.map(x => (x._1, x))
     //      .join(itemInfo).map(x => (x._2._1._2, (x._2._1._1, x._2._1._2, x._2._1._3, x._2._2)))
