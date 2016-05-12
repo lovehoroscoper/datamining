@@ -77,7 +77,7 @@ object ItemBigraphSimUnion {
     i2iUnion.map(x => {
       val score = NormalizeUtil.minMaxScaler(min, max, x._3.toDouble, 1d / const)
       (x._1, x._2, Math.round(score * const))
-    }).groupBy(_._1).map(x => x._1 + " " + x._2.map(x => x._2 + ":" + x._3).take(N).mkString(",")).coalesce(2000).saveAsTextFile(outputGroupGlobalNormalizePath + "/" + sdf.format(calendarOutput.getTime))
+    }).groupBy(_._1).map(x => x._1 + " " + x._2.toList.sortWith((a, b) => a._3 > b._3).map(x => x._2 + ":" + x._3).take(N).mkString(",")).coalesce(2000).saveAsTextFile(outputGroupGlobalNormalizePath + "/" + sdf.format(calendarOutput.getTime))
 
     i2iUnion.map(x => x._1 + " " + x._2 + " " + x._3).saveAsTextFile(outputPath + "/" + sdf.format(calendarOutput.getTime))
 
