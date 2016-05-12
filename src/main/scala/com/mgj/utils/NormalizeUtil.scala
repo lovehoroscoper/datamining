@@ -10,7 +10,7 @@ object NormalizeUtil {
   }
 
   def minMaxLogScaler(min: Double, max: Double, value: Double, minValue: Double): Double = {
-    val interval = if (max == min) 1d else Math.log(max) - Math.log(min)
-    return if (value == min) minValue else (Math.log(value) - Math.log(min)) / interval
+    val interval = if (max == min) 1d else Math.log(1 + max) - Math.log(1 + min)
+    return if (value == min) minValue else (Math.log(1 + value) - Math.log(1 + min)) / interval
   }
 }
