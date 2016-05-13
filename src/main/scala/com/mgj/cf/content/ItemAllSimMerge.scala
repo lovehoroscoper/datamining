@@ -34,10 +34,14 @@ object ItemAllSimMerge {
     val itemBigraphSimPath = args(0)
     val itemSimPath = args(1)
     val outputPath = args(2)
+    val w1 = args(3).toDouble
+    val w2 = args(4).toDouble
 
     println(s"itemBigraphSimPath:${itemBigraphSimPath}")
     println(s"itemSimPath:${itemSimPath}")
     println(s"outputPath:${outputPath}")
+    println(s"w1:${w1}")
+    println(s"w2:${w2}")
 
     val itemSim = sc.textFile(itemSimPath).map(x => (x.split(" ")(0).toInt, x.split(" ")(1).split(",").map(x => (x.split(":")(0).toInt, x.split(":")(1).toDouble)))).coalesce(2000)
     val itemBigraphSim = sc.textFile(itemBigraphSimPath).map(x => (x.split(" ")(0).toInt, x.split(" ")(1).split(",").map(x => (x.split(":")(0).toInt, x.split(":")(1).toDouble)))).coalesce(2000)
@@ -53,8 +57,6 @@ object ItemAllSimMerge {
         val list = set.map(key => {
           val scoreA = mapA.getOrElse(key, 0d)
           val scoreB = mapB.getOrElse(key, 0d)
-          val w1 = 1d
-          val w2 = 10d
           val value = (w1 * scoreA + w2 * scoreB) / (w1 + w2)
           (key, value)
         }).toList.sortWith((a, b) => a._2 > b._2)

@@ -165,6 +165,8 @@ ${SUBMIT}														\
 	"${W1}"					                                    \
 	"${W2}"					                                    \
 
+W1="100000"
+W2="1"
 ${SUBMIT}														\
 	--master yarn												\
 	--queue root.algorithm           							\
@@ -177,6 +179,8 @@ ${SUBMIT}														\
 	"${ITEM_BIGRAPH_SIM_CONTENT_MERGE_PATH}"					\
 	"${ITEM_SIM_CONTENT_MERGE_PATH}"							\
 	"${ITEM_SIM_MERGE_RESULT}"						    	    \
+	"${W1}"					                                    \
+	"${W2}"					                                    \
 
 # dump to rec sys
 #TODAY=`date  +%Y%m%d`
