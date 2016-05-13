@@ -169,6 +169,6 @@ object KMUtil {
       sumB += weightIdf.get(i).getOrElse(0d) * weightIdf.get(i).getOrElse(0d)
     }
 
-    return 1.0 * sum / Math.sqrt(sumA * sumB) / const
+    return if (sumA * sumB == 0) 0d else 1.0 * sum / Math.sqrt(sumA * sumB) / const
   }
 }
