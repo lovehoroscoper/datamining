@@ -12,7 +12,7 @@ import org.apache.spark.sql.{DataFrame, Row}
   */
 class ItemFeatureCalculator extends FeatureCalculator {
 
-  val const = 1e7d
+  val const = 1e6d
 
   override def compute(sampleDF: DataFrame, sc: SparkContext, sqlContext: HiveContext): DataFrame = {
     println("build feature: " + this.featureName)
