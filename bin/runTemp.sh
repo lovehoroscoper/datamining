@@ -119,7 +119,7 @@ if [ $? -eq 0 ] ;then
     hdfs dfs -rm -r ${ITEM_SIM_CONTENT_MERGE_PATH}
 fi
 
-W1="100000"
+W1="10000"
 W2="1"
 SUBMIT="/home/spark/spark-1.6.0-bin-hadoop2.3/bin/spark-submit "
 
