@@ -48,7 +48,7 @@ object ItemSimContentMerge {
     println(s"w1:${w1}")
     println(s"w2:${w2}")
 
-    val itemSim = sc.textFile(itemSimPath).map(x => (x.split(" ")(0).toInt, x.split(" ")(1).split(",").map(x => (x.split(":")(0).toInt, x.split(":")(1).toDouble)))).coalesce(2000)
+    val itemSim = sc.textFile(itemSimPath).map(x => (x.split(" ")(0).toInt, x.split(" ")(1).split(",").map(x => (x.split(":")(0).toInt, x.split(":")(1).toDouble)))).repartition(2000)
 
     val itemSet = itemSim.map(x => (Set(x._1) | x._2.map(x => x._1).toSet)).flatMap(x => x).distinct()
     println(s"item count:${itemSet.count}")
