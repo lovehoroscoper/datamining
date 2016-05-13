@@ -7,7 +7,7 @@ package com.mgj.useritemprefer
 import java.text.SimpleDateFormat
 import java.util
 
-import com.mgj.utils.PartitionUtil
+import com.mgj.utils.{NormalizeUtil, PartitionUtil}
 import org.apache.spark.sql.hive.HiveContext
 import org.apache.spark.{SparkConf, SparkContext}
 import java.util.{Calendar, Date}
@@ -98,8 +98,7 @@ object UserItemHistoryPrefer {
 
       // normalize.
       val listNormalize = list.map(x => {
-        val interval = if (max == min) 1 else max - min
-        val score = if (min == x._4) 1d / const else (x._4 - min) / interval
+        val score = NormalizeUtil.minMaxLogScaler(min, max, x._4, 1 / const)
         (x._1, x._2, x._3, score)
       })
 
