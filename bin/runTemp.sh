@@ -6,34 +6,121 @@ source /home/digu/.bash_profile
 # date.
 CUR_TIME=`date +%s`
 CUR_DATE=`date  +%Y-%m-%d`
-DAY_SUB1=`date -d "${CUR_DATE} -1 day" +"%Y-%m-%d"`
-DAY_SUB2=`date -d "${CUR_DATE} -2 day" +"%Y-%m-%d"`
-DAY_SUB3=`date -d "${CUR_DATE} -3 day" +"%Y-%m-%d"`
-DAY_SUB7=`date -d "${CUR_DATE} -7 day" +"%Y-%m-%d"`
-DAY_SUB10=`date -d "${CUR_DATE} -10 day" +"%Y-%m-%d"`
-DAY_SUB15=`date -d "${CUR_DATE} -15 day" +"%Y-%m-%d"`
-DAY_SUB30=`date -d "${CUR_DATE} -30 day" +"%Y-%m-%d"`
-START=${DAY_SUB2}
-END=${DAY_SUB2}
 
-echo "start_date:${START}"
-echo "end_date:${END}"
+DATA_DIR="/user/digu/itemBigraphSim/resultUnionGroupGlobalNormalize"
+for k in $( seq 1 10 )
+do
+	DAY_SUB=`date -d "${CUR_DATE} -${k} day" +"%Y-%m-%d"`
+	FILE_PATH=${DATA_DIR}/${DAY_SUB}
+	hdfs dfs -test -e ${FILE_PATH}/"_SUCCESS"
+	if [ $? -eq 0 ] ;then
+    	echo "${FILE_PATH} exists"
+    	break
+	fi
+done
 
-ITEM_SIM_RESULT_HDFS_DIR="/user/digu/itemBigraphSim"
-echo "item sim result: ${ITEM_SIM_RESULT_HDFS_DIR}"
+ITEM_BIGRAPH_SIM_UNION_PATH=${FILE_PATH}
+echo "item bigraph sim union path: ${ITEM_BIGRAPH_SIM_UNION_PATH}"
 
-ITEM_SIM_RESULT_HDFS_DIR_UNION="/user/digu/itemBigraphSim/resultUnion"
-echo "item sim result union: ${ITEM_SIM_RESULT_HDFS_DIR_UNION}"
+DATA_DIR="/user/digu/wordSim"
+for k in $( seq 1 10 )
+do
+	DAY_SUB=`date -d "${CUR_DATE} -${k} day" +"%Y-%m-%d"`
+	FILE_PATH=${DATA_DIR}/${DAY_SUB}
+	hdfs dfs -test -e ${FILE_PATH}/"_SUCCESS"
+	if [ $? -eq 0 ] ;then
+    	echo "${FILE_PATH} exists"
+    	break
+	fi
+done
 
-ITEM_SIM_RESULT_HDFS_DIR_UNION_GROUP="/user/digu/itemBigraphSim/resultUnionGroup"
-echo "item sim result union group: ${ITEM_SIM_RESULT_HDFS_DIR_UNION_GROUP}"
+WORD_SIM=${FILE_PATH}
+echo "word sim path: ${WORD_SIM}"
 
-ITEM_SIM_RESULT_HDFS_DIR_UNION_GROUP_GLOBAL_NORMALIZE="/user/digu/itemBigraphSim/resultUnionGroupGlobalNormalize"
-echo "item sim result union group global normalize: ${ITEM_SIM_RESULT_HDFS_DIR_UNION_GROUP_GLOBAL_NORMALIZE}"
+DATA_DIR="/user/digu/queryIdf"
+for k in $( seq 1 10 )
+do
+	DAY_SUB=`date -d "${CUR_DATE} -${k} day" +"%Y-%m-%d"`
+	FILE_PATH=${DATA_DIR}/${DAY_SUB}
+	hdfs dfs -test -e ${FILE_PATH}/"_SUCCESS"
+	if [ $? -eq 0 ] ;then
+    	echo "${FILE_PATH} exists"
+    	break
+	fi
+done
 
-N="7"
-echo "number of days: ${N}"
+QUERY_IDF=${FILE_PATH}
+echo "query idf path: ${QUERY_IDF}"
 
+DATA_DIR="/user/digu/wordTag"
+for k in $( seq 1 10 )
+do
+	DAY_SUB=`date -d "${CUR_DATE} -${k} day" +"%Y-%m-%d"`
+	FILE_PATH=${DATA_DIR}/${DAY_SUB}
+	hdfs dfs -test -e ${FILE_PATH}/"_SUCCESS"
+	if [ $? -eq 0 ] ;then
+    	echo "${FILE_PATH} exists"
+    	break
+	fi
+done
+
+WORD_TAG=${FILE_PATH}
+echo "word tag path: ${WORD_TAG}"
+
+DICT_PATH="/home/digu/workspace/data/dict"
+if [ -f "${DICT_PATH}" ]; then
+    # rm ${DATA_PATH}
+    echo "${DICT_PATH} exits"
+else
+    hdfs dfs -get /user/digu/dict ${DICT_PATH}
+    for line in `cat ${DICT_PATH}`
+    do
+        echo -e ${line}'\t1'
+    done > ${DICT_PATH}_temp
+
+    cat ${DICT_PATH}_temp > ${DICT_PATH}
+    rm ${DICT_PATH}_temp
+fi
+
+head ${DICT_PATH}
+echo "dict path: ${DICT_PATH}"
+
+DATA_DIR="/user/digu/itemSimGlobalNormalize"
+for k in $( seq 1 10 )
+do
+	DAY_SUB=`date -d "${CUR_DATE} -${k} day" +"%Y-%m-%d"`
+	FILE_PATH=${DATA_DIR}/${DAY_SUB}
+	hdfs dfs -test -e ${FILE_PATH}/"_SUCCESS"
+	if [ $? -eq 0 ] ;then
+    	echo "${FILE_PATH} exists"
+    	break
+	fi
+done
+
+ITEM_SIM_PATH=${FILE_PATH}
+echo "item sim path: ${ITEM_SIM_PATH}"
+
+ITEM_SIM_MERGE_RESULT="/user/digu/itemSimContentMerge"
+echo "item sim merge result: ${ITEM_SIM_MERGE_RESULT}"
+
+ITEM_BIGRAPH_SIM_CONTENT_MERGE_PATH="${ITEM_SIM_MERGE_RESULT}/partA"
+echo "item bigraph sim content merge path: ${ITEM_BIGRAPH_SIM_CONTENT_MERGE_PATH}"
+hdfs dfs -test -e ${ITEM_BIGRAPH_SIM_CONTENT_MERGE_PATH}
+if [ $? -eq 0 ] ;then
+    echo "${ITEM_BIGRAPH_SIM_CONTENT_MERGE_PATH} exists"
+    hdfs dfs -rm -r ${ITEM_BIGRAPH_SIM_CONTENT_MERGE_PATH}
+fi
+
+ITEM_SIM_CONTENT_MERGE_PATH="${ITEM_SIM_MERGE_RESULT}/partB"
+echo "item sim content merge path: ${ITEM_SIM_CONTENT_MERGE_PATH}"
+hdfs dfs -test -e ${ITEM_SIM_CONTENT_MERGE_PATH}
+if [ $? -eq 0 ] ;then
+    echo "${ITEM_SIM_CONTENT_MERGE_PATH} exists"
+    hdfs dfs -rm -r ${ITEM_SIM_CONTENT_MERGE_PATH}
+fi
+
+W1="100000"
+W2="1"
 SUBMIT="/home/spark/spark-1.6.0-bin-hadoop2.3/bin/spark-submit "
 
 JAR_PATH="`pwd`/target/data-mining-1.0-SNAPSHOT-jar-with-dependencies.jar"
@@ -43,14 +130,17 @@ echo "${JAR_PATH}"
 ${SUBMIT}														\
 	--master yarn												\
 	--queue root.algorithm           							\
-	--driver-memory	16g											\
+	--driver-memory	32g											\
 	--num-executors	64											\
 	--executor-cores 1											\
 	--executor-memory 7373m										\
-	--class com.mgj.cf.ItemBigraphSimUnion						\
+	--class com.mgj.cf.content.ItemSimContentMerge      	    \
 	"${JAR_PATH}"												\
-	"${ITEM_SIM_RESULT_HDFS_DIR}"	    						\
-	"${ITEM_SIM_RESULT_HDFS_DIR_UNION}"							\
-	"${ITEM_SIM_RESULT_HDFS_DIR_UNION_GROUP}"					\
-	"${N}"			                                    		\
-	"${ITEM_SIM_RESULT_HDFS_DIR_UNION_GROUP_GLOBAL_NORMALIZE}"  \
+	"${ITEM_BIGRAPH_SIM_UNION_PATH}"							\
+	"${WORD_SIM}"											    \
+	"${QUERY_IDF}"						    	                \
+	"${DICT_PATH}"						    	                \
+	"${WORD_TAG}"						    	                \
+	"${ITEM_BIGRAPH_SIM_CONTENT_MERGE_PATH}"					\
+	"${W1}"					                                    \
+	"${W2}"					                                    \
