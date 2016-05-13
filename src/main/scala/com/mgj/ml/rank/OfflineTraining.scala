@@ -57,6 +57,9 @@ object OfflineTraining {
       sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
       sqlContext.sql(s"drop table if exists ${sampleTable}")
       sqlContext.sql(s"create table ${sampleTable} as select * from ${sampleTable}_temp")
+      clickSampleDF.unpersist(blocking = false)
+      orderSampleDF.unpersist(blocking = false)
+      allSampleDF.unpersist(blocking = false)
     }
 
     if (stageSet.contains("adapt_features")) {
@@ -90,6 +93,7 @@ object OfflineTraining {
       dataDF.registerTempTable(s"${featureTable}_temp")
       sqlContext.sql(s"drop table if exists ${featureTable}")
       sqlContext.sql(s"create table ${featureTable} as select * from ${featureTable}_temp")
+      dataDF.unpersist(blocking = false)
     }
 
     if (stageSet.contains("train")) {

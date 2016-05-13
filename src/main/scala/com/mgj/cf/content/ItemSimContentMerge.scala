@@ -67,7 +67,7 @@ object ItemSimContentMerge {
       val itemy = x._2
       val score = GetSimUtil.getSimScore(wordSim, wordTag, wordIdf, itemTitleSeg.get(itemx).get, itemTitleSeg.get(itemy).get)
       (itemx, itemy, x._3, score)
-    })
+    }).cache()
     itemSim.unpersist(blocking = false)
 
     println("item sim with content")
