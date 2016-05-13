@@ -45,6 +45,8 @@ object ItemSimContentMerge {
     println(s"idfPath:${idfPath}")
     println(s"wordTagPath:${wordTagPath}")
     println(s"outputPath:${outputPath}")
+    println(s"w1:${w1}")
+    println(s"w2:${w2}")
 
     val itemSim = sc.textFile(itemSimPath).map(x => (x.split(" ")(0).toInt, x.split(" ")(1).split(",").map(x => (x.split(":")(0).toInt, x.split(":")(1).toDouble)))).coalesce(2000)
 
@@ -57,7 +59,7 @@ object ItemSimContentMerge {
 
     WordSegUtil.loadDict(dictPath)
     val wordTag = sc.textFile(wordTagPath).map(x => (x.split("@")(0), x.split("@")(1))).collect().toMap
-    val wordSim = sc.textFile(wordSimPath).map(x => ((x.split(" ")(0), x.split(" ")(1)), x.split(" ")(2).toDouble)).groupBy(x => x._1._1).map(x => x._2.toList.sortWith((a, b) => a._2 > b._2).take(100)).flatMap(x => x).collect().toMap
+    val wordSim = sc.textFile(wordSimPath).map(x => ((x.split(" ")(0), x.split(" ")(1)), x.split(" ")(2).toDouble)).groupBy(x => x._1._1).map(x => x._2.toList.sortWith((a, b) => a._2 > b._2).take(50)).flatMap(x => x).collect().toMap
     val wordIdf = sc.textFile(idfPath).map(x => (x.split(" ")(0), x.split(" ")(1).toDouble)).collect().toMap
 
     val itemSimWithContent = itemSim.map(x => x._2.map(t => (x._1, t._1, t._2))).flatMap(x => x).map(x => {
@@ -68,8 +70,14 @@ object ItemSimContentMerge {
     })
     itemSim.unpersist(blocking = false)
 
+    println("item sim with content")
+    itemSimWithContent.take(10).foreach(println)
+
     val max = itemSimWithContent.map(x => x._4).max
     val min = itemSimWithContent.map(x => x._4).min
+
+    println(s"content sim max value:${max}")
+    println(s"content sim min value:${min}")
 
     val sdf = new SimpleDateFormat("yyyy-MM-dd")
     val calendar = Calendar.getInstance()
