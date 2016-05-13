@@ -62,7 +62,7 @@ object ItemSimContentMerge {
     val wordSim = sc.textFile(wordSimPath).map(x => ((x.split(" ")(0), x.split(" ")(1)), x.split(" ")(2).toDouble)).groupBy(x => x._1._1).map(x => x._2.toList.sortWith((a, b) => a._2 > b._2).take(50)).flatMap(x => x).collect().toMap
     val wordIdf = sc.textFile(idfPath).map(x => (x.split(" ")(0), x.split(" ")(1).toDouble)).collect().toMap
 
-    val itemSimWithContent = itemSim.map(x => x._2.map(t => (x._1, t._1, t._2))).flatMap(x => x).map(x => {
+    var itemSimWithContent = itemSim.map(x => x._2.map(t => (x._1, t._1, t._2))).flatMap(x => x).map(x => {
       val itemx = x._1
       val itemy = x._2
       val score = GetSimUtil.getSimScore(wordSim, wordTag, wordIdf, itemTitleSeg.get(itemx).get, itemTitleSeg.get(itemy).get)
@@ -70,11 +70,12 @@ object ItemSimContentMerge {
     }).cache()
     itemSim.unpersist(blocking = false)
 
-    println("item sim with content")
-    itemSimWithContent.take(10).foreach(println)
-
     val max = itemSimWithContent.map(x => x._4).max
     val min = itemSimWithContent.map(x => x._4).min
+
+    itemSimWithContent = itemSimWithContent.map(x => (x._1, x._2, x._3, NormalizeUtil.minMaxScaler(min, max, x._4.toDouble, 0d)))
+    println("item sim with content")
+    itemSimWithContent.take(10).foreach(println)
 
     println(s"content sim max value:${max}")
     println(s"content sim min value:${min}")
@@ -83,10 +84,6 @@ object ItemSimContentMerge {
     val calendar = Calendar.getInstance()
     calendar.add(Calendar.DAY_OF_MONTH, -1)
 
-    itemSimWithContent.map(x => {
-      val score = NormalizeUtil.minMaxScaler(min, max, x._4.toDouble, 0d)
-      (x._1, x._2, (w1 * x._3 + w2 * score) / (w1 + w2))
-    }).groupBy(_._1).map(x => x._1 + " " + x._2.map(x => x._2 + ":" + x._3).mkString(",")).saveAsTextFile(outputPath)
-
+    itemSimWithContent.map(x => (x._1, x._2, (w1 * x._3 + w2 * x._4) / (w1 + w2))).groupBy(_._1).map(x => x._1 + " " + x._2.map(x => x._2 + ":" + x._3).mkString(",")).saveAsTextFile(outputPath)
   }
 }
