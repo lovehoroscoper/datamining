@@ -110,7 +110,7 @@ object ItemGraphSimRawFeature {
     userItemWeight.unpersist(blocking = false)
 
     // Get similar weight.
-    def getWeight(values: Iterable[(String, String, Int, Int, Double, Double, Double)]): (String, String, Int, Int, Double, Double, Double, Double, Double) = {
+    def getWeight(values: Iterable[(String, String, Int, Int, Double, Double, Double)]): (String, String, Int, Int, Double, Double, Double, Double) = {
       val head = values.head
       val itemx = head._1
       val itemy = head._2
@@ -166,7 +166,7 @@ object ItemGraphSimRawFeature {
     val max = cfSim.map(x => x._6).max
     val min = cfSim.map(x => x._6).min
     cfSim.map(x => {
-      val score = NormalizeUtil.minMaxScaler(min, max, x._8, 0d)
+      val score = NormalizeUtil.minMaxScaler(min, max, x._6, 0d)
       (x._1, x._2, score)
     }).groupBy(_._1).map(x => x._1 + " " + x._2.toList.sortWith((a, b) => a._3 > b._3).map(x => x._2 + ":" + x._3).take(N).mkString(",")).saveAsTextFile(itemSimGlobalNormalizeResultPath + "/" + sdf.format(calendar.getTime))
   }
