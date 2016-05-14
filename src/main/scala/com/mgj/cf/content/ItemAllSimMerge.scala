@@ -7,8 +7,6 @@ import com.mgj.utils.{NormalizeUtil, WordSegUtil}
 import org.apache.spark.sql.hive.HiveContext
 import org.apache.spark.{SparkConf, SparkContext}
 
-import scala.collection.mutable
-
 /**
   * Created by xiaonuo on 3/24/16.
   */
