@@ -156,8 +156,8 @@ ${SUBMIT}														\
 	--executor-memory 7373m										\
 	--class com.mgj.cf.content.ItemAllSimMerge  	            \
 	"${JAR_PATH}"												\
-	"${ITEM_BIGRAPH_SIM_CONTENT_MERGE_PATH}"					\
-	"${ITEM_SIM_CONTENT_MERGE_PATH}"							\
+	"${ITEM_BIGRAPH_SIM_UNION_PATH}"					\
+	"${ITEM_SIM_PATH}"							\
 	"${ITEM_BIGRAPH_SIM_CONTENT_MERGE_PATH}"				    \
 	"${W1}"					                                    \
 	"${W2}"					                                    \
