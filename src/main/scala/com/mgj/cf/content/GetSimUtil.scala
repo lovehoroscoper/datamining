@@ -11,7 +11,7 @@ object GetSimUtil {
   def getSimScore(wordSimMap: Map[(String, String), Double], wordTag: Map[String, String], wordIdf: Map[String, Double], queryX: List[String], queryY: List[String]): Double = {
     val weight = mutable.Map[(Int, Int), Double]()
     val weightIdf = mutable.Map[Int, Double]()
-    val set = "产品类型-复合,产品类型修饰词,产品-品牌,产品-型号,空白".split(",").toSet
+    val set = "产品类型-复合,产品类型修饰词,产品-品牌,产品-型号,空白,产品类型-简单".split(",").toSet
     for (i <- 0 to queryX.size - 1; j <- 0 to queryY.size - 1) {
       val x = queryX.apply(i)
       val y = queryY.apply(j)
