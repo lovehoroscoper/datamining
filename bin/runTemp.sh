@@ -148,10 +148,10 @@ echo "${JAR_PATH}"
 W1="1e6"
 echo "w1:${W1}"
 
-W2="500"
+W2="200"
 echo "w2:${W2}"
 
-W3="10"
+W3="15"
 echo "w3:${W3}"
 
 ${SUBMIT}														\
