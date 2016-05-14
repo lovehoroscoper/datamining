@@ -60,8 +60,8 @@ object ItemAllSimMerge {
     println(s"itemSimAvg:${itemSimAvg._1 / itemSimAvg._2}")
     println(s"itemBigraphSimAvg:${itemBigraphSimAvg._1 / itemBigraphSimAvg._2}")
 
-    w1 /= itemBigraphSimAvg._1 / itemBigraphSimAvg._2
-    w2 /= itemSimAvg._1 / itemSimAvg._2
+    //    w1 /= itemBigraphSimAvg._1 / itemBigraphSimAvg._2
+    //    w2 /= itemSimAvg._1 / itemSimAvg._2
     val itemSimMerge = itemBigraphSim.map(x => ((x._1, x._2), x._3)).fullOuterJoin(itemSim.map(x => ((x._1, x._2), x._3)))
       .map(x => {
         val scoreA = x._2._1.getOrElse(0d)
@@ -73,7 +73,7 @@ object ItemAllSimMerge {
     val calendar = Calendar.getInstance()
     calendar.add(Calendar.DAY_OF_MONTH, -1)
 
-    itemSimMerge.groupBy(_._1).map(x => x._1 + " " + x._2.toList.sortWith((a, b) => a._3 > b._3).map(x => x._2 + ":" + x._3).mkString(" ")).saveAsTextFile(outputPath)
+    itemSimMerge.groupBy(_._1).map(x => x._1 + " " + x._2.toList.sortWith((a, b) => a._3 > b._3).map(x => x._2 + ":" + x._3).mkString(",")).saveAsTextFile(outputPath)
     //    itemSimMerge.groupBy(_._1).map(x => x._1 + " " + x._2.toList.sortWith((a, b) => a._3 > b._3).map(x => x._2 + ":" + x._3).mkString(" ")).saveAsTextFile(outputPath + "/" + sdf.format(calendar.getTime))
   }
 }

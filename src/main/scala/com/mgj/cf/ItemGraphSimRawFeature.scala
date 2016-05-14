@@ -117,7 +117,7 @@ object ItemGraphSimRawFeature {
       val itemCntx = head._3
       val itemCnty = head._4
       val sum = values.toList.map(x => (x._5, 1.0, x._6, x._7)).reduce((x, y) => (x._1 + y._1, x._2 + y._2, x._3 + y._3, x._4 + y._4))
-      return (itemx, itemy, itemCntx, itemCnty, sum._1, Math.log(1.0 + sum._3) * sum._3 / (itemCntx.toDouble + itemCnty.toDouble - sum._3 + 10.0), Math.log(1 + sum._2) * sum._2 / (itemCntx.toDouble + itemCnty.toDouble - sum._2 + 10.0), sum._4 / Math.sqrt(itemCntx.toDouble * itemCnty.toDouble + 10.0))
+      return (itemx, itemy, itemCntx, itemCnty, sum._1, Math.log(1.0 + sum._3) * sum._3 / (itemCntx.toDouble + itemCnty.toDouble - sum._3 + 10.0), Math.log(1 + sum._2) * sum._2 / (itemCntx.toDouble + itemCnty.toDouble - sum._2 + 10.0), sum._4 / Math.sqrt(itemCntx.toDouble * itemCnty.toDouble + 10.0), sum._3 / (itemCntx.toDouble + itemCnty.toDouble - sum._3 + 10.0))
     }
 
     val cfSim = cfSimCross.groupBy(x => x._2 + x._1).mapValues(x => getWeight(x)).map(x => x._2).cache()
@@ -166,7 +166,7 @@ object ItemGraphSimRawFeature {
     val max = cfSim.map(x => x._6).max
     val min = cfSim.map(x => x._6).min
     cfSim.map(x => {
-      val score = NormalizeUtil.minMaxScaler(min, max, x._6, 0d)
+      val score = NormalizeUtil.minMaxScaler(min, max, x._8, 0d)
       (x._1, x._2, score)
     }).groupBy(_._1).map(x => x._1 + " " + x._2.toList.sortWith((a, b) => a._3 > b._3).map(x => x._2 + ":" + x._3).take(N).mkString(",")).saveAsTextFile(itemSimGlobalNormalizeResultPath + "/" + sdf.format(calendar.getTime))
   }

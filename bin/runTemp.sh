@@ -145,8 +145,8 @@ echo "${JAR_PATH}"
 #	"${W1}"					                                    \
 #	"${W2}"					                                    \
 
-W1="2"
-W2="1"
+W1="1e6"
+W2="1e2"
 ${SUBMIT}														\
 	--master yarn												\
 	--queue root.algorithm           							\
@@ -156,8 +156,8 @@ ${SUBMIT}														\
 	--executor-memory 7373m										\
 	--class com.mgj.cf.content.ItemAllSimMerge  	            \
 	"${JAR_PATH}"												\
-	"${ITEM_BIGRAPH_SIM_UNION_PATH}"					\
-	"${ITEM_SIM_PATH}"							\
+	"${ITEM_BIGRAPH_SIM_UNION_PATH}"					        \
+	"${ITEM_SIM_PATH}"							                \
 	"${ITEM_BIGRAPH_SIM_CONTENT_MERGE_PATH}"				    \
 	"${W1}"					                                    \
 	"${W2}"					                                    \
