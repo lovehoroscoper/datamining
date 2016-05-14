@@ -146,7 +146,8 @@ echo "${JAR_PATH}"
 #	"${W2}"					                                    \
 
 W1="1e6"
-W2="1e2"
+W2="100"
+w3="10"
 ${SUBMIT}														\
 	--master yarn												\
 	--queue root.algorithm           							\
@@ -158,6 +159,11 @@ ${SUBMIT}														\
 	"${JAR_PATH}"												\
 	"${ITEM_BIGRAPH_SIM_UNION_PATH}"					        \
 	"${ITEM_SIM_PATH}"							                \
+	"${WORD_SIM}"											    \
+	"${QUERY_IDF}"						    	                \
+	"${DICT_PATH}"						    	                \
+	"${WORD_TAG}"						    	                \
 	"${ITEM_BIGRAPH_SIM_CONTENT_MERGE_PATH}"				    \
 	"${W1}"					                                    \
 	"${W2}"					                                    \
+	"${W3}"					                                    \
