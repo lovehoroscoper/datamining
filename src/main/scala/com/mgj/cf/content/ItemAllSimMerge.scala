@@ -115,7 +115,7 @@ object ItemAllSimMerge {
     val calendar = Calendar.getInstance()
     calendar.add(Calendar.DAY_OF_MONTH, -1)
 
-    itemSimWithContent.groupBy(_._1).map(x => x._1 + " " + x._2.toList.sortWith((a, b) => a._3 > b._3).map(x => x._2 + ":" + x._3).mkString(",")).saveAsTextFile(outputPath)
+    itemSimWithContent.groupBy(_._1).map(x => x._1 + " " + x._2.toList.sortWith((a, b) => a._3 > b._3).take(N).map(x => x._2 + ":" + x._3).mkString(",")).saveAsTextFile(outputPath)
     //    itemSimMerge.map(x => (x._1, x._2, (w1 * x._3 + w2 * x._4) / (w1 + w2))).groupBy(_._1).map(x => x._1 + " " + x._2.toList.sortWith((a, b) => a._3 > b._3).map(x => x._2 + ":" + x._3).mkString(",")).saveAsTextFile(outputPath)
     //    itemSimMerge.groupBy(_._1).map(x => x._1 + " " + x._2.toList.sortWith((a, b) => a._3 > b._3).map(x => x._2 + ":" + x._3).mkString(" ")).saveAsTextFile(outputPath + "/" + sdf.format(calendar.getTime))
   }
