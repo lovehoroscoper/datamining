@@ -110,7 +110,7 @@ object ItemGraphSimRawFeature {
     userItemWeight.unpersist(blocking = false)
 
     // Get similar weight.
-    def getWeight(values: Iterable[(String, String, Int, Int, Double, Double, Double)]): (String, String, Int, Int, Double, Double, Double, Double) = {
+    def getWeight(values: Iterable[(String, String, Int, Int, Double, Double, Double)]): (String, String, Int, Int, Double, Double, Double, Double, Double) = {
       val head = values.head
       val itemx = head._1
       val itemy = head._2
