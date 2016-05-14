@@ -154,6 +154,15 @@ echo "w2:${W2}"
 W3="10"
 echo "w3:${W3}"
 
+T1="0"
+echo "t1:${T1}"
+
+T2="0.005"
+echo "t2:${T2}"
+
+T3="0"
+echo "t3:${T3}"
+
 ${SUBMIT}														\
 	--master yarn												\
 	--queue root.algorithm           							\
@@ -173,3 +182,6 @@ ${SUBMIT}														\
 	"${W1}"					                                    \
 	"${W2}"					                                    \
 	"${W3}"					                                    \
+	"${T1}"					                                    \
+	"${T2}"					                                    \
+	"${T3}"					                                    \

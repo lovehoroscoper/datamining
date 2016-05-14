@@ -59,17 +59,26 @@ object ItemAllSimMerge {
     val w3 = args(9).toDouble
     println(s"w3:${w3}")
 
+    val t1 = args(10).toDouble
+    println(s"t1:${t1}")
+
+    val t2 = args(11).toDouble
+    println(s"t2:${t2}")
+
+    val t3 = args(12).toDouble
+    println(s"t3:${t3}")
+
     val itemSim = sc.textFile(itemSimPath).map(x => {
       val itemx = x.split(" ")(0).toInt
       val list = x.split(" ")(1).split(",").map(x => (itemx, x.split(":")(0).toInt, x.split(":")(1).toDouble))
       list
-    }).flatMap(x => x)
+    }).flatMap(x => x).filter(x => x._3 >= t2)
 
     val itemBigraphSim = sc.textFile(itemBigraphSimPath).map(x => {
       val itemx = x.split(" ")(0).toInt
       val list = x.split(" ")(1).split(",").map(x => (itemx, x.split(":")(0).toInt, x.split(":")(1).toDouble))
       list
-    }).flatMap(x => x)
+    }).flatMap(x => x).filter(x => x._3 >= t1)
 
     val itemSimAvg = itemSim.map(x => (x._3, 1d)).reduce((a, b) => (a._1 + b._1, a._2 + b._2))
     val itemBigraphSimAvg = itemBigraphSim.map(x => (x._3, 1d)).reduce((a, b) => (a._1 + b._1, a._2 + b._2))
@@ -98,7 +107,7 @@ object ItemAllSimMerge {
       val itemx = x._1
       val itemy = x._2
       val score = GetSimUtil.getSimScore(wordSim, wordTag, wordIdf, itemTitleSeg.get(itemx).get, itemTitleSeg.get(itemy).get)
-      (itemx, itemy, x._3, x._4, score)
+      (itemx, itemy, x._3, x._4, if (score >= t3) score else 0d)
     }).cache()
     itemSim.unpersist(blocking = false)
 
