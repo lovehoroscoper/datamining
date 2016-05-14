@@ -32,25 +32,33 @@ object ItemAllSimMerge {
     val sqlContext: HiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
 
     val itemBigraphSimPath = args(0)
-    val itemSimPath = args(1)
-    val wordSimPath = args(2)
-    val idfPath = args(3)
-    val dictPath = args(4)
-    val wordTagPath = args(5)
-    val outputPath = args(6)
-    val w1 = args(7).toDouble
-    val w2 = args(8).toDouble
-    val w3 = args(9).toDouble
-
     println(s"itemBigraphSimPath:${itemBigraphSimPath}")
+
+    val itemSimPath = args(1)
     println(s"itemSimPath:${itemSimPath}")
+
+    val wordSimPath = args(2)
     println(s"wordSimPath:${wordSimPath}")
+
+    val idfPath = args(3)
     println(s"idfPath:${idfPath}")
+
+    val dictPath = args(4)
     println(s"dictPath:${dictPath}")
+
+    val wordTagPath = args(5)
     println(s"wordTagPath:${wordTagPath}")
+
+    val outputPath = args(6)
     println(s"outputPath:${outputPath}")
+
+    val w1 = args(7).toDouble
     println(s"w1:${w1}")
+
+    val w2 = args(8).toDouble
     println(s"w2:${w2}")
+
+    val w3 = args(9).toDouble
     println(s"w3:${w3}")
 
     val itemSim = sc.textFile(itemSimPath).map(x => {

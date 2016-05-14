@@ -146,8 +146,14 @@ echo "${JAR_PATH}"
 #	"${W2}"					                                    \
 
 W1="1e6"
+echo "w1:${W1}"
+
 W2="100"
+echo "w2:${W2}"
+
 w3="10"
+echo "w3:${W3}"
+
 ${SUBMIT}														\
 	--master yarn												\
 	--queue root.algorithm           							\
