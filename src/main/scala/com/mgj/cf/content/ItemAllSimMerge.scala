@@ -34,8 +34,8 @@ object ItemAllSimMerge {
     val itemBigraphSimPath = args(0)
     val itemSimPath = args(1)
     val outputPath = args(2)
-    val w1 = args(3).toDouble
-    val w2 = args(4).toDouble
+    var w1 = args(3).toDouble
+    var w2 = args(4).toDouble
 
     println(s"itemBigraphSimPath:${itemBigraphSimPath}")
     println(s"itemSimPath:${itemSimPath}")
@@ -43,52 +43,37 @@ object ItemAllSimMerge {
     println(s"w1:${w1}")
     println(s"w2:${w2}")
 
-    val itemSim = sc.textFile(itemSimPath).map(x => (x.split(" ")(0).toInt, x.split(" ")(1).split(",").map(x => (x.split(":")(0).toInt, x.split(":")(1).toDouble)))).coalesce(2000)
-    val itemBigraphSim = sc.textFile(itemBigraphSimPath).map(x => (x.split(" ")(0).toInt, x.split(" ")(1).split(",").map(x => (x.split(":")(0).toInt, x.split(":")(1).toDouble)))).coalesce(2000)
+    val itemSim = sc.textFile(itemSimPath).map(x => {
+      val itemx = x.split(" ")(0).toInt
+      val list = x.split(" ")(1).split(",").map(x => (itemx, x.split(":")(0).toInt, x.split(":")(1).toDouble))
+      list
+    }).flatMap(x => x)
 
-    val itemSimMerge = itemSim.fullOuterJoin(itemBigraphSim).map(x => {
-      val itemx = x._1
-      val listA = x._2._1
-      val listB = x._2._2
-      if (listA != None && listB != None) {
-        val set = (listA.get ++ listB.get).map(x => x._1).toSet
-        val mapA = listA.get.toMap
-        val mapB = listB.get.toMap
-        val list = set.map(key => {
-          val scoreA = mapA.getOrElse(key, 0d)
-          val scoreB = mapB.getOrElse(key, 0d)
-          val value = (w1 * scoreA + w2 * scoreB) / (w1 + w2)
-          (key, value)
-        }).toList.sortWith((a, b) => a._2 > b._2)
+    val itemBigraphSim = sc.textFile(itemBigraphSimPath).map(x => {
+      val itemx = x.split(" ")(0).toInt
+      val list = x.split(" ")(1).split(",").map(x => (itemx, x.split(":")(0).toInt, x.split(":")(1).toDouble))
+      list
+    }).flatMap(x => x)
 
-        // normalize
-        val max = list.map(x => x._2).max
-        val min = list.map(x => x._2).min
+    val itemSimAvg = itemSim.map(x => (x._3, 1d)).reduce((a, b) => (a._1 + b._1, a._2 + b._2))
+    val itemBigraphSimAvg = itemBigraphSim.map(x => (x._3, 1d)).reduce((a, b) => (a._1 + b._1, a._2 + b._2))
+    println(s"itemSimAvg:${itemSimAvg._1 / itemSimAvg._2}")
+    println(s"itemBigraphSimAvg:${itemBigraphSimAvg._1 / itemBigraphSimAvg._2}")
 
-        (itemx, list.map(x => {
-          val score = NormalizeUtil.minMaxScaler(min, max, x._2, 1d / const)
-          (x._1, Math.round(score * const))
-        }).take(N))
-      } else if (listA == None) {
-        val max = listB.get.map(x => x._2).max
-        val min = listB.get.map(x => x._2).min
-        (itemx, listB.get.toList.map(x => {
-          val score = NormalizeUtil.minMaxScaler(min, max, x._2.toDouble, 1d / const)
-          (x._1, Math.round(score * const))
-        }).take(N))
-      } else {
-        val max = listA.get.map(x => x._2).max
-        val min = listA.get.map(x => x._2).min
-        (itemx, listA.get.toList.map(x => {
-          val score = NormalizeUtil.minMaxScaler(min, max, x._2.toDouble, 1d / const)
-          (x._1, Math.round(score * const))
-        }).take(N))
-      }
-    })
+    w1 /= itemBigraphSimAvg._1 / itemBigraphSimAvg._2
+    w2 /= itemSimAvg._1 / itemSimAvg._2
+    val itemSimMerge = itemBigraphSim.map(x => ((x._1, x._2), x._3)).fullOuterJoin(itemSim.map(x => ((x._1, x._2), x._3)))
+      .map(x => {
+        val scoreA = x._2._1.getOrElse(0d)
+        val scoreB = x._2._2.getOrElse(0d)
+        (x._1._1, x._1._2, (w1 * scoreA + w2 * scoreB) / (w1 + w2))
+      })
 
     val sdf = new SimpleDateFormat("yyyy-MM-dd")
     val calendar = Calendar.getInstance()
     calendar.add(Calendar.DAY_OF_MONTH, -1)
-    itemSimMerge.map(x => x._1 + " " + x._2.map(x => x._1 + ":" + x._2).mkString(" ")).saveAsTextFile(outputPath + "/" + sdf.format(calendar.getTime))
+
+    itemSimMerge.groupBy(_._1).map(x => x._1 + " " + x._2.toList.sortWith((a, b) => a._3 > b._3).map(x => x._2 + ":" + x._3).mkString(" ")).saveAsTextFile(outputPath)
+    //    itemSimMerge.groupBy(_._1).map(x => x._1 + " " + x._2.toList.sortWith((a, b) => a._3 > b._3).map(x => x._2 + ":" + x._3).mkString(" ")).saveAsTextFile(outputPath + "/" + sdf.format(calendar.getTime))
   }
 }
