@@ -34,8 +34,8 @@ object ItemAllSimMerge {
     val itemBigraphSimPath = args(0)
     val itemSimPath = args(1)
     val outputPath = args(2)
-    var w1 = args(3).toDouble
-    var w2 = args(4).toDouble
+    val w1 = args(3).toDouble
+    val w2 = args(4).toDouble
 
     println(s"itemBigraphSimPath:${itemBigraphSimPath}")
     println(s"itemSimPath:${itemSimPath}")
