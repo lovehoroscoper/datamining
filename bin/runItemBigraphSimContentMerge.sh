@@ -207,12 +207,12 @@ ${SUBMIT}														\
 #curl "http://10.15.19.20:10850/dumpData?featureName=itemSim&method=local"
 #curl "http://10.19.16.30:10850/dumpData?featureName=itemSim&method=local"
 #curl "http://10.15.18.40:10850/dumpData?featureName=itemSim&method=local" &
-#
-#CUR_DATE=`date  +%Y-%m-%d`
-#DAY_SUB20=`date -d "${CUR_DATE} -20 day" +"%Y-%m-%d"`
-#RESULT_DIR_SUB=${ITEM_SIM_MERGE_RESULT}/${DAY_SUB20}
-#hdfs dfs -test -e ${RESULT_DIR_SUB}
-#if [ $? -eq 0 ] ;then
-#    echo "${RESULT_DIR_SUB} exists"
-#    hdfs dfs -rm -r ${RESULT_DIR_SUB}
-#fi
+
+CUR_DATE=`date  +%Y-%m-%d`
+DAY_SUB20=`date -d "${CUR_DATE} -20 day" +"%Y-%m-%d"`
+RESULT_DIR_SUB=${ITEM_SIM_MERGE_RESULT}/${DAY_SUB20}
+hdfs dfs -test -e ${RESULT_DIR_SUB}
+if [ $? -eq 0 ] ;then
+    echo "${RESULT_DIR_SUB} exists"
+    hdfs dfs -rm -r ${RESULT_DIR_SUB}
+fi
