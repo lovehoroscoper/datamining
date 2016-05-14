@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#!/bin/bash
+
 # enviroment parameter.
 source /home/digu/.bash_profile
 
@@ -119,14 +121,30 @@ if [ $? -eq 0 ] ;then
     hdfs dfs -rm -r ${ITEM_SIM_CONTENT_MERGE_PATH}
 fi
 
-W1="50000"
-W2="1"
 SUBMIT="/home/spark/spark-1.6.0-bin-hadoop2.3/bin/spark-submit "
 
 JAR_PATH="`pwd`/target/data-mining-1.0-SNAPSHOT-jar-with-dependencies.jar"
 
 echo "${JAR_PATH}"
 
+W1="1e6"
+echo "w1:${W1}"
+
+W2="200"
+echo "w2:${W2}"
+
+W3="10"
+echo "w3:${W3}"
+
+T1="0"
+echo "t1:${T1}"
+
+T2="0.005"
+echo "t2:${T2}"
+
+T3="0"
+echo "t3:${T3}"
+
 ${SUBMIT}														\
 	--master yarn												\
 	--queue root.algorithm           							\
@@ -134,53 +152,21 @@ ${SUBMIT}														\
 	--num-executors	64											\
 	--executor-cores 1											\
 	--executor-memory 7373m										\
-	--class com.mgj.cf.content.ItemSimContentMerge      	    \
+	--class com.mgj.cf.content.ItemSimContentMerge  	        \
 	"${JAR_PATH}"												\
-	"${ITEM_BIGRAPH_SIM_UNION_PATH}"							\
+	"${ITEM_BIGRAPH_SIM_UNION_PATH}"					        \
+	"${ITEM_SIM_PATH}"							                \
 	"${WORD_SIM}"											    \
 	"${QUERY_IDF}"						    	                \
 	"${DICT_PATH}"						    	                \
 	"${WORD_TAG}"						    	                \
-	"${ITEM_BIGRAPH_SIM_CONTENT_MERGE_PATH}"					\
+	"${ITEM_SIM_MERGE_RESULT}"		                		    \
 	"${W1}"					                                    \
 	"${W2}"					                                    \
-
-W1="5"
-W2="1"
-${SUBMIT}														\
-	--master yarn												\
-	--queue root.algorithm           							\
-	--driver-memory	32g											\
-	--num-executors	64											\
-	--executor-cores 1											\
-	--executor-memory 7373m										\
-	--class com.mgj.cf.content.ItemSimContentMerge	            \
-	"${JAR_PATH}"												\
-	"${ITEM_SIM_PATH}"				                			\
-	"${WORD_SIM}"											    \
-	"${QUERY_IDF}"						    	                \
-	"${DICT_PATH}"						    	                \
-	"${WORD_TAG}"						    	                \
-	"${ITEM_SIM_CONTENT_MERGE_PATH}"						    \
-	"${W1}"					                                    \
-	"${W2}"					                                    \
-
-W1="100000"
-W2="1"
-${SUBMIT}														\
-	--master yarn												\
-	--queue root.algorithm           							\
-	--driver-memory	32g											\
-	--num-executors	64											\
-	--executor-cores 1											\
-	--executor-memory 7373m										\
-	--class com.mgj.cf.content.ItemAllSimMerge  	            \
-	"${JAR_PATH}"												\
-	"${ITEM_BIGRAPH_SIM_CONTENT_MERGE_PATH}"					\
-	"${ITEM_SIM_CONTENT_MERGE_PATH}"							\
-	"${ITEM_SIM_MERGE_RESULT}"						    	    \
-	"${W1}"					                                    \
-	"${W2}"					                                    \
+	"${W3}"					                                    \
+	"${T1}"					                                    \
+	"${T2}"					                                    \
+	"${T3}"					                                    \
 
 # dump to rec sys
 #TODAY=`date  +%Y%m%d`

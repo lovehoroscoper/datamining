@@ -119,31 +119,11 @@ if [ $? -eq 0 ] ;then
     hdfs dfs -rm -r ${ITEM_SIM_CONTENT_MERGE_PATH}
 fi
 
-W1="10000"
-W2="1"
 SUBMIT="/home/spark/spark-1.6.0-bin-hadoop2.3/bin/spark-submit "
 
 JAR_PATH="`pwd`/target/data-mining-1.0-SNAPSHOT-jar-with-dependencies.jar"
 
 echo "${JAR_PATH}"
-
-#${SUBMIT}														\
-#	--master yarn												\
-#	--queue root.algorithm           							\
-#	--driver-memory	32g											\
-#	--num-executors	64											\
-#	--executor-cores 1											\
-#	--executor-memory 7373m										\
-#	--class com.mgj.cf.content.ItemSimContentMerge      	    \
-#	"${JAR_PATH}"												\
-#	"${ITEM_BIGRAPH_SIM_UNION_PATH}"							\
-#	"${WORD_SIM}"											    \
-#	"${QUERY_IDF}"						    	                \
-#	"${DICT_PATH}"						    	                \
-#	"${WORD_TAG}"						    	                \
-#	"${ITEM_BIGRAPH_SIM_CONTENT_MERGE_PATH}"					\
-#	"${W1}"					                                    \
-#	"${W2}"					                                    \
 
 W1="1e6"
 echo "w1:${W1}"
@@ -170,7 +150,7 @@ ${SUBMIT}														\
 	--num-executors	64											\
 	--executor-cores 1											\
 	--executor-memory 7373m										\
-	--class com.mgj.cf.content.ItemAllSimMerge  	            \
+	--class com.mgj.cf.content.ItemSimContentMerge  	        \
 	"${JAR_PATH}"												\
 	"${ITEM_BIGRAPH_SIM_UNION_PATH}"					        \
 	"${ITEM_SIM_PATH}"							                \
@@ -178,7 +158,7 @@ ${SUBMIT}														\
 	"${QUERY_IDF}"						    	                \
 	"${DICT_PATH}"						    	                \
 	"${WORD_TAG}"						    	                \
-	"${ITEM_BIGRAPH_SIM_CONTENT_MERGE_PATH}"				    \
+	"${ITEM_SIM_MERGE_RESULT}"		                		    \
 	"${W1}"					                                    \
 	"${W2}"					                                    \
 	"${W3}"					                                    \
