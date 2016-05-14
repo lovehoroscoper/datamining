@@ -79,6 +79,8 @@ object ItemAllSimMerge {
 
     val itemSimMerge = itemBigraphSim.map(x => ((x._1, x._2), x._3)).fullOuterJoin(itemSim.map(x => ((x._1, x._2), x._3)))
       .map(x => (x._1._1, x._1._2, x._2._1.getOrElse(0d), x._2._2.getOrElse(0d)))
+    itemBigraphSim.unpersist(blocking = false)
+    itemSim.unpersist(blocking = false)
 
     val itemSet = itemSimMerge.map(x => Set(x._1, x._2)).flatMap(x => x).distinct()
     println(s"item count:${itemSet.count}")
@@ -100,8 +102,8 @@ object ItemAllSimMerge {
     }).cache()
     itemSim.unpersist(blocking = false)
 
-    val max = itemSimWithContentTemp.map(x => x._4).max
-    val min = itemSimWithContentTemp.map(x => x._4).min
+    val max = 0.5d
+    val min = 0d
 
     val itemSimWithContent = itemSimWithContentTemp.map(x => {
       val score = (w1 * x._3 + w2 * x._4 + w3 * NormalizeUtil.minMaxScaler(min, max, x._5, 0d)) / (w1 + w2 + w3)
