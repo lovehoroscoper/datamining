@@ -181,32 +181,33 @@ ${SUBMIT}														\
 #curl "10.11.6.179:10849/sendAlgo?type=algoWithOutMap&date=${TODAY}&algoName=graph_digu_rec_v2"
 #echo "success"
 
-#DATA_DIR=${ITEM_SIM_MERGE_RESULT}
-#for k in $( seq 1 10 )
-#do
-#	DAY_SUB=`date -d "${CUR_DATE} -${k} day" +"%Y-%m-%d"`
-#	FILE_PATH=${DATA_DIR}/${DAY_SUB}
-#	hdfs dfs -test -e ${FILE_PATH}/"_SUCCESS"
-#	if [ $? -eq 0 ] ;then
-#    	echo "${FILE_PATH} exists"
-#    	break
-#	fi
-#done
-#
-#RESULT_DIR_CURRENT_USED="/user/digu/itemSimCurrentUsed"
-#hdfs dfs -test -e ${RESULT_DIR_CURRENT_USED}
-#if [ $? -eq 0 ] ;then
-#    echo "${RESULT_DIR_CURRENT_USED} exists"
-#    hdfs dfs -rm -r ${RESULT_DIR_CURRENT_USED}
-#fi
-#echo "result dir current used: ${RESULT_DIR_CURRENT_USED}"
-#hdfs dfs -cp ${FILE_PATH} ${RESULT_DIR_CURRENT_USED}
-#
-#curl "http://10.15.17.31:10850/dumpData?featureName=itemSim&method=local"
-#curl "http://10.19.22.49:10850/dumpData?featureName=itemSim&method=local"
-#curl "http://10.15.19.20:10850/dumpData?featureName=itemSim&method=local"
-#curl "http://10.19.16.30:10850/dumpData?featureName=itemSim&method=local"
-#curl "http://10.15.18.40:10850/dumpData?featureName=itemSim&method=local" &
+# dump to rank sys
+DATA_DIR=${ITEM_SIM_MERGE_RESULT}
+for k in $( seq 1 10 )
+do
+	DAY_SUB=`date -d "${CUR_DATE} -${k} day" +"%Y-%m-%d"`
+	FILE_PATH=${DATA_DIR}/${DAY_SUB}
+	hdfs dfs -test -e ${FILE_PATH}/"_SUCCESS"
+	if [ $? -eq 0 ] ;then
+    	echo "${FILE_PATH} exists"
+    	break
+	fi
+done
+
+RESULT_DIR_CURRENT_USED="/user/digu/itemSimCurrentUsedV2"
+hdfs dfs -test -e ${RESULT_DIR_CURRENT_USED}
+if [ $? -eq 0 ] ;then
+    echo "${RESULT_DIR_CURRENT_USED} exists"
+    hdfs dfs -rm -r ${RESULT_DIR_CURRENT_USED}
+fi
+echo "result dir current used: ${RESULT_DIR_CURRENT_USED}"
+hdfs dfs -cp ${FILE_PATH} ${RESULT_DIR_CURRENT_USED}
+
+curl "http://10.15.17.31:10850/dumpData?featureName=itemSim&method=local"
+curl "http://10.19.22.49:10850/dumpData?featureName=itemSim&method=local"
+curl "http://10.15.19.20:10850/dumpData?featureName=itemSim&method=local"
+curl "http://10.19.16.30:10850/dumpData?featureName=itemSim&method=local"
+curl "http://10.15.18.40:10850/dumpData?featureName=itemSim&method=local" &
 
 CUR_DATE=`date  +%Y-%m-%d`
 DAY_SUB20=`date -d "${CUR_DATE} -20 day" +"%Y-%m-%d"`
