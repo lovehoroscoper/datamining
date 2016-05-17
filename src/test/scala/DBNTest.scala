@@ -10,14 +10,14 @@ import java.util.Collections
 //import org.deeplearning4j.optimize.api.IterationListener
 //import org.deeplearning4j.optimize.listeners.ScoreIterationListener
 //import org.nd4j.linalg.lossfunctions.LossFunctions.LossFunction
-//import org.slf4j.LoggerFactory
+import org.slf4j.LoggerFactory
 
 /**
   * Created by xiaonuo on 5/16/16.
   */
 class DBNTest {
 
-//  lazy val logger = LoggerFactory.getLogger(classOf[DBNTest])
+  lazy val logger = LoggerFactory.getLogger(classOf[DBNTest])
 
   def main(args: Array[String]) = {
 //    val numRows = 28
@@ -29,10 +29,10 @@ class DBNTest {
 //    val seed = 123
 //    val listenerFreq = batchSize / 5
 //
-//    logger.info("Load data....")
+//    logger.warn("Load data....")
 //    val iter = new MnistDataSetIterator(batchSize, numSamples, true)
 //
-//    logger.info("Build model....")
+//    logger.warn("Build model....")
 //    val conf = new NeuralNetConfiguration.Builder()
 //      .seed(seed)
 //      .gradientNormalization(GradientNormalization.ClipElementWiseAbsoluteValue)
@@ -66,10 +66,10 @@ class DBNTest {
 //    model.init()
 //    model.setListeners(Collections.singletonList(new ScoreIterationListener(listenerFreq).asInstanceOf[IterationListener]))
 //
-//    logger.info("Train model....")
+//    logger.warn("Train model....")
 //    model.fit(iter); // achieves end to end pre-training
 //
-//    logger.info("Evaluate model....")
+//    logger.warn("Evaluate model....")
 //    val eval = new Evaluation(outputNum)
 //
 //    val testIter = new MnistDataSetIterator(100, 10000)
@@ -79,7 +79,7 @@ class DBNTest {
 //      eval.eval(testMnist.getLabels, predict2)
 //    }
 //
-//    logger.info(eval.stats())
-//    logger.info("****************Example finished********************")
+//    logger.warn(eval.stats())
+//    logger.warn("****************Example finished********************")
   }
 }

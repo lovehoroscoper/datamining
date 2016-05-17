@@ -15,7 +15,7 @@ class Test extends FlatSpec with Matchers with LocalSparkContext {
     //    test.main(Array())
     //    val test = new DBNTest()
     //    test.main(Array())
-    //    val sqlContext = new SQLContext(sc)
+    val sqlContext = new SQLContext(sc)
     val data = sc.parallelize(List(1, 2, 3))
     data.take(10).foreach(println)
   }

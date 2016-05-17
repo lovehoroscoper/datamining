@@ -37,7 +37,7 @@ class LRLearner {
 
     val model = lr.fit(trainDF)
 
-    val featureWeights = model.weights.toArray.toList
+    val featureWeights = model.coefficients.toArray.toList
     println(s"featureWeights:${featureWeights}")
 
     val trainingSummary = model.summary
