@@ -15,6 +15,7 @@
         <scala.compat.version>2.10</scala.compat.version>
         <spring.version>4.1.6.RELEASE</spring.version>
         <spark.version>1.5.1</spark.version>
+        <nd4j.version>0.4-rc3.8</nd4j.version>
     </properties>
 
     <repositories>
@@ -32,15 +33,26 @@
         <!--<version>1.0.1</version>-->
         <!--</dependency>-->
         <!--<dependency>-->
-            <!--<groupId>it.unimi.dsi</groupId>-->
-            <!--<artifactId>fastutil</artifactId>-->
-            <!--<version>7.0.10</version>-->
+        <!--<groupId>it.unimi.dsi</groupId>-->
+        <!--<artifactId>fastutil</artifactId>-->
+        <!--<version>7.0.10</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+        <!--<groupId>com.googlecode.matrix-toolkits-java</groupId>-->
+        <!--<artifactId>mtj</artifactId>-->
+        <!--<version>0.9.14</version>-->
         <!--</dependency>-->
 
         <!--<dependency>-->
-            <!--<groupId>com.googlecode.matrix-toolkits-java</groupId>-->
-            <!--<artifactId>mtj</artifactId>-->
-            <!--<version>0.9.14</version>-->
+        <!--<groupId>org.nd4j</groupId>-->
+        <!--<artifactId>nd4j-x86</artifactId>-->
+        <!--<version>${nd4j.version}</version>-->
+        <!--</dependency>-->
+
+        <!--<dependency>-->
+            <!--<groupId>org.deeplearning4j</groupId>-->
+            <!--<artifactId>deeplearning4j-core</artifactId>-->
+            <!--<version>${nd4j.version}</version>-->
         <!--</dependency>-->
 
         <dependency>

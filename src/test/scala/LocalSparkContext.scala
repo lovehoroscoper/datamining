@@ -13,13 +13,12 @@ trait LocalSparkContext extends BeforeAndAfterAll {
 
   val conf = new SparkConf(false)
 
-  override def beforeAll() {
-    _sc = new SparkContext("local[4]", "test", conf)
+  override def beforeAll(): Unit = {
+    _sc = new SparkContext("local[4]", "main", conf)
     super.beforeAll()
   }
 
   override def afterAll() {
-    // LocalSparkContext.stop(_sc)
     if (sc != null) {
       sc.stop()
     }
@@ -30,5 +29,6 @@ trait LocalSparkContext extends BeforeAndAfterAll {
     _sc = null
     super.afterAll()
   }
+
 }
 
