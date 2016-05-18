@@ -33,6 +33,7 @@ object OfflineTraining {
     val bizdate = args(3)
     val features = args(4)
     val stage = args(5)
+    val N = args(6).toInt
 
     println(s"appIds:${appIds}")
     println(s"sampleTable:${sampleTable}")
@@ -54,7 +55,7 @@ object OfflineTraining {
         val orderSampleDF = SampleV2Util.getOrderSample(sqlContext, bizdate, appIds.split(","): _*).filter("labe = '1'")
         orderSampleDF.show
         var allSampleDF = clickSampleDF
-        for (i <- 1 to 20) {
+        for (i <- 1 to N) {
           allSampleDF = allSampleDF.unionAll(orderSampleDF)
         }
 

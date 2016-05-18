@@ -36,6 +36,9 @@ echo "feature table:${FEATURE_TABLE}"
 STAGE="build_sample"
 echo "stage:${STAGE}"
 
+N="20"
+echo "N:${N}"
+
 SUBMIT="/home/spark/spark-1.6.0-bin-hadoop2.3/bin/spark-submit "
 JAR_PATH="`pwd`/target/data-mining-1.0-SNAPSHOT-jar-with-dependencies.jar"
 echo "${JAR_PATH}"
@@ -55,3 +58,4 @@ ${SUBMIT}														\
 	"${BIZDATE}"									    		\
 	"${FEATURES}"									    		\
 	"${STAGE}"			    						    		\
+	"${N}"			    						         		\
