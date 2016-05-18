@@ -53,7 +53,7 @@ object OfflineTraining {
       if (stageSet.contains("build_sample")) {
         val clickSampleDF = SampleV2Util.getClickSample(sqlContext, bizdate, appIds.split(","): _*)
         clickSampleDF.show()
-        val orderSampleDF = SampleV2Util.getOrderSample(sqlContext, bizdate, appIds.split(","): _*).filter("label = '1'")
+        val orderSampleDF = SampleV2Util.getOrderSample(sqlContext, bizdate, appIds.split(","): _*)
         orderSampleDF.show
         var allSampleDF = clickSampleDF
         for (i <- 1 to N) {
