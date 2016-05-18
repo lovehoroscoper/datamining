@@ -40,6 +40,7 @@ object OfflineTraining {
     println(s"bizdate:${bizdate}")
     println(s"features:${features}")
     println(s"stage:${stage}")
+    println(s"N:${N}")
 
     val stageSet = stage.split(",").toSet
 
