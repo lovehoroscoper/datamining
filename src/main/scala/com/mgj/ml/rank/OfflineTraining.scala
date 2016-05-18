@@ -51,22 +51,20 @@ object OfflineTraining {
       if (stageSet.contains("build_sample")) {
         val clickSampleDF = SampleV2Util.getClickSample(sqlContext, bizdate, appIds.split(","): _*)
         clickSampleDF.show()
-        val orderSampleDF = SampleV2Util.getOrderSample(sqlContext, bizdate, appIds.split(","): _*)
+        val orderSampleDF = SampleV2Util.getOrderSample(sqlContext, bizdate, appIds.split(","): _*).filter("labe = '1'")
         orderSampleDF.show
-        println(s"clickSampleDF:${clickSampleDF.count}")
-        println(s"orderSampleDF:${orderSampleDF.count}")
-        //      var allSampleDF = clickSampleDF
-        //      for (i <- 1 to 5) {
-        //        allSampleDF = allSampleDF.unionAll(orderSampleDF)
-        //      }
+        var allSampleDF = clickSampleDF
+        for (i <- 1 to 20) {
+          allSampleDF = allSampleDF.unionAll(orderSampleDF)
+        }
 
-        clickSampleDF.registerTempTable(s"${sampleTable}_temp")
+        allSampleDF.registerTempTable(s"${sampleTable}_temp")
         sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
         sqlContext.sql(s"drop table if exists ${sampleTable}")
         sqlContext.sql(s"create table ${sampleTable} as select * from ${sampleTable}_temp")
         clickSampleDF.unpersist(blocking = false)
         orderSampleDF.unpersist(blocking = false)
-        //      allSampleDF.unpersist(blocking = false)
+        allSampleDF.unpersist(blocking = false)
       }
 
       if (stageSet.contains("adapt_features")) {
