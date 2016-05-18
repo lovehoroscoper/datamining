@@ -33,7 +33,7 @@ FEATURE_TABLE="s_dg_click_sample_feature"
 echo "feature table:${FEATURE_TABLE}"
 
 # build_sample,adapt_features,train
-STAGE="build_sample,adapt_features,train"
+STAGE="build_sample"
 echo "stage:${STAGE}"
 
 SUBMIT="/home/spark/spark-1.6.0-bin-hadoop2.3/bin/spark-submit "

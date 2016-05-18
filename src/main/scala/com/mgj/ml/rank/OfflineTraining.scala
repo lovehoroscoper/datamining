@@ -1,8 +1,8 @@
 package com.mgj.ml.rank
 
 import com.mgj.feature.FeatureCalculatorFactory
-import com.mgj.utils.{LRLearnerV2, SampleV2Util}
-import org.apache.spark.sql.types.{DoubleType, StructField, StructType}
+import com.mgj.utils.{TimeUtil, LRLearnerV2, SampleV2Util}
+import org.apache.spark.sql.types.{StructType, DoubleType, StructField}
 import org.apache.spark.sql.{Row, Column, DataFrame}
 import org.apache.spark.sql.hive.HiveContext
 import org.apache.spark.{SparkContext, SparkConf}
@@ -42,65 +42,75 @@ object OfflineTraining {
 
     val stageSet = stage.split(",").toSet
 
-    if (stageSet.contains("build_sample")) {
-      //      val clickSampleDF = SampleV2Util.getClickSample(sqlContext, bizdate, appIds.split(","): _*)
-      //      clickSampleDF.show()
-      val orderSampleDF = SampleV2Util.getOrderSample(sqlContext, bizdate, appIds.split(","): _*)
-      orderSampleDF.show
+    TimeUtil.start
+    execute()
+    TimeUtil.end
+    println(s"execute time cost:${TimeUtil.timeCost}")
 
-      //      var allSampleDF = clickSampleDF
-      //      for (i <- 1 to 5) {
-      //        allSampleDF = allSampleDF.unionAll(orderSampleDF)
-      //      }
+    def execute(): Unit = {
+      if (stageSet.contains("build_sample")) {
+        val clickSampleDF = SampleV2Util.getClickSample(sqlContext, bizdate, appIds.split(","): _*)
+        clickSampleDF.show()
+        val orderSampleDF = SampleV2Util.getOrderSample(sqlContext, bizdate, appIds.split(","): _*)
+        orderSampleDF.show
+        println(s"clickSampleDF:${clickSampleDF.count}")
+        println(s"orderSampleDF:${orderSampleDF.count}")
+        //      var allSampleDF = clickSampleDF
+        //      for (i <- 1 to 5) {
+        //        allSampleDF = allSampleDF.unionAll(orderSampleDF)
+        //      }
 
-      orderSampleDF.registerTempTable(s"${sampleTable}_temp")
-      sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
-      sqlContext.sql(s"drop table if exists ${sampleTable}")
-      sqlContext.sql(s"create table ${sampleTable} as select * from ${sampleTable}_temp")
-      //      clickSampleDF.unpersist(blocking = false)
-      orderSampleDF.unpersist(blocking = false)
-      //      allSampleDF.unpersist(blocking = false)
-    }
-
-    if (stageSet.contains("adapt_features")) {
-      var dataDF: DataFrame = sqlContext.sql("select * from " + sampleTable).cache()
-      dataDF.show()
-
-      for (feature <- features.split(",")) {
-        if (featureCalculatorFactory.containsCalculator(feature)) {
-          val calculator = featureCalculatorFactory.getCalculator(feature)
-          calculator.setBizDate(bizdate)
-          println(calculator)
-          dataDF = calculator.getFeatureDF(dataDF, sc, sqlContext).cache()
-          dataDF = calculator.compute(dataDF, sc, sqlContext).cache()
-        } else {
-          println(s"feature calculator ${feature} dose not exists")
-        }
+        clickSampleDF.registerTempTable(s"${sampleTable}_temp")
+        sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
+        sqlContext.sql(s"drop table if exists ${sampleTable}")
+        sqlContext.sql(s"create table ${sampleTable} as select * from ${sampleTable}_temp")
+        clickSampleDF.unpersist(blocking = false)
+        orderSampleDF.unpersist(blocking = false)
+        //      allSampleDF.unpersist(blocking = false)
       }
 
-      val columns = features + ",label"
-      dataDF = dataDF.select(columns.split(",").map(x => new Column(x)): _*)
-      dataDF.show()
+      if (stageSet.contains("adapt_features")) {
+        var dataDF: DataFrame = sqlContext.sql("select * from " + sampleTable).cache()
+        dataDF.show()
 
-      val dataDFRDD = dataDF.rdd.filter(x => x.anyNull == false).map(x => {
-        val list: List[Double] = columns.split(",").toList.map(name => x.getAs[String](name).toDouble)
-        Row(list: _*)
-      })
-      val schema = StructType(columns.split(",").map(x => StructField(x, DoubleType, true)))
-      dataDF = sqlContext.createDataFrame(dataDFRDD, schema)
+        for (feature <- features.split(",")) {
+          if (featureCalculatorFactory.containsCalculator(feature)) {
+            val calculator = featureCalculatorFactory.getCalculator(feature)
+            calculator.setBizDate(bizdate)
+            println(calculator)
+            dataDF = calculator.getFeatureDF(dataDF, sc, sqlContext).cache()
+            dataDF = calculator.compute(dataDF, sc, sqlContext).cache()
+          } else {
+            println(s"feature calculator ${feature} dose not exists")
+          }
+        }
 
-      sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
-      dataDF.registerTempTable(s"${featureTable}_temp")
-      sqlContext.sql(s"drop table if exists ${featureTable}")
-      sqlContext.sql(s"create table ${featureTable} as select * from ${featureTable}_temp")
-      dataDF.unpersist(blocking = false)
-    }
+        val columns = features + ",label"
+        dataDF = dataDF.select(columns.split(",").map(x => new Column(x)): _*)
+        dataDF.show()
 
-    if (stageSet.contains("train")) {
-      sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
-      val dataDF = sqlContext.sql(s"select ${features},label from ${featureTable}").cache()
-      val learner: LRLearnerV2 = new LRLearnerV2()
-      learner.run(sc, dataDF)
+        val dataDFRDD = dataDF.rdd.filter(x => x.anyNull == false).map(x => {
+          val list: List[Double] = columns.split(",").toList.map(name => x.getAs[String](name).toDouble)
+          Row(list: _*)
+        })
+        val schema = StructType(columns.split(",").map(x => StructField(x, DoubleType, true)))
+        dataDF = sqlContext.createDataFrame(dataDFRDD, schema)
+
+        sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
+        dataDF.registerTempTable(s"${featureTable}_temp")
+        sqlContext.sql(s"drop table if exists ${featureTable}")
+        sqlContext.sql(s"create table ${featureTable} as select * from ${featureTable}_temp")
+        dataDF.unpersist(blocking = false)
+      }
+
+      if (stageSet.contains("train")) {
+        sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
+        val dataDF = sqlContext.sql(s"select ${features},label from ${featureTable}").cache()
+        val learner: LRLearnerV2 = new LRLearnerV2()
+        learner.run(sc, dataDF)
+      }
     }
   }
+
+
 }
