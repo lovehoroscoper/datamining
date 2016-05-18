@@ -43,23 +43,23 @@ object OfflineTraining {
     val stageSet = stage.split(",").toSet
 
     if (stageSet.contains("build_sample")) {
-      val clickSampleDF = SampleV2Util.getClickSample(sqlContext, bizdate, appIds.split(","): _*)
-      clickSampleDF.show()
+      //      val clickSampleDF = SampleV2Util.getClickSample(sqlContext, bizdate, appIds.split(","): _*)
+      //      clickSampleDF.show()
       val orderSampleDF = SampleV2Util.getOrderSample(sqlContext, bizdate, appIds.split(","): _*)
       orderSampleDF.show
 
-      var allSampleDF = clickSampleDF
-      for (i <- 1 to 5) {
-        allSampleDF = allSampleDF.unionAll(orderSampleDF)
-      }
+      //      var allSampleDF = clickSampleDF
+      //      for (i <- 1 to 5) {
+      //        allSampleDF = allSampleDF.unionAll(orderSampleDF)
+      //      }
 
-      allSampleDF.registerTempTable(s"${sampleTable}_temp")
+      orderSampleDF.registerTempTable(s"${sampleTable}_temp")
       sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
       sqlContext.sql(s"drop table if exists ${sampleTable}")
       sqlContext.sql(s"create table ${sampleTable} as select * from ${sampleTable}_temp")
-      clickSampleDF.unpersist(blocking = false)
+      //      clickSampleDF.unpersist(blocking = false)
       orderSampleDF.unpersist(blocking = false)
-      allSampleDF.unpersist(blocking = false)
+      //      allSampleDF.unpersist(blocking = false)
     }
 
     if (stageSet.contains("adapt_features")) {
@@ -71,7 +71,7 @@ object OfflineTraining {
           val calculator = featureCalculatorFactory.getCalculator(feature)
           calculator.setBizDate(bizdate)
           println(calculator)
-          dataDF = calculator.getFeatureDF(dataDF, sc, sqlContext)
+          dataDF = calculator.getFeatureDF(dataDF, sc, sqlContext).cache()
           dataDF = calculator.compute(dataDF, sc, sqlContext).cache()
         } else {
           println(s"feature calculator ${feature} dose not exists")
