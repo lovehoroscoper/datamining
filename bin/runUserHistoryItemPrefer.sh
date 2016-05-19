@@ -54,3 +54,15 @@ curl "10.15.2.114:12000/Offline?featureName=userHistoryClickPrefer" &
 curl "10.17.36.57:12000/Offline?featureName=userHistoryClickPrefer" &
 curl "10.17.36.58:12000/Offline?featureName=userHistoryClickPrefer" &
 curl "10.11.8.53:12000/Offline?featureName=userHistoryClickPrefer" &
+
+CUR_DATE=`date  +%Y-%m-%d`
+DAY_SUB20=`date -d "${CUR_DATE} -20 day" +"%Y-%m-%d"`
+
+# remove record
+RECORD_SUB_PATH="${USER_HISTORY_ITEM_PREFER_HDFS_DIR}/${DAY_SUB20}"
+echo "record sub path: ${RECORD_SUB_PATH}"
+hdfs dfs -test -e ${RECORD_SUB_PATH}
+if [ $? -eq 0 ] ;then
+    echo "${RECORD_SUB_PATH} exists"
+    hdfs dfs -rm -r ${RECORD_SUB_PATH}
+fi
