@@ -56,7 +56,7 @@ object SegWords {
 
     val tfidf = doc.groupBy(x => x._2).map(x => {
       val tf = new util.HashMap[String, Int]()
-      var count = 0;
+      var count = 0
       x._2.map(x => x._3.split(",")).foreach(x => x.foreach(x => {
         if (!tf.containsKey(x)) {
           tf.put(x, 0)

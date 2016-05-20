@@ -105,6 +105,9 @@ echo "item sim path: ${ITEM_SIM_PATH}"
 ITEM_SIM_MERGE_RESULT="/user/digu/itemSimContentMerge"
 echo "item sim merge result: ${ITEM_SIM_MERGE_RESULT}"
 
+ITEM_SIM_MERGE_ORIGIN_RESULT="/user/digu/itemSimContentMergeOrigin"
+echo "item sim merge origin result: ${ITEM_SIM_MERGE_ORIGIN_RESULT}"
+
 ITEM_BIGRAPH_SIM_CONTENT_MERGE_PATH="${ITEM_SIM_MERGE_RESULT}/partA"
 echo "item bigraph sim content merge path: ${ITEM_BIGRAPH_SIM_CONTENT_MERGE_PATH}"
 hdfs dfs -test -e ${ITEM_BIGRAPH_SIM_CONTENT_MERGE_PATH}
@@ -167,6 +170,7 @@ ${SUBMIT}														\
 	"${T1}"					                                    \
 	"${T2}"					                                    \
 	"${T3}"					                                    \
+	"${ITEM_SIM_MERGE_ORIGIN_RESULT}"					        \
 
 # dump to rec sys
 #TODAY=`date  +%Y%m%d`
@@ -215,5 +219,12 @@ RESULT_DIR_SUB=${ITEM_SIM_MERGE_RESULT}/${DAY_SUB20}
 hdfs dfs -test -e ${RESULT_DIR_SUB}
 if [ $? -eq 0 ] ;then
     echo "${RESULT_DIR_SUB} exists"
-    hdfs dfs -rm -r ${RESULT_DIR_SUB}
+    hdfs dfs -rm -r ${RESULT_DIR_SUB} &
+fi
+
+RESULT_DIR_SUB=${ITEM_SIM_MERGE_ORIGIN_RESULT}/${DAY_SUB20}
+hdfs dfs -test -e ${RESULT_DIR_SUB}
+if [ $? -eq 0 ] ;then
+    echo "${RESULT_DIR_SUB} exists"
+    hdfs dfs -rm -r ${RESULT_DIR_SUB} &
 fi

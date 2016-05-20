@@ -68,6 +68,9 @@ object ItemSimContentMerge {
     val t3 = args(12).toDouble
     println(s"t3:${t3}")
 
+    val outputPathOrigin = args(13)
+    println(s"outputPathOrigin:${outputPathOrigin}")
+
     val itemSim = sc.textFile(itemSimPath).map(x => {
       val itemx = x.split(" ")(0).toInt
       val list = x.split(" ")(1).split(",").map(x => (itemx, x.split(":")(0).toInt, x.split(":")(1).toDouble))
@@ -132,5 +135,7 @@ object ItemSimContentMerge {
         (x._1, x._2, score)
       }).take(N).map(x => x._2 + ":" + Math.round(x._3 * const)).mkString(",")
     }).saveAsTextFile(outputPath + "/" + sdf.format(calendar.getTime))
+
+    itemSimWithContent.map(x => x._1 + " " + x._2 + " " + x._3).saveAsTextFile(outputPathOrigin + "/" + sdf.format(calendar.getTime))
   }
 }
