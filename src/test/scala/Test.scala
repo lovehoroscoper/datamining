@@ -1,12 +1,14 @@
 
+import com.mgj.ml.maxentropy.{MESample, MaxEntropy}
+import org.apache.spark.mllib.linalg.Vectors
 import org.apache.spark.sql.{Row, SQLContext}
 import org.scalatest.{Matchers, FlatSpec}
 
 /**
   * Created by xiaonuo on 15/8/10.
   */
-//class Test extends FlatSpec with Matchers with LocalSparkContext {
-class Test extends FlatSpec with Matchers {
+class Test extends FlatSpec with Matchers with LocalSparkContext {
+  //class Test extends FlatSpec with Matchers {
   "main" should "test" in {
     //    val test = new Practice()
     //    test.main(Array())
