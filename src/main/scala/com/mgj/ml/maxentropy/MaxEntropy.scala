@@ -11,9 +11,9 @@ import org.apache.spark.mllib.stat.Statistics
   * Created by xiaonuo on 5/21/16.
   */
 class MaxEntropy(MESampleRDDInput: RDD[MESample]) extends Serializable {
-  private var ITERATIONS: Int = 30
+  private var ITERATIONS: Int = 10
   private var EPSILON: Double = 1e-3d
-  private var ETA: Double = 1e-6d
+  private var ETA: Double = 1e-8d
   private var ERROR: Double = 1e-3d
   private var sampleSize: Long = 0
   private var minLabel: Int = 0

@@ -20,7 +20,7 @@ object Main {
     // Hive context.
     val sqlContext: HiveContext = new HiveContext(sc)
 
-    val sampleTrain = sc.textFile("src/test/resources/zoo.train").map(x => {
+    val sampleTrain = sc.textFile("src/test/resources/train").map(x => {
       val labelStr = x.split(" ", 2)(0)
       val featureStr = x.split(" ", 2)(1)
       val label = labelStr.substring(labelStr.length - 1).toInt
@@ -30,7 +30,7 @@ object Main {
 
     val maxEntropy = new MaxEntropy(sampleTrain)
     maxEntropy.train()
-    val sampleTest = sc.textFile("src/test/resources/zoo.test").map(x => {
+    val sampleTest = sc.textFile("src/test/resources/test").map(x => {
       val labelStr = x.split(" ", 2)(0)
       val featureStr = x.split(" ", 2)(1)
       val label = labelStr.substring(labelStr.length - 1).toInt
