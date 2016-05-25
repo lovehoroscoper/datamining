@@ -80,41 +80,42 @@ object SampleV2Util {
 
     // user_id, item_id, time, pos, label.
     // skip above.
+//    val sampleFinal = clickSampleRDD
+//      .groupBy(x => x._1).filter(x => x._2.size < 1000)
+//      .map(x => {
+//        // sort with visit time.
+//        val sampleList = x._2.toList.sortWith((a, b) => a._3.toLong > b._3.toLong)
+//
+//        // time stamp id.
+//        var timeId = 0
+//
+//        // last visit time.
+//        var lastTime = sampleList.head._3.toLong
+//
+//        // make time stamp id.
+//        val sampleWithTimeId = new util.ArrayList[((String, String, String, String, String), Int)]()
+//        for (e <- sampleList) {
+//          val currentTime = e._3.toLong
+//          if (Math.abs(currentTime - lastTime) / 60 > 30) {
+//            timeId += 1
+//          }
+//          lastTime = currentTime
+//          sampleWithTimeId.add((e, timeId))
+//        }
+//
+//        // skip above.
+//        val sampleFilter = sampleWithTimeId.groupBy(x => x._2).map(x => {
+//          val list = x._2.toList.map(x => x._1)
+//          if (list.filter(x => x._5.equals("1")).size > 0) {
+//            val maxClickPos = list.filter(x => x._5.equals("1")).map(x => x._4.toInt).max
+//            (list.filter(x => x._4.toInt <= maxClickPos), 1)
+//          } else {
+//            (list, 0)
+//          }
+//        }).filter(x => x._2 != 0).map(x => x._1).flatMap(x => x)
+//        sampleFilter
+//      }).flatMap(x => x)
     val sampleFinal = clickSampleRDD
-      .groupBy(x => x._1).filter(x => x._2.size < 1000)
-      .map(x => {
-        // sort with visit time.
-        val sampleList = x._2.toList.sortWith((a, b) => a._3.toLong > b._3.toLong)
-
-        // time stamp id.
-        var timeId = 0
-
-        // last visit time.
-        var lastTime = sampleList.head._3.toLong
-
-        // make time stamp id.
-        val sampleWithTimeId = new util.ArrayList[((String, String, String, String, String), Int)]()
-        for (e <- sampleList) {
-          val currentTime = e._3.toLong
-          if (Math.abs(currentTime - lastTime) / 60 > 30) {
-            timeId += 1
-          }
-          lastTime = currentTime
-          sampleWithTimeId.add((e, timeId))
-        }
-
-        // skip above.
-        val sampleFilter = sampleWithTimeId.groupBy(x => x._2).map(x => {
-          val list = x._2.toList.map(x => x._1)
-          if (list.filter(x => x._5.equals("1")).size > 0) {
-            val maxClickPos = list.filter(x => x._5.equals("1")).map(x => x._4.toInt).max
-            (list.filter(x => x._4.toInt <= maxClickPos), 1)
-          } else {
-            (list, 0)
-          }
-        }).filter(x => x._2 != 0).map(x => x._1).flatMap(x => x)
-        sampleFilter
-      }).flatMap(x => x)
 
     val schema =
       StructType(
