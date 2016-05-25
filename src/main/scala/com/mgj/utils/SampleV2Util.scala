@@ -123,7 +123,7 @@ object SampleV2Util {
           StructField("label", StringType, true) :: Nil)
 
     val sdf: SimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-    val sampleFinalDF = sqlContext.createDataFrame(sampleFinal.map(x => Row(x._1, x._2, sdf.format(x._3.toLong * 1000), Math.log(1 + x._4.toDouble).toString, x._5)), schema)
+    val sampleFinalDF = sqlContext.createDataFrame(sampleFinal.map(x => Row(x._1, x._2, sdf.format(x._3.toLong * 1000), Math.log(1 + x._4.toDouble).toString, x._5)), schema).cache()
     return this.takeSample(sampleFinalDF)
   }
 
