@@ -49,7 +49,7 @@ ${SUBMIT}														\
 	--queue root.algorithm										\
 	--driver-memory	8g											\
 	--num-executors	16											\
-	--executor-cores 4											\
+	--executor-cores 2											\
 	--executor-memory 7373m										\
 	--class com.mgj.ml.rank.OfflineTraining 		    		\
 	"${JAR_PATH}"												\
