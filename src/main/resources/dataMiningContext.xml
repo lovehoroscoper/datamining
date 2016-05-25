@@ -25,7 +25,8 @@
         <property name="itemFieldPath" value=""/>
     </bean>
 
-    <bean id="userCategoryPreferOrderFeatureCalculator" class="com.mgj.feature.impl.UserCategoryPreferFeatureCalculator">
+    <bean id="userCategoryPreferOrderFeatureCalculator"
+          class="com.mgj.feature.impl.UserCategoryPreferFeatureCalculator">
         <property name="featureName" value="user_category_prefer_order"/>
         <property name="userField" value="userCategoryPreferOrder"/>
         <property name="itemField" value="category_id"/>
@@ -61,9 +62,15 @@
         <property name="featureName" value="item_ctr"/>
         <property name="userField" value=""/>
         <property name="itemField" value="itemCtr"/>
-        <!--<property name="itemFieldPath" value="/user/digu/LTR_FEATURE/old_ctr_score_sub"/>-->
-        <!--<property name="itemFieldPath" value="/user/fst/algo/ltr/search_score_data/20160412"/>-->
         <property name="itemFieldPath" value="/user/bizdata/ctrRecord"/>
+        <property name="userFieldPath" value=""/>
+    </bean>
+
+    <bean id="itemSearchCtrFeatureCalculator" class="com.mgj.feature.impl.ItemFeatureCalculator">
+        <property name="featureName" value="item_search_ctr"/>
+        <property name="userField" value=""/>
+        <property name="itemField" value="itemSearchCtr"/>
+        <property name="itemFieldPath" value="/user/bizdata/searchCtrRecord"/>
         <property name="userFieldPath" value=""/>
     </bean>
 
@@ -110,6 +117,7 @@
                 <entry key="user_shop_prefer_order" value-ref="userShopPreferFeatureOrderCalculator"></entry>
                 <entry key="user_real_item_prefer" value-ref="userRealItemPreferFeatureCalculator"></entry>
                 <entry key="item_ctr" value-ref="itemCtrFeatureCalculator"></entry>
+                <entry key="item_search_ctr" value-ref="itemSearchCtrFeatureCalculator"></entry>
                 <entry key="user_item_prefer" value-ref="userItemPreferFeatureCalculator"></entry>
                 <entry key="mf" value-ref="mfFeatureCalculator"></entry>
             </map>
