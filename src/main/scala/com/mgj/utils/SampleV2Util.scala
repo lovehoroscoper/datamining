@@ -60,6 +60,7 @@ object SampleV2Util {
     val sdf: SimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
     println(s"sample total count:${orderSampleRDD.count()}")
     val sampleFinalDF = sqlContext.createDataFrame(orderSampleRDD.map(x => Row(x._1, x._2, sdf.format(x._3.toLong * 1000), Math.log(1 + x._4.toDouble).toString, x._5)), schema).repartition(600)
+    sampleFinalDF.count()
     return this.takeSample(sampleFinalDF)
   }
 
@@ -126,6 +127,7 @@ object SampleV2Util {
     val sdf: SimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
     println(s"sample total count:${sampleFinal.count()}")
     val sampleFinalDF = sqlContext.createDataFrame(sampleFinal.map(x => Row(x._1, x._2, sdf.format(x._3.toLong * 1000), Math.log(1 + x._4.toDouble).toString, x._5)), schema).repartition(600)
+    sampleFinalDF.count()
     return this.takeSample(sampleFinalDF)
   }
 
