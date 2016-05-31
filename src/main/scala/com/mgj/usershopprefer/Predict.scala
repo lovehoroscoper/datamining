@@ -169,8 +169,6 @@ object Predict {
     val result = learner.predict(model, featureDF, "user_id", "shop_id", "reason")
     val resultOrder = learner.predict(modelOrder, featureDF, "user_id", "shop_id", "reason")
 
-    result.take(10).foreach(println)
-    resultOrder.take(10).foreach(println)
     //    def sort(x: Iterable[(String, String, Double)], N: Int): String = {
     //      val list = x.toList.sortWith((a, b) => a._3.compareTo(b._3) > 0).take(N).map(x => x._2 + ":" + Math.round(x._3 * 100000)).mkString(",")
     //      return list
