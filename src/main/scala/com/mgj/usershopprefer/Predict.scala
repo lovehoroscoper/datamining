@@ -1,6 +1,7 @@
 package com.mgj.usershopprefer
 
 import java.text.SimpleDateFormat
+import java.util
 import java.util.HashMap
 
 import com.mgj.utils.LRLearner
@@ -11,6 +12,7 @@ import org.apache.spark.sql.types.{StringType, StructField, StructType}
 import org.apache.spark.sql.{Row, DataFrame}
 import org.apache.spark.sql.hive.HiveContext
 import org.apache.spark.{SparkContext, SparkConf}
+import scala.collection.JavaConversions._
 
 /**
   * Created by xiaonuo on 11/28/15.
@@ -35,12 +37,12 @@ object Predict {
     val model = sc.objectFile[LogisticRegressionModel]("/user/digu/userShopPreferModel").first()
     println("model")
     println(model)
-    println(model.weights)
+    println(model.coefficients)
 
     val modelOrder = sc.objectFile[LogisticRegressionModel]("/user/digu/userShopPreferOrderModel").first()
     println("model order")
     println(modelOrder)
-    println(modelOrder.weights)
+    println(modelOrder.coefficients)
 
     sqlContext.udf.register("to_vector", (vector: String) => (Vectors.parse(vector)))
     sqlContext.udf.register("to_double", (label: String) => (label.toDouble))
@@ -136,17 +138,51 @@ object Predict {
     val predictDF: DataFrame = sqlContext.createDataFrame(allFeature, schema)
     predictDF.registerTempTable("s_dg_user_shop_prefer_feature_spark")
 
-    val featureDF = sqlContext.sql("select to_vector(feature) as feature, user_id, shop_id from s_dg_user_shop_prefer_feature_spark")
-    val learner = new LRLearner()
-    val result = learner.predict(model, featureDF, "user_id", "shop_id")
-    val resultOrder = learner.predict(modelOrder, featureDF, "user_id", "shop_id")
+    sqlContext.udf.register("get_reason", (vector: String) => {
+      def getReasonScore(feature: Array[Double], weight: Array[Double], start: Int, end: Int): Double = {
+        var sum = 0d
+        for (i <- start to end) {
+          sum += feature.apply(i) * weight.apply(i)
+        }
+        return sum
+      }
+      val featureVector = Vectors.parse(vector).toArray
+      val weightClick = model.coefficients.toArray
 
-    def sort(x: Iterable[(String, String, Double)], N: Int): String = {
-      val list = x.toList.sortWith((a, b) => a._3.compareTo(b._3) > 0).take(N).map(x => x._2 + ":" + Math.round(x._3 * 100000)).mkString(",")
+      val reasonScoreList: util.ArrayList[Double] = new util.ArrayList[Double]()
+      // click.
+      for (i <- 0 to 3) {
+        reasonScoreList.add(getReasonScore(featureVector, weightClick, i * 30, (i + 1) * 30 - 1))
+      }
+      // order.
+      // val weightOrder = modelOrder.coefficients.toArray
+      // for (i <- 0 to 3) {
+      //   reasonScoreList.add(getReasonScore(featureVector, weightOrder, i * 30, (i + 1) * 30 - 1))
+      // }
+      val max = reasonScoreList.max
+      val index = reasonScoreList.indexOf(max)
+      return index.toString
+    })
+
+    val featureDF = sqlContext.sql("select to_vector(feature) as feature, user_id, shop_id, get_reason(feature) as reason from s_dg_user_shop_prefer_feature_spark")
+    val learner = new LRLearner()
+    val result = learner.predict(model, featureDF, "user_id", "shop_id", "reason")
+    val resultOrder = learner.predict(modelOrder, featureDF, "user_id", "shop_id", "reason")
+
+    //    def sort(x: Iterable[(String, String, Double)], N: Int): String = {
+    //      val list = x.toList.sortWith((a, b) => a._3.compareTo(b._3) > 0).take(N).map(x => x._2 + ":" + Math.round(x._3 * 100000)).mkString(",")
+    //      return list
+    //    }
+
+    //    result.map(x => (x(0), x(1), x(2).toDouble)).groupBy(_._1).filter(x => x._2.size > 0 && x._1.toLong > 0).map(x => x._1 + " " + sort(x._2, 50)).saveAsTextFile(userShopPerferPath)
+    //    resultOrder.map(x => (x(0), x(1), x(2).toDouble)).groupBy(_._1).filter(x => x._2.size > 0 && x._1.toLong > 0).map(x => x._1 + " " + sort(x._2, 50)).saveAsTextFile(userShopPerferOrderPath)
+
+    def sort(x: Iterable[(String, String, String, Double)], N: Int): String = {
+      val list = x.toList.sortWith((a, b) => a._4.compareTo(b._4) > 0).take(N).map(x => x._2 + ":" + Math.round(x._4 * 100000) + ":" + x._3).mkString(",")
       return list
     }
 
-    result.map(x => (x(0), x(1), x(2).toDouble)).groupBy(_._1).filter(x => x._2.size > 0 && x._1.toLong > 0).map(x => x._1 + " " + sort(x._2, 50)).saveAsTextFile(userShopPerferPath)
-    resultOrder.map(x => (x(0), x(1), x(2).toDouble)).groupBy(_._1).filter(x => x._2.size > 0 && x._1.toLong > 0).map(x => x._1 + " " + sort(x._2, 50)).saveAsTextFile(userShopPerferOrderPath)
+    result.map(x => (x(0), x(1), x(2), x(3).toDouble)).groupBy(_._1).filter(x => x._2.size > 0 && x._1.toLong > 0).map(x => x._1 + " " + sort(x._2, 50)).saveAsTextFile(userShopPerferPath)
+    resultOrder.map(x => (x(0), x(1), x(2), x(3).toDouble)).groupBy(_._1).filter(x => x._2.size > 0 && x._1.toLong > 0).map(x => x._1 + " " + sort(x._2, 50)).saveAsTextFile(userShopPerferOrderPath)
   }
 }
