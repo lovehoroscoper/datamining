@@ -15,6 +15,12 @@
 
     <context:component-scan base-package="com.mgj.ml"/>
 
+    <!--feature client config-->
+    <context:component-scan base-package="com.mogujie.algo"/>
+    <import resource="classpath*:featureClientApplicationContext.xml"/>
+    <context:property-placeholder location="classpath*:classpath*:algo_*.properties"
+                                  ignore-unresolvable="true"/>
+
     <!--feature calculator config-->
     <bean id="userCategoryPreferFeatureCalculator" class="com.mgj.feature.impl.UserCategoryPreferFeatureCalculator">
         <property name="featureName" value="user_category_prefer"/>
