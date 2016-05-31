@@ -14,6 +14,14 @@ import scala.collection.JavaConversions._
   * Created by xiaonuo on 4/12/16.
   */
 object SampleV2Util {
+
+  def getExpId(sqlContext: HiveContext, code: String*): Seq[String] = {
+    val sql = SqlUtil.getResourceSql("/sql/get_appids.sql", code: _*)
+    val appIdsDF = sqlContext.sql(sql)
+    val appIds = appIdsDF.map(x => x(0).toString).collect()
+    return appIds
+  }
+
   def takeSample(sample: DataFrame): DataFrame = {
     val ratioCount = sample.select("label").rdd.map(x => (x(0).toString.toDouble, 1d)).reduce((x, y) => (x._1 + y._1, x._2 + y._2))
     val ratio = ratioCount._1 / ratioCount._2
@@ -27,11 +35,6 @@ object SampleV2Util {
     val sampleFinal = posSample.unionAll(negSample)
     return sampleFinal
   }
-
-  //  def getClickSample(sqlContext: HiveContext, appIds: String*): DataFrame = {
-  //    val bizdate = SqlUtil.getDate(-1)
-  //    return getClickSample(sqlContext, bizdate, appIds: _*)
-  //  }
 
   def getOrderSample(sqlContext: HiveContext, bizdate: String, appIds: String*): DataFrame = {
     def getTimeDiff(visitTimex: String, visitTimey: String): Double = {
@@ -80,42 +83,42 @@ object SampleV2Util {
 
     // user_id, item_id, time, pos, label.
     // skip above.
-//    val sampleFinal = clickSampleRDD
-//      .groupBy(x => x._1).filter(x => x._2.size < 1000)
-//      .map(x => {
-//        // sort with visit time.
-//        val sampleList = x._2.toList.sortWith((a, b) => a._3.toLong > b._3.toLong)
-//
-//        // time stamp id.
-//        var timeId = 0
-//
-//        // last visit time.
-//        var lastTime = sampleList.head._3.toLong
-//
-//        // make time stamp id.
-//        val sampleWithTimeId = new util.ArrayList[((String, String, String, String, String), Int)]()
-//        for (e <- sampleList) {
-//          val currentTime = e._3.toLong
-//          if (Math.abs(currentTime - lastTime) / 60 > 30) {
-//            timeId += 1
-//          }
-//          lastTime = currentTime
-//          sampleWithTimeId.add((e, timeId))
-//        }
-//
-//        // skip above.
-//        val sampleFilter = sampleWithTimeId.groupBy(x => x._2).map(x => {
-//          val list = x._2.toList.map(x => x._1)
-//          if (list.filter(x => x._5.equals("1")).size > 0) {
-//            val maxClickPos = list.filter(x => x._5.equals("1")).map(x => x._4.toInt).max
-//            (list.filter(x => x._4.toInt <= maxClickPos), 1)
-//          } else {
-//            (list, 0)
-//          }
-//        }).filter(x => x._2 != 0).map(x => x._1).flatMap(x => x)
-//        sampleFilter
-//      }).flatMap(x => x)
     val sampleFinal = clickSampleRDD
+      .groupBy(x => x._1).filter(x => x._2.size < 1000)
+      .map(x => {
+        // sort with visit time.
+        val sampleList = x._2.toList.sortWith((a, b) => a._3.toLong > b._3.toLong)
+
+        // time stamp id.
+        var timeId = 0
+
+        // last visit time.
+        var lastTime = sampleList.head._3.toLong
+
+        // make time stamp id.
+        val sampleWithTimeId = new util.ArrayList[((String, String, String, String, String), Int)]()
+        for (e <- sampleList) {
+          val currentTime = e._3.toLong
+          if (Math.abs(currentTime - lastTime) / 60 > 30) {
+            timeId += 1
+          }
+          lastTime = currentTime
+          sampleWithTimeId.add((e, timeId))
+        }
+
+        // skip above.
+        val sampleFilter = sampleWithTimeId.groupBy(x => x._2).map(x => {
+          val list = x._2.toList.map(x => x._1)
+          if (list.filter(x => x._5.equals("1")).size > 0) {
+            val maxClickPos = list.filter(x => x._5.equals("1")).map(x => x._4.toInt).max
+            (list.filter(x => x._4.toInt <= maxClickPos), 1)
+          } else {
+            (list, 0)
+          }
+        }).filter(x => x._2 != 0).map(x => x._1).flatMap(x => x)
+        sampleFilter
+      }).flatMap(x => x)
+    //    val sampleFinal = clickSampleRDD
 
     val schema =
       StructType(
@@ -132,35 +135,24 @@ object SampleV2Util {
     return this.takeSample(sampleFinalDF)
   }
 
-  //  def getOrderSampleLog(sqlContext: HiveContext, appIds: String*): DataFrame = {
-  //    val bizdate = SqlUtil.getDate(-1)
-  //    return getOrderSampleLog(sqlContext, bizdate, appIds: _*)
-  //  }
-
-  def getOrderSampleLog(sqlContext: HiveContext, bizdate: String, appIds: String*): DataFrame = {
-    val orderSample = getSampleLog(sqlContext, "/sql/get_order_sample.sql", "app_id", bizdate, appIds: _*)
+  def getOrderSampleLog(sqlContext: HiveContext, bizdate: String, code: String*): DataFrame = {
+    val expIds = getExpId(sqlContext, code: _*)
+    println(s"expIds:${expIds}")
+    val orderSample = getSampleLog(sqlContext, "/sql/get_order_sample.sql", "app_id", bizdate, expIds: _*)
     return orderSample
   }
 
-  //  def getClickSampleLog(sqlContext: HiveContext, appIds: String*): DataFrame = {
-  //    val bizdate = SqlUtil.getDate(-1)
-  //    return getClickSampleLog(sqlContext, bizdate, appIds: _*)
-  //  }
-
-  def getClickSampleLog(sqlContext: HiveContext, bizdate: String, appIds: String*): DataFrame = {
-    val clickSample = getSampleLog(sqlContext, "/sql/get_click_sample.sql", "app_id", bizdate, appIds: _*)
+  def getClickSampleLog(sqlContext: HiveContext, bizdate: String, code: String*): DataFrame = {
+    val expIds = getExpId(sqlContext, code: _*)
+    println(s"expIds:${expIds}")
+    val clickSample = getSampleLog(sqlContext, "/sql/get_click_sample.sql", "app_id", bizdate, expIds: _*)
     return clickSample
   }
-
-  //  def getSampleLog(sqlContext: HiveContext, path: String, appIdSchema: String, appIds: String*): DataFrame = {
-  //    val bizdate = SqlUtil.getDate(-1)
-  //    return getSampleLog(sqlContext, path, appIdSchema, bizdate, appIds: _*)
-  //  }
 
   def getSampleLog(sqlContext: HiveContext, path: String, appIdSchema: String, bizdate: String, appIds: String*): DataFrame = {
     val appIdSet = appIds.toSet
     val isContain = udf { (appId: String) => if (appIdSet.contains(appId)) true else false }
-    val sql = SqlUtil.getSql(path, bizdate)
+    val sql = SqlUtil.getSampleSql(path, bizdate)
     val sampleLog = sqlContext.sql(sql)
     val sampleLogFilter = sampleLog.filter(isContain(sampleLog(appIdSchema)))
     return sampleLogFilter

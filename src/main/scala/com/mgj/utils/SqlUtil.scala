@@ -12,8 +12,23 @@ import org.apache.commons.lang3.Validate
   */
 object SqlUtil {
   val DATE_CONST = "BIZDATE"
+  val RESOURCE_CONST = "RESOURCE"
 
-  def getSql(sqlFilePath: String): String = {
+  def getResourceSql(sqlFilePath: String, resourceCodes: String*): String = {
+    var inputStream: InputStream = SqlUtil.getClass.getResourceAsStream(sqlFilePath)
+    if (inputStream == null) {
+      inputStream = ClassLoader.getSystemClassLoader.getResourceAsStream(sqlFilePath)
+    }
+
+    val sqlTemplate: String = IOUtils.toString(inputStream, "UTF-8")
+
+    val code = resourceCodes.map(x => "'" + x + "'").mkString(",")
+    val sql: String = sqlTemplate.replace(RESOURCE_CONST, code)
+
+    return sql
+  }
+
+  def getSampleSql(sqlFilePath: String): String = {
     var inputStream: InputStream = SqlUtil.getClass.getResourceAsStream(sqlFilePath)
     if (inputStream == null) {
       inputStream = ClassLoader.getSystemClassLoader.getResourceAsStream(sqlFilePath)
@@ -26,7 +41,7 @@ object SqlUtil {
     return sql
   }
 
-  def getSql(sqlFilePath: String, bizdate: String): String = {
+  def getSampleSql(sqlFilePath: String, bizdate: String): String = {
     var inputStream: InputStream = SqlUtil.getClass.getResourceAsStream(sqlFilePath)
     if (inputStream == null) {
       inputStream = ClassLoader.getSystemClassLoader.getResourceAsStream(sqlFilePath)
