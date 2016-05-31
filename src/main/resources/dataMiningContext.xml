@@ -15,6 +15,8 @@
 
     <context:component-scan base-package="com.mgj.ml"/>
 
+    <context:component-scan base-package="com.mogujie.algo"/>
+
     <!--<context:component-scan base-package="com.mgj.common"/>-->
 
     <bean id="userCategoryPreferFeatureCalculator" class="com.mgj.feature.impl.UserCategoryPreferFeatureCalculator">
