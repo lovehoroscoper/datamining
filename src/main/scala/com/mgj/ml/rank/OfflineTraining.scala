@@ -27,7 +27,7 @@ object OfflineTraining {
     // Hive context.
     val sqlContext: HiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
 
-    val appIds = args(0)
+    val code = args(0)
     val sampleTable = args(1)
     val featureTable = args(2)
     val bizdate = args(3)
@@ -35,7 +35,7 @@ object OfflineTraining {
     val stage = args(5)
     val N = args(6).toInt
 
-    println(s"appIds:${appIds}")
+    println(s"code:${code}")
     println(s"sampleTable:${sampleTable}")
     println(s"bizdate:${bizdate}")
     println(s"features:${features}")
@@ -51,9 +51,9 @@ object OfflineTraining {
 
     def execute(): Unit = {
       if (stageSet.contains("build_sample")) {
-        val clickSampleDF = SampleV2Util.getClickSample(sqlContext, bizdate, appIds.split(","): _*)
+        val clickSampleDF = SampleV2Util.getClickSample(sqlContext, bizdate, code.split(","): _*)
         clickSampleDF.show()
-        val orderSampleDF = SampleV2Util.getOrderSample(sqlContext, bizdate, appIds.split(","): _*)
+        val orderSampleDF = SampleV2Util.getOrderSample(sqlContext, bizdate, code.split(","): _*)
         orderSampleDF.show
         var allSampleDF = clickSampleDF
         for (i <- 1 to N) {
@@ -111,6 +111,4 @@ object OfflineTraining {
       }
     }
   }
-
-
 }

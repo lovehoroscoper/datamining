@@ -17,10 +17,8 @@ YESTERDAY=`date -d "${CUR_DATE} -1 day" +"%Y-%m-%d %H:%M:%S"`
 BIZDATE=${DAY_SUB1}
 echo "bizdate: ${BIZDATE}"
 
-# SEARCH: 1296,1297,1298,1299,1587,2585
-# APP_TUAN: 1389,1661,1662
-APP_IDS="1296,1297,1298,1299,1587,2585"
-echo "app_ids:${APP_IDS}"
+CODE="app_tuan_book_pop"
+echo "code:${CODE}"
 
 # user_category_prefer,user_category_prefer_order,user_item_prefer,user_real_item_prefer,item_ctr,user_shop_prefer,user_shop_prefer_order,user_gene_prefer,user_gene_prefer_order,pos
 #FEATURES="user_category_prefer,user_category_prefer_order,user_item_prefer,user_real_item_prefer,item_ctr,user_shop_prefer,user_shop_prefer_order,user_gene_prefer,user_gene_prefer_order,pos"
@@ -54,7 +52,7 @@ ${SUBMIT}														\
 	--executor-memory 7373m										\
 	--class com.mgj.ml.rank.OfflineTraining 		    		\
 	"${JAR_PATH}"												\
-	"${APP_IDS}"									    		\
+	"${CODE}"									        		\
 	"${SAMPLE_TABLE}"									    	\
 	"${FEATURE_TABLE}"									    	\
 	"${BIZDATE}"									    		\
