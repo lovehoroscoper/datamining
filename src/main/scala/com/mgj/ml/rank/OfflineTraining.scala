@@ -14,6 +14,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext
   */
 object OfflineTraining {
   val context: ApplicationContext = new ClassPathXmlApplicationContext("dataMiningContext.xml")
+  val featureClientContext: ApplicationContext = new ClassPathXmlApplicationContext("featureClientContext.xml")
   val featureCalculatorFactory: FeatureCalculatorFactory = context.getBean(classOf[FeatureCalculatorFactory])
 
   def main(args: Array[String]): Unit = {
