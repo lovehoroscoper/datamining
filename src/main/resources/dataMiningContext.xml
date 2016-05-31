@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <!--<context:component-scan base-package="com.mogujie.algo"/>-->
     <!--<context:component-scan base-package="com.mgj.common"/>-->
@@ -12,14 +14,6 @@
     <context:component-scan base-package="com.mgj.utils"/>
 
     <context:component-scan base-package="com.mgj.ml"/>
-
-    <!--feature client config-->
-    <context:component-scan base-package="com.mogujie.algo"/>
-    <import resource="classpath*:featureClientApplicationContext.xml"/>
-    <context:property-placeholder
-            location="classpath*:config.properties,
-                classpath*:algo_*.properties"
-            ignore-unresolvable="true"/>
 
     <!--feature calculator config-->
     <bean id="userCategoryPreferFeatureCalculator" class="com.mgj.feature.impl.UserCategoryPreferFeatureCalculator">
