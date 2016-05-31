@@ -161,7 +161,7 @@ object Predict {
       // }
       val max = reasonScoreList.max
       val index = reasonScoreList.indexOf(max)
-      return index.toString
+      index.toString
     })
 
     val featureDF = sqlContext.sql("select to_vector(feature) as feature, user_id, shop_id, get_reason(feature) as reason from s_dg_user_shop_prefer_feature_spark")

@@ -52,12 +52,12 @@ object Predict {
     val model = sc.objectFile[LogisticRegressionModel](userGenePreferModel).first()
     println("model")
     println(model)
-    println(model.weights)
+    println(model.coefficients)
 
     val modelOrder = sc.objectFile[LogisticRegressionModel](userGenePreferOrderModel).first()
     println("model order")
     println(modelOrder)
-    println(modelOrder.weights)
+    println(modelOrder.coefficients)
 
     sqlContext.udf.register("to_vector", (vector: String) => (Vectors.parse(vector)))
     sqlContext.udf.register("to_double", (label: String) => (label.toDouble))
