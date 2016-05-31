@@ -84,7 +84,7 @@ object SampleV2Util {
     // user_id, item_id, time, pos, label.
     // skip above.
     val sampleFinal = clickSampleRDD
-      .groupBy(x => x._1).filter(x => x._2.size < 1000)
+      .groupBy(x => x._1)
       .map(x => {
         // sort with visit time.
         val sampleList = x._2.toList.sortWith((a, b) => a._3.toLong > b._3.toLong)
