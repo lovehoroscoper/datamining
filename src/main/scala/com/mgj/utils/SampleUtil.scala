@@ -181,7 +181,7 @@ object SampleUtil {
     sqlContext.udf.register("get_request_id", (text: String) => this.getRequestId(text))
     val appIdSet = appIds.toSet
     val isContain = udf { (appId: String) => if (appIdSet.contains(appId)) true else false }
-    val sql = SqlUtil.getSql(path)
+    val sql = SqlUtil.getSampleSql(path)
     val log = sqlContext.sql(sql)
     val logFilter = log.filter(isContain(log(appId)))
     return logFilter
