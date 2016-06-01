@@ -7,16 +7,14 @@
                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
                            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-    <context:component-scan base-package="com.mogujie.algo"/>
-
+    <!--<context:component-scan base-package="com.mogujie.algo"/>-->
+    <!--<context:component-scan base-package="com.mgj.common"/>-->
     <!--<context:property-placeholder location="classpath*:algo_*.properties" ignore-unresolvable="true"/>-->
-    <context:annotation-config/>
+    <!--<context:annotation-config/>-->
 
     <context:component-scan base-package="com.mgj.utils"/>
 
     <context:component-scan base-package="com.mgj.ml"/>
-
-    <!--<context:component-scan base-package="com.mgj.common"/>-->
 
     <bean id="userCategoryPreferFeatureCalculator" class="com.mgj.feature.impl.UserCategoryPreferFeatureCalculator">
         <property name="featureName" value="user_category_prefer"/>
