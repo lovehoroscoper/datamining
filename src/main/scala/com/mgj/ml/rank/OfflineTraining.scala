@@ -112,9 +112,13 @@ object OfflineTraining {
         val learner: LRLearnerV2 = new LRLearnerV2()
         val model = learner.run(sc, dataDF)
 
-        //        val featureNameMap = Map()
-        //        val featureColumns = dataDF.columns.filter(!_.equals("label"))
-        //        val featureWeights = featureColumns.zip(model.coefficients.toArray.toList).toMap
+        val featureColumns = dataDF.columns.filter(!_.equals("label")).map(x => FeatureNameMapper.getName(x))
+        val featureWeights = featureColumns.zip(model.coefficients.toArray.toList).toMap
+
+        for (e <- featureWeights) {
+          modelClient.setWeight("DIGU_MODEL", e._1, e._2)
+        }
+        modelClient.synModel("DIGU_MODEL")
       }
     }
   }
