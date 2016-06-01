@@ -90,11 +90,35 @@
             <exclusions>
                 <exclusion>
                     <groupId>com.mogujie.algo</groupId>
+                    <artifactId>mybatis-spring</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.mogujie.mst</groupId>
+                    <artifactId>mogucache-client</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.mogujie.algo</groupId>
                     <artifactId>deliver-engine-rerank</artifactId>
                 </exclusion>
                 <exclusion>
                     <groupId>com.mogujie.tesla</groupId>
                     <artifactId>spring-context</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-context-support</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-context-support</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-jdbc</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-test</artifactId>
                 </exclusion>
                 <exclusion>
                     <groupId>org.springframework</groupId>
