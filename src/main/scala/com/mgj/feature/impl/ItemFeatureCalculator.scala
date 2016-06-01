@@ -81,5 +81,5 @@ class ItemFeatureCalculator extends FeatureCalculator {
   override var bizDate: String = _
   override var maxValue: String = _
 
-  override def toString = s"ItemFeatureCalculator($const, $featureName, $userField, $itemField, $userFieldPath, $itemFieldPath, $bizDate, $maxValue)"
+  override def toString = s"ItemFeatureCalculator($featureName, $userField, $itemField, $userFieldPath, $itemFieldPath, $bizDate, $maxValue)"
 }
