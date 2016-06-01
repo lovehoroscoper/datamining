@@ -61,6 +61,38 @@
         <!--<version>1.1-SNAPSHOT</version>-->
         <!--<exclusions>-->
         <!--<exclusion>-->
+        <!--<groupId>com.mogujie.algo</groupId>-->
+        <!--<artifactId>mybatis-spring</artifactId>-->
+        <!--</exclusion>-->
+        <!--<exclusion>-->
+        <!--<groupId>com.mogujie.mst</groupId>-->
+        <!--<artifactId>mogucache-client</artifactId>-->
+        <!--</exclusion>-->
+        <!--<exclusion>-->
+        <!--<groupId>com.mogujie.algo</groupId>-->
+        <!--<artifactId>deliver-engine-rerank</artifactId>-->
+        <!--</exclusion>-->
+        <!--<exclusion>-->
+        <!--<groupId>com.mogujie.tesla</groupId>-->
+        <!--<artifactId>spring-context</artifactId>-->
+        <!--</exclusion>-->
+        <!--<exclusion>-->
+        <!--<groupId>org.springframework</groupId>-->
+        <!--<artifactId>spring-context-support</artifactId>-->
+        <!--</exclusion>-->
+        <!--<exclusion>-->
+        <!--<groupId>org.springframework</groupId>-->
+        <!--<artifactId>spring-context-support</artifactId>-->
+        <!--</exclusion>-->
+        <!--<exclusion>-->
+        <!--<groupId>org.springframework</groupId>-->
+        <!--<artifactId>spring-jdbc</artifactId>-->
+        <!--</exclusion>-->
+        <!--<exclusion>-->
+        <!--<groupId>org.springframework</groupId>-->
+        <!--<artifactId>spring-test</artifactId>-->
+        <!--</exclusion>-->
+        <!--<exclusion>-->
         <!--<groupId>org.springframework</groupId>-->
         <!--<artifactId>spring-context</artifactId>-->
         <!--</exclusion>-->
@@ -82,66 +114,6 @@
         <!--</exclusion>-->
         <!--</exclusions>-->
         <!--</dependency>-->
-
-        <dependency>
-            <groupId>com.mogujie.algo</groupId>
-            <artifactId>feature-client</artifactId>
-            <version>1.1-SNAPSHOT</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.mogujie.algo</groupId>
-                    <artifactId>mybatis-spring</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.mogujie.mst</groupId>
-                    <artifactId>mogucache-client</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.mogujie.algo</groupId>
-                    <artifactId>deliver-engine-rerank</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.mogujie.tesla</groupId>
-                    <artifactId>spring-context</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-context-support</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-context-support</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-jdbc</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-test</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-context</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-beans</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-tx</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-core</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-aop</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
 
         <dependency>
             <groupId>com.google.code.gson</groupId>
