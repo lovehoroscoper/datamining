@@ -112,7 +112,7 @@ object OfflineTraining {
         val learner: LRLearnerV2 = new LRLearnerV2()
         val model = learner.run(sc, dataDF)
 
-        val featureColumns = dataDF.columns.filter(!_.equals("label")).map(x => FeatureNameMapper.getName(x))
+        val featureColumns = dataDF.columns.filter(x => !x.equals("label") && !x.equals("pos")).map(x => FeatureNameMapper.getName(x))
         val featureWeights = featureColumns.zip(model.coefficients.toArray.toList).toMap
 
         for (e <- featureWeights) {

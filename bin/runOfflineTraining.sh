@@ -33,7 +33,7 @@ FEATURE_TABLE="s_dg_click_sample_feature"
 echo "feature table:${FEATURE_TABLE}"
 
 # build_sample,adapt_features,train
-STAGE="build_sample,adapt_features,train"
+STAGE="train"
 echo "stage:${STAGE}"
 
 N="20"
