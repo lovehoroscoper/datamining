@@ -115,8 +115,9 @@ object OfflineTraining {
 
         val featureColumns = dataDF.columns.filter(x => !x.equals("label") && !x.equals("pos")).map(x => FeatureNameMapper.getName(x))
         val featureWeights = featureColumns.zip(model.coefficients.toArray.toList).toMap
-
+        println("feature weights")
         for (e <- featureWeights) {
+          println(s"feature weight:${e}")
           modelClient.setWeight("DIGU_MODEL", e._1, e._2)
         }
         modelClient.synModel("DIGU_MODEL")
