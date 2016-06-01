@@ -45,6 +45,7 @@ object OfflineTraining {
 
     val stageSet = stage.split(",").toSet
     val modelClient = ModelClientFactory.getClient
+    modelClient.init()
     println(s"${modelClient.getModel("DIGU_MODEL")}")
 
     TimeUtil.start
