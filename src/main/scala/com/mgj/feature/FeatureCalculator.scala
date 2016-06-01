@@ -5,8 +5,8 @@ import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.hive.HiveContext
 
 /**
- * Created by xiaonuo on 12/5/15.
- */
+  * Created by xiaonuo on 12/5/15.
+  */
 abstract class FeatureCalculator extends java.io.Serializable {
 
   var featureName: String
@@ -15,6 +15,7 @@ abstract class FeatureCalculator extends java.io.Serializable {
   var itemField: String
   var itemFieldPath: String
   var bizDate: String
+  var maxValue: String
 
   def setUserFieldPath(userFieldPath: String): Unit = {
     this.userFieldPath = userFieldPath
@@ -38,6 +39,10 @@ abstract class FeatureCalculator extends java.io.Serializable {
 
   def setBizDate(bizDate: String): Unit = {
     this.bizDate = bizDate
+  }
+
+  def setMaxValue(maxValue: String): Unit = {
+    this.maxValue = maxValue
   }
 
   def compute(sampleDF: DataFrame, sc: SparkContext, sqlContext: HiveContext): DataFrame

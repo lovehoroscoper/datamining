@@ -22,6 +22,7 @@
         <property name="itemField" value="category_id"/>
         <property name="userFieldPath" value="/user/digu/userGBPreferRecord"/>
         <property name="itemFieldPath" value=""/>
+        <property name="maxValue" value=""/>
     </bean>
 
     <bean id="userCategoryPreferOrderFeatureCalculator"
@@ -31,6 +32,7 @@
         <property name="itemField" value="category_id"/>
         <property name="userFieldPath" value="/user/digu/userGBPreferOrderRecord"/>
         <property name="itemFieldPath" value=""/>
+        <property name="maxValue" value=""/>
     </bean>
 
     <bean id="userShopPreferFeatureCalculator" class="com.mgj.feature.impl.UserShopPreferFeatureCalculator">
@@ -39,6 +41,7 @@
         <property name="itemField" value="shop_id"/>
         <property name="userFieldPath" value="/user/digu/userShopPreferRecord"/>
         <property name="itemFieldPath" value=""/>
+        <property name="maxValue" value=""/>
     </bean>
 
     <bean id="userShopPreferFeatureOrderCalculator" class="com.mgj.feature.impl.UserShopPreferFeatureCalculator">
@@ -47,6 +50,7 @@
         <property name="itemField" value="shop_id"/>
         <property name="userFieldPath" value="/user/digu/userShopPreferOrderRecord"/>
         <property name="itemFieldPath" value=""/>
+        <property name="maxValue" value=""/>
     </bean>
 
     <bean id="userRealItemPreferFeatureCalculator" class="com.mgj.feature.impl.UserRealItemPreferFeatureCalculator">
@@ -63,6 +67,7 @@
         <property name="itemField" value="itemCtr"/>
         <property name="itemFieldPath" value="/user/bizdata/ctrRecord"/>
         <property name="userFieldPath" value=""/>
+        <property name="maxValue" value="1000000"/>
     </bean>
 
     <bean id="itemSearchCtrFeatureCalculator" class="com.mgj.feature.impl.ItemFeatureCalculator">
@@ -71,6 +76,7 @@
         <property name="itemField" value="itemSearchCtr"/>
         <property name="itemFieldPath" value="/user/bizdata/searchCtrRecord"/>
         <property name="userFieldPath" value=""/>
+        <property name="maxValue" value="10000000"/>
     </bean>
 
     <bean id="userGenePreferFeatureCalculator" class="com.mgj.feature.impl.UserGenePreferFeatureCalculator">
@@ -79,6 +85,7 @@
         <property name="itemField" value="gene_id"/>
         <property name="userFieldPath" value="/user/digu/userGenePreferRecord"/>
         <property name="itemFieldPath" value="/user/digu/itemGeneRecord"/>
+        <property name="maxValue" value=""/>
     </bean>
 
     <bean id="userGenePreferOrderFeatureCalculator" class="com.mgj.feature.impl.UserGenePreferFeatureCalculator">
@@ -87,6 +94,7 @@
         <property name="itemField" value="gene_id"/>
         <property name="userFieldPath" value="/user/digu/userGenePreferOrderRecord"/>
         <property name="itemFieldPath" value="/user/digu/itemGeneRecord"/>
+        <property name="maxValue" value=""/>
     </bean>
 
     <bean id="userItemPreferFeatureCalculator" class="com.mgj.feature.impl.UserItemPreferFeatureCalculator">
@@ -95,6 +103,7 @@
         <property name="itemField" value="item_id"/>
         <property name="userFieldPath" value="/user/digu/userItemPreferRecord"/>
         <property name="itemFieldPath" value=""/>
+        <property name="maxValue" value=""/>
     </bean>
 
     <bean id="mfFeatureCalculator" class="com.mgj.feature.impl.MFFeatureCalculator">
@@ -103,6 +112,7 @@
         <property name="itemField" value="item_mf"/>
         <property name="userFieldPath" value="/user/digu/itemMF/user"/>
         <property name="itemFieldPath" value="/user/digu/itemMF/product"/>
+        <property name="maxValue" value=""/>
     </bean>
 
     <bean id="featureCalculatorFactory" class="com.mgj.feature.FeatureCalculatorFactory">

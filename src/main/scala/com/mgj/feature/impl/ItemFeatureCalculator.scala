@@ -12,8 +12,6 @@ import org.apache.spark.sql.{DataFrame, Row}
   */
 class ItemFeatureCalculator extends FeatureCalculator {
 
-  val const = 1e6d
-
   override def compute(sampleDF: DataFrame, sc: SparkContext, sqlContext: HiveContext): DataFrame = {
     println("build feature: " + this.featureName)
     println("userField: " + userField)
@@ -34,7 +32,7 @@ class ItemFeatureCalculator extends FeatureCalculator {
       var featureVal: String = "0"
       val score = x.getAs[String](itemField)
       if (score != null && score != None) {
-        featureVal = (score.toDouble / const).toString
+        featureVal = (score.toDouble / maxValue.toDouble).toString
       }
       val uVal: String = x.getAs[String](FeatureConstant.USER_KEY)
       val iVal: String = x.getAs[String](FeatureConstant.ITEM_KEY)
@@ -81,6 +79,7 @@ class ItemFeatureCalculator extends FeatureCalculator {
   override var userFieldPath: String = _
   override var itemFieldPath: String = _
   override var bizDate: String = _
+  override var maxValue: String = _
 
-  override def toString = s"ItemFeatureCalculator($featureName, $userField, $itemField, $userFieldPath, $itemFieldPath, $bizDate)"
+  override def toString = s"ItemFeatureCalculator($const, $featureName, $userField, $itemField, $userFieldPath, $itemFieldPath, $bizDate, $maxValue)"
 }

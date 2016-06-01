@@ -31,14 +31,10 @@ class LRLearnerV2 {
 
     val assembler = new VectorAssembler()
       .setInputCols(featureColumns)
-      .setOutputCol("feature_tmp_1")
-
-    val scaler = new MinMaxScaler()
-      .setInputCol("feature_tmp_1")
       .setOutputCol(FeatureConstant.FEATURE_KEY)
 
     val preprocessing = new Pipeline()
-      .setStages(Array(assembler, scaler))
+      .setStages(Array(assembler))
 
     val dataDF: DataFrame = preprocessing.fit(sampleDF).transform(sampleDF)
       .select(FeatureConstant.FEATURE_KEY, FeatureConstant.LABEL_KEY).cache()
