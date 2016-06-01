@@ -2,6 +2,7 @@ package com.mgj.ml.rank
 
 import com.mgj.feature.FeatureCalculatorFactory
 import com.mgj.utils.{TimeUtil, LRLearnerV2, SampleV2Util}
+import com.mogujie.algo.model.client.main.ModelClientFactory
 import org.apache.spark.sql.types.{StructType, DoubleType, StructField}
 import org.apache.spark.sql.{Row, Column, DataFrame}
 import org.apache.spark.sql.hive.HiveContext
@@ -43,6 +44,8 @@ object OfflineTraining {
     println(s"N:${N}")
 
     val stageSet = stage.split(",").toSet
+    val modelClient = ModelClientFactory.getClient
+    println(s"${modelClient.getModel("DIGU_MODEL")}")
 
     TimeUtil.start
     execute()
@@ -107,7 +110,11 @@ object OfflineTraining {
         sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
         val dataDF = sqlContext.sql(s"select ${features},label from ${featureTable}").cache()
         val learner: LRLearnerV2 = new LRLearnerV2()
-        learner.run(sc, dataDF)
+        val model = learner.run(sc, dataDF)
+
+        //        val featureNameMap = Map()
+        //        val featureColumns = dataDF.columns.filter(!_.equals("label"))
+        //        val featureWeights = featureColumns.zip(model.coefficients.toArray.toList).toMap
       }
     }
   }

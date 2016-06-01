@@ -4,7 +4,7 @@ import com.mgj.feature.FeatureConstant
 import org.apache.commons.lang3.Validate
 import org.apache.spark.SparkContext
 import org.apache.spark.ml.Pipeline
-import org.apache.spark.ml.classification.{BinaryLogisticRegressionSummary, LogisticRegression}
+import org.apache.spark.ml.classification.{LogisticRegressionModel, BinaryLogisticRegressionSummary, LogisticRegression}
 import org.apache.spark.ml.feature.{MinMaxScaler, VectorAssembler}
 import org.apache.spark.mllib.evaluation.BinaryClassificationMetrics
 import org.apache.spark.mllib.linalg.Vector
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class LRLearnerV2 {
-  def run(sc: SparkContext, sampleDF: DataFrame, splitRatio: Double = 0.7): Unit = {
+  def run(sc: SparkContext, sampleDF: DataFrame, splitRatio: Double = 0.7): LogisticRegressionModel = {
     Validate.notNull(sc, "sc can not be null")
     Validate.notBlank(FeatureConstant.LABEL_KEY, "Constants.LABEL can not be blank")
     Validate.isTrue(sampleDF.columns.contains(FeatureConstant.LABEL_KEY),
@@ -70,7 +70,7 @@ class LRLearnerV2 {
 
     val model = lr.fit(trainDF)
 
-    val featureWeights = featureColumns.zip(model.weights.toArray.toList).toMap
+    val featureWeights = featureColumns.zip(model.coefficients.toArray.toList).toMap
     println(s"featureWeights:${featureWeights}")
 
     val trainingSummary = model.summary
@@ -104,5 +104,6 @@ class LRLearnerV2 {
     // AUROC
     val auROC = metrics.areaUnderROC
     println("Area under ROC = " + auROC)
+    return model
   }
 }
