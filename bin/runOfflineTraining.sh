@@ -26,10 +26,10 @@ echo "code:${CODE}"
 FEATURES="user_category_prefer,user_category_prefer_order,user_item_prefer,user_real_item_prefer,item_search_ctr,user_shop_prefer,user_shop_prefer_order,user_gene_prefer,user_gene_prefer_order,pos"
 echo "features:${FEATURES}"
 
-SAMPLE_TABLE="s_dg_click_sample"
+SAMPLE_TABLE="s_dg_sample_${CODE}"
 echo "sample table:${SAMPLE_TABLE}"
 
-FEATURE_TABLE="s_dg_click_sample_feature"
+FEATURE_TABLE="s_dg_sample_${CODE}"
 echo "feature table:${FEATURE_TABLE}"
 
 # build_sample,adapt_features,train
