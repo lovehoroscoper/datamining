@@ -35,6 +35,7 @@ object OfflineTraining {
     val features = args(4)
     val stage = args(5)
     val N = args(6).toInt
+    val modelName = args(7)
 
     println(s"code:${code}")
     println(s"sampleTable:${sampleTable}")
@@ -42,6 +43,7 @@ object OfflineTraining {
     println(s"features:${features}")
     println(s"stage:${stage}")
     println(s"N:${N}")
+    println(s"modelName:${modelName}")
 
     val stageSet = stage.split(",").toSet
     val modelClient = ModelClientFactory.getClient
@@ -118,9 +120,9 @@ object OfflineTraining {
         println("feature weights")
         for (e <- featureWeights) {
           println(s"feature weight:${e}")
-          modelClient.setWeight("DIGU_MODEL", e._1, e._2)
+          modelClient.setWeight(modelName, e._1, e._2)
         }
-        modelClient.synModel("DIGU_MODEL")
+        modelClient.synModel(modelName)
       }
     }
   }

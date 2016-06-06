@@ -39,6 +39,9 @@ echo "stage:${STAGE}"
 N="20"
 echo "N:${N}"
 
+MODEL_NAME="DIGU_MODEL"
+echo "model name:${MODEL_NAME}"
+
 SUBMIT="/home/spark/spark-1.6.0-bin-hadoop2.3/bin/spark-submit "
 JAR_PATH="`pwd`/target/data-mining-1.0-SNAPSHOT-jar-with-dependencies.jar"
 echo "${JAR_PATH}"
@@ -59,3 +62,4 @@ ${SUBMIT}														\
 	"${FEATURES}"									    		\
 	"${STAGE}"			    						    		\
 	"${N}"			    						         		\
+	"${MODEL_NAME}"			    						        \
