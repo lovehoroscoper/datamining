@@ -46,7 +46,10 @@ class Test extends FlatSpec with Matchers with LocalSparkContext {
     //    val query2category = sc.textFile("/user/bizdata/query2category").map(x => (x.split("\t")(0), x.split("\t")(1), "-1"))
     //    val allRelation = catRelation.union(query2category)
     //    val result = allRelation.filter(x => !x._1.equals("keyword")).groupBy(x => x._1).map(x => {
-    //      val maxScore = x._2.map(t => t._3.toLong).max
+    //      var maxScore = x._2.map(t => t._3.toLong).max
+    //      if (maxScore == -1l) {
+    //        maxScore = 60000000l
+    //      }
     //      val result = x._2.toList.map(t => {
     //        val score = t._3.toLong
     //        if (score == -1l) {
