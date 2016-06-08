@@ -88,9 +88,9 @@ if [ $? -eq 0 ];then
 #	curl "http://10.19.16.30:10850/dumpData?featureName=userGenePrefer&method=local"
 #	curl "http://10.19.16.30:10850/dumpData?featureName=userGenePreferOrder&method=local"
 
-#	curl "http://10.15.18.40:10850/dumpData?featureName=item_gene&method=local" &
-#	curl "http://10.15.18.40:10850/dumpData?featureName=userGenePrefer&method=local" &
-#	curl "http://10.15.18.40:10850/dumpData?featureName=userGenePreferOrder&method=local" &
+	curl "http://10.15.18.40:10850/dumpData?featureName=item_gene&method=local" &
+	curl "http://10.15.18.40:10850/dumpData?featureName=userGenePrefer&method=local" &
+	curl "http://10.15.18.40:10850/dumpData?featureName=userGenePreferOrder&method=local" &
 
     # date and date sub 20
 	CUR_DATE=`date  +%Y-%m-%d`

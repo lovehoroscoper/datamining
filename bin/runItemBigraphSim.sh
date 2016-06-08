@@ -93,7 +93,7 @@ curl "http://10.15.17.31:10850/dumpData?featureName=itemSim&method=local"
 #curl "http://10.19.22.49:10850/dumpData?featureName=itemSim&method=local"
 #curl "http://10.15.19.20:10850/dumpData?featureName=itemSim&method=local"
 #curl "http://10.19.16.30:10850/dumpData?featureName=itemSim&method=local"
-#curl "http://10.15.18.40:10850/dumpData?featureName=itemSim&method=local" &
+curl "http://10.15.18.40:10850/dumpData?featureName=itemSim&method=local" &
 
 CUR_DATE=`date  +%Y-%m-%d`
 DAY_SUB20=`date -d "${CUR_DATE} -20 day" +"%Y-%m-%d"`

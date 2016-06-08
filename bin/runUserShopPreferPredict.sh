@@ -63,9 +63,9 @@ curl "http://10.15.17.31:10850/dumpData?featureName=userShopPreferOrder&method=l
 #
 #curl "http://10.19.16.30:10850/dumpData?featureName=userShopPrefer&method=local"
 #curl "http://10.19.16.30:10850/dumpData?featureName=userShopPreferOrder&method=local"
-#
-#curl "http://10.15.18.40:10850/dumpData?featureName=userShopPrefer&method=local" &
-#curl "http://10.15.18.40:10850/dumpData?featureName=userShopPreferOrder&method=local" &
+
+curl "http://10.15.18.40:10850/dumpData?featureName=userShopPrefer&method=local" &
+curl "http://10.15.18.40:10850/dumpData?featureName=userShopPreferOrder&method=local" &
 
 curl "10.15.2.114:12000/Offline?featureName=userShopPrefer" &
 curl "10.17.36.57:12000/Offline?featureName=userShopPrefer" &
