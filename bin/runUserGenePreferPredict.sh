@@ -71,9 +71,10 @@ ${SUBMIT}														\
 test -e ${SUCCESS_TAG}
 if [ $? -eq 0 ];then
 	echo "predict success"
-	curl "http://10.15.17.31:10850/dumpData?featureName=item_gene&method=local"
-	curl "http://10.15.17.31:10850/dumpData?featureName=userGenePrefer&method=local"
-	curl "http://10.15.17.31:10850/dumpData?featureName=userGenePreferOrder&method=local"
+	curl "http://10.15.17.31:10850/dumpData?featureName=item_gene,userGenePrefer,userGenePreferOrder&method=localList"
+#	curl "http://10.15.17.31:10850/dumpData?featureName=item_gene&method=local"
+#	curl "http://10.15.17.31:10850/dumpData?featureName=userGenePrefer&method=local"
+#	curl "http://10.15.17.31:10850/dumpData?featureName=userGenePreferOrder&method=local"
 
 #	curl "http://10.19.22.49:10850/dumpData?featureName=item_gene&method=local"
 #	curl "http://10.19.22.49:10850/dumpData?featureName=userGenePrefer&method=local"
