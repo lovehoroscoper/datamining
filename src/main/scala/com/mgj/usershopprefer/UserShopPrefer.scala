@@ -32,8 +32,8 @@ object UserShopPrefer {
     val bizdateSub1 = args(1)
     val bizdateSub30 = args(2)
 
-    PartitionUtil.checkAppLog(sqlContext,bizdate,"click")
-    PartitionUtil.checkAppLog(sqlContext,bizdate,"order")
+    PartitionUtil.checkAppLog(sqlContext, bizdate, "click")
+    PartitionUtil.checkAppLog(sqlContext, bizdate, "order")
     val sampleOrderSql = "select user_id, shop_id, time from s_dg_user_base_log where pt = '" + bizdate + "' and action_type = 'order' and platform_type = 'app'"
     val sampleSql = "select user_id, shop_id, time from s_dg_user_base_log where pt = '" + bizdate + "' and action_type = 'click' and platform_type = 'app'"
     val clickSql = "select user_id, shop_id, time from s_dg_user_base_log where pt >= '" + bizdateSub30 + "' and pt <= '" + bizdateSub1 + "' and action_type = 'click' and platform_type = 'app'"
@@ -178,15 +178,19 @@ object UserShopPrefer {
           :: Nil
       )
 
-    sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
+    //    sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
     val sampleDF: DataFrame = sqlContext.createDataFrame(sampleFinal, schema)
-    sampleDF.registerTempTable("s_dg_user_shop_prefer_sample_temp")
+    //    sampleDF.registerTempTable("s_dg_user_shop_prefer_sample_temp")
+    //    sqlContext.sql("drop table if exists s_dg_user_shop_prefer_sample")
+    //    sqlContext.sql("create table s_dg_user_shop_prefer_sample as select * from s_dg_user_shop_prefer_sample_temp")
     sqlContext.sql("drop table if exists s_dg_user_shop_prefer_sample")
-    sqlContext.sql("create table s_dg_user_shop_prefer_sample as select * from s_dg_user_shop_prefer_sample_temp")
+    sampleDF.write.saveAsTable("s_dg_user_shop_prefer_sample")
 
     val sampleDFOrder: DataFrame = sqlContext.createDataFrame(sampleOrderFinal, schema)
-    sampleDFOrder.registerTempTable("s_dg_user_shop_prefer_order_sample_temp")
+    //    sampleDFOrder.registerTempTable("s_dg_user_shop_prefer_order_sample_temp")
+    //    sqlContext.sql("drop table if exists s_dg_user_shop_prefer_order_sample")
+    //    sqlContext.sql("create table s_dg_user_shop_prefer_order_sample as select * from s_dg_user_shop_prefer_order_sample_temp")
     sqlContext.sql("drop table if exists s_dg_user_shop_prefer_order_sample")
-    sqlContext.sql("create table s_dg_user_shop_prefer_order_sample as select * from s_dg_user_shop_prefer_order_sample_temp")
+    sampleDFOrder.write.saveAsTable("s_dg_user_shop_prefer_order_sample")
   }
 }

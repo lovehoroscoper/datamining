@@ -258,11 +258,13 @@ object BuildPairSample {
     var sampleDF = sqlContext.createDataFrame(sampleRow, schema)
     sampleDF.show()
 
-    sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
+    //    sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
+    //    sampleDF.registerTempTable("s_wj_sample_temp")
+    //    sqlContext.sql("drop table if exists s_wj_sample")
+    //    sqlContext.sql("create table s_wj_sample as select * from s_wj_sample_temp")
 
-    sampleDF.registerTempTable("s_wj_sample_temp")
     sqlContext.sql("drop table if exists s_wj_sample")
-    sqlContext.sql("create table s_wj_sample as select * from s_wj_sample_temp")
+    sampleDF.write.saveAsTable("s_wj_sample")
 
     sqlContext.udf.register("to_vector", (vector: String) => (Vectors.parse(vector)))
     sqlContext.udf.register("to_double", (label: String) => (label.toDouble))

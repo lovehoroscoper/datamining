@@ -22,7 +22,7 @@ object MergeTrain {
 
     val features = args(0)
 
-    sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
+    //    sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
     val dataDF = sqlContext.sql(s"select ${features},label from test_sample").cache()
 
     val learner: LRLearnerV2 = new LRLearnerV2()

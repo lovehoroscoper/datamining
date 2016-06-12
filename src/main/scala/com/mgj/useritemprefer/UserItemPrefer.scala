@@ -158,11 +158,13 @@ object UserItemPrefer {
           :: StructField("label", DoubleType, true)
           :: Nil)
 
-    sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
+    //    sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
     val sampleDF: DataFrame = sqlContext.createDataFrame(sampleFinal, schema)
     sampleFinal.unpersist(blocking = false)
-    sampleDF.registerTempTable("s_dg_user_item_prefer_sample_temp")
+    //    sampleDF.registerTempTable("s_dg_user_item_prefer_sample_temp")
+    //    sqlContext.sql("drop table if exists s_dg_user_item_prefer_sample")
+    //    sqlContext.sql("create table s_dg_user_item_prefer_sample as select * from s_dg_user_item_prefer_sample_temp")
     sqlContext.sql("drop table if exists s_dg_user_item_prefer_sample")
-    sqlContext.sql("create table s_dg_user_item_prefer_sample as select * from s_dg_user_item_prefer_sample_temp")
+    sampleDF.write.saveAsTable("s_dg_user_item_prefer_sample")
   }
 }

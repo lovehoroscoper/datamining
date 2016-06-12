@@ -34,9 +34,9 @@ object BuildSample {
     val bizDate = args(0)
     //    val bizDate = "2015-12-17"
 
-    PartitionUtil.checkAppLog(sqlContext,bizDate,"click")
-    PartitionUtil.checkAppLog(sqlContext,bizDate,"order")
-    PartitionUtil.checkAppLog(sqlContext,bizDate,"expose")
+    PartitionUtil.checkAppLog(sqlContext, bizDate, "click")
+    PartitionUtil.checkAppLog(sqlContext, bizDate, "order")
+    PartitionUtil.checkAppLog(sqlContext, bizDate, "expose")
     val exposeSql = "select user_id, item_id, shop_id, time, refer from s_dg_user_base_log where pt = '" + bizDate + "' and action_type = 'expose' and platform_type = 'app'"
     val clickSql = "select user_id, item_id, shop_id, time, refer from s_dg_user_base_log where pt = '" + bizDate + "' and action_type = 'click' and platform_type = 'app'"
     val orderSql = "select user_id, item_id, shop_id, time, refer from s_dg_user_base_log where pt = '" + bizDate + "' and action_type = 'order' and platform_type = 'app'"
@@ -114,19 +114,26 @@ object BuildSample {
     val orderSampleDF = sqlContext.createDataFrame(orderSampleFinal.map(x => Row(x._1, x._2, x._3, x._4, x._5)), schema)
     val allSampleDF = sqlContext.createDataFrame(allSampleFinal.map(x => Row(x._1, x._2, x._3, x._4, x._5)), schema)
 
-    clickSampleDF.registerTempTable("s_dg_click_sample_temp")
-    orderSampleDF.registerTempTable("s_dg_order_sample_temp")
-    allSampleDF.registerTempTable("s_dg_all_sample_temp")
+    //    clickSampleDF.registerTempTable("s_dg_click_sample_temp")
+    //    orderSampleDF.registerTempTable("s_dg_order_sample_temp")
+    //    allSampleDF.registerTempTable("s_dg_all_sample_temp")
+    //
+    //    sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
+    //    sqlContext.sql("drop table if exists s_dg_click_sample")
+    //    sqlContext.sql("create table s_dg_click_sample as select * from s_dg_click_sample_temp")
+    //
+    //    sqlContext.sql("drop table if exists s_dg_order_sample")
+    //    sqlContext.sql("create table s_dg_order_sample as select * from s_dg_order_sample_temp")
+    //
+    //    sqlContext.sql("drop table if exists s_dg_all_sample")
+    //    sqlContext.sql("create table s_dg_all_sample as select * from s_dg_all_sample_temp")
 
-    sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
     sqlContext.sql("drop table if exists s_dg_click_sample")
-    sqlContext.sql("create table s_dg_click_sample as select * from s_dg_click_sample_temp")
-
     sqlContext.sql("drop table if exists s_dg_order_sample")
-    sqlContext.sql("create table s_dg_order_sample as select * from s_dg_order_sample_temp")
-
     sqlContext.sql("drop table if exists s_dg_all_sample")
-    sqlContext.sql("create table s_dg_all_sample as select * from s_dg_all_sample_temp")
+    clickSampleDF.write.saveAsTable("s_dg_click_sample")
+    orderSampleDF.write.saveAsTable("s_dg_order_sample")
+    allSampleDF.write.saveAsTable("s_dg_all_sample")
 
     println("THE END")
 

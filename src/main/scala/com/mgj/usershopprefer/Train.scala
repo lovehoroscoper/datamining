@@ -31,7 +31,7 @@ object Train {
     val userShopPreferFeatureTable = args(1)
 
     init()
-    sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
+    //    sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
     sqlContext.udf.register("to_vector", (vector: String) => (Vectors.parse(vector)))
     sqlContext.udf.register("to_double", (label: String) => (label.toDouble))
     //    val sampleDF: DataFrame = sqlContext.sql("select to_vector(feature) as feature, to_double(label) as label from s_dg_user_shop_prefer_sample")

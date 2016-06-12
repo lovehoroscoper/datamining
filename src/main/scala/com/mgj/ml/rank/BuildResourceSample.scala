@@ -31,10 +31,11 @@ object BuildResourceSample {
     val clickSampleDF = SampleV2Util.getClickSample(sqlContext, bizdate, appIds: _*)
     clickSampleDF.show()
 
-    clickSampleDF.registerTempTable(table + "_temp")
-
-    sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
+    //    clickSampleDF.registerTempTable(table + "_temp")
+    //    sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
+    //    sqlContext.sql("drop table if exists " + table)
+    //    sqlContext.sql("create table " + table + " as select * from " + table + "_temp")
     sqlContext.sql("drop table if exists " + table)
-    sqlContext.sql("create table " + table + " as select * from " + table + "_temp")
+    clickSampleDF.write.saveAsTable(table)
   }
 }

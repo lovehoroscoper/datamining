@@ -30,7 +30,7 @@ object ItemGraphSimFeature {
 
     // User click log: user_id, item_id, visit_time.
 
-    sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
+    //    sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
     val rawFeature = sqlContext.sql("select * from s_dg_item_sim_original_feature").map(x => (x(0).toString, x(1).toString, x(2).toString.toInt, x(3).toString.toInt, x(4).toString.toDouble, x(5).toString.toDouble, x(6).toString.toDouble, x(7).toString.toDouble))
     rawFeature.take(10).foreach(println)
 
@@ -86,10 +86,14 @@ object ItemGraphSimFeature {
           StructField("itemy", StringType, true) ::
           StructField("feature", StringType, true) :: Nil)
 
-    sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
-    sqlContext.createDataFrame(cfSimFeature.map(x => Row(x._1, x._2, util.Arrays.toString(x._3))), schema).registerTempTable("s_dg_item_sim_feature_temp")
+    //    sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
+    val resultDF = sqlContext.createDataFrame(cfSimFeature.map(x => Row(x._1, x._2, util.Arrays.toString(x._3))), schema)
+    //    resultDF.registerTempTable("s_dg_item_sim_feature_temp")
     cfSimFeature.unpersist(blocking = false)
+    //    sqlContext.sql("drop table if exists s_dg_item_sim_feature")
+    //    sqlContext.sql("create table s_dg_item_sim_feature as select * from s_dg_item_sim_feature_temp")
     sqlContext.sql("drop table if exists s_dg_item_sim_feature")
-    sqlContext.sql("create table s_dg_item_sim_feature as select * from s_dg_item_sim_feature_temp")
+    resultDF.write.saveAsTable("s_dg_item_sim_feature")
+
   }
 }

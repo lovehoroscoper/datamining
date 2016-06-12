@@ -64,10 +64,12 @@ object MergeSample {
     val schema = StructType(columns.split(",").map(x => StructField(x, DoubleType, true)))
     dataDF = sqlContext.createDataFrame(dataDFRDD, schema)
 
-    sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
-    dataDF.registerTempTable("test_sample_temp")
+    //    sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
+    //    dataDF.registerTempTable("test_sample_temp")
+    //    sqlContext.sql("drop table if exists test_sample")
+    //    sqlContext.sql("create table test_sample as select * from test_sample_temp")
     sqlContext.sql("drop table if exists test_sample")
-    sqlContext.sql("create table test_sample as select * from test_sample_temp")
+    dataDF.write.saveAsTable("test_sample")
 
     sc.stop()
   }

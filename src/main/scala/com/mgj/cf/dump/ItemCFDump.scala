@@ -21,7 +21,7 @@ object ItemCFDump {
     // Hive context.
     val sqlContext: HiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
 
-    sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
+//    sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
     val cfSimDataFrame = sqlContext.sql("select * from s_dg_cf_sim_spark")
 
     def sort(x: Iterable[(Any, Any, Double)], N: Int): String = {

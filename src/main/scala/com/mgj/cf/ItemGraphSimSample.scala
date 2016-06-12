@@ -77,7 +77,7 @@ object ItemGraphSimSample {
       itemPair.toList
     }).filter(x => x.size > 0).flatMap(x => x)
 
-    sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
+    //    sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
     val isSameCategory = udf { (vector: String) => if (Vectors.parse(vector).apply(6) == 1.0) true else false }
     val featureOriginal = sqlContext.sql("select * from s_dg_item_sim_feature")
     val feature = featureOriginal.filter(isSameCategory(featureOriginal("feature"))).map(x => (x(0).toString, x(1).toString, x(2).toString))
@@ -110,9 +110,12 @@ object ItemGraphSimSample {
           :: StructField("label", StringType, true)
           :: Nil)
 
-    sqlContext.createDataFrame(sampleFinal, schema).registerTempTable("s_dg_item_sim_sample_temp")
+    val resultDF = sqlContext.createDataFrame(sampleFinal, schema)
+    //    resultDF.registerTempTable("s_dg_item_sim_sample_temp")
+    //    sqlContext.sql("drop table if exists s_dg_item_sim_sample")
+    //    sqlContext.sql("create table s_dg_item_sim_sample as select * from s_dg_item_sim_sample_temp")
     sqlContext.sql("drop table if exists s_dg_item_sim_sample")
-    sqlContext.sql("create table s_dg_item_sim_sample as select * from s_dg_item_sim_sample_temp")
+    resultDF.write.saveAsTable("s_dg_item_sim_sample")
 
     sqlContext.udf.register("to_vector", (vector: String) => (Vectors.parse(vector)))
     sqlContext.udf.register("to_double", (label: String) => (label.toDouble))

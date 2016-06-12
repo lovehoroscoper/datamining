@@ -41,7 +41,7 @@ object ItemGraphSimPredict {
     val model = sc.objectFile[LogisticRegressionModel](itemSimModel).first()
     println("model")
     println(model)
-    println(model.weights)
+    println(model.coefficients)
 
     sqlContext.udf.register("to_vector", (vector: String) => (Vectors.parse(vector)))
     sqlContext.udf.register("to_double", (label: String) => (label.toDouble))
@@ -72,11 +72,13 @@ object ItemGraphSimPredict {
           StructField("sim_score", StringType, true) ::
           Nil)
 
-    sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
+    //    sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
     val resultDF = sqlContext.createDataFrame(result.map(x => (x(0), x(1), x(2).toString)).map(x => Row(x._1, x._2, x._3)), schema)
     result.unpersist(blocking = false)
-    resultDF.registerTempTable("s_dg_item_sim_merge_temp")
+    //    resultDF.registerTempTable("s_dg_item_sim_merge_temp")
+    //    sqlContext.sql("drop table if exists s_dg_item_sim_merge")
+    //    sqlContext.sql("create table s_dg_item_sim_merge as select * from s_dg_item_sim_merge_temp")
     sqlContext.sql("drop table if exists s_dg_item_sim_merge")
-    sqlContext.sql("create table s_dg_item_sim_merge as select * from s_dg_item_sim_merge_temp")
+    resultDF.write.saveAsTable("s_dg_item_sim_merge")
   }
 }
