@@ -79,7 +79,7 @@ object PersonlizeAnalysisUtil {
       val commonSet = setA & setB
       for (e <- x._2._2) {
         val itemId = e._2
-        val label = e._3
+        val label = e._4
         val flag = if (commonSet.contains(itemId)) "Y" else "N"
         list.add((itemId, flag, label))
       }
@@ -97,7 +97,6 @@ object PersonlizeAnalysisUtil {
       (x._1, label.sum, label.size)
     })
     ctr.take(10).foreach(println)
-    ctr.filter(x => x._2 > x._3).take(10).foreach(println)
 
     val ctrResult = ctr.map(x => (x._1._2, (x._2, x._3))).reduceByKey((a, b) => (a._1 + b._1, a._2 + b._2)).collect().toMap
     val avgCtr = ctr.map(x => (x._2, x._3)).reduce((a, b) => (a._1 + b._1, a._2 + b._2))
