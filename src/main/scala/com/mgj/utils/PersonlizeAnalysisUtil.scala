@@ -100,11 +100,11 @@ object PersonlizeAnalysisUtil {
     val avgCtr = ctr.map(x => (x._2, x._3)).reduce((a, b) => (a._1 + b._1, a._2 + b._2))
 
     println(s"avg ctr:${avgCtr._1 / avgCtr._2}")
-    println(s"click pv:${avgCtr._1}")
-    println(s"expose pv:${avgCtr._2}")
+    println(avgCtr)
 
     println(s"Y avg ctr:${ctrResult.get("Y").get._1 / ctrResult.get("Y").get._2}")
     println(s"N avg ctr:${ctrResult.get("N").get._1 / ctrResult.get("N").get._2}")
+    println(ctrResult)
   }
 
   def main(args: Array[String]): Unit = {
