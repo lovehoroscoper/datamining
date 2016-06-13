@@ -87,15 +87,17 @@ object PersonlizeAnalysisUtil {
     })
 
     val repeatStatic = joinResult.map(x => (x._2, x._3)).reduce((a, b) => (a._1 + b._1, a._2 + b._2))
-    println(s"${code} repeatRatio: ${repeatStatic._1 / repeatStatic._2}")
+    println(s"${code} repeatRatio: ${1.0 * repeatStatic._1 / repeatStatic._2}")
     println(s"${code} repeatStatic: ${repeatStatic}")
-    println(joinResult.filter(x => x._2 > 0).count())
-    println(joinResult.count())
+    println(s"user view repeat:${joinResult.filter(x => x._2 > 0).count()}")
+    println(s"all user:${joinResult.count()}")
 
     val ctr = joinResult.map(x => x._4).flatMap(x => x).groupBy(x => (x._1, x._2)).map(x => {
       val label = x._2.toList.map(x => x._3.toDouble)
       (x._1, label.sum, label.size)
     })
+    ctr.take(10).foreach(println)
+    ctr.filter(x => x._2 > x._3).take(10).foreach(println)
 
     val ctrResult = ctr.map(x => (x._1._2, (x._2, x._3))).reduceByKey((a, b) => (a._1 + b._1, a._2 + b._2)).collect().toMap
     val avgCtr = ctr.map(x => (x._2, x._3)).reduce((a, b) => (a._1 + b._1, a._2 + b._2))
@@ -127,8 +129,8 @@ object PersonlizeAnalysisUtil {
     //    getRepeatAnalysis(sc, s"/user/digu/userShopPreferRecord/${bizdateSub}", s"/user/digu/userShopPreferRecord/${bizdate}", userSet)
     //    getRepeatAnalysis(sc, s"/user/digu/userItemPreferRecord/${bizdateSub}", s"/user/digu/userItemPreferRecord/${bizdate}", userSet)
 
-    getSceneAnalysis(sqlContext, bizdate, bizdateSub, "app_clothing_pop", userSet)
-    getSceneAnalysis(sqlContext, bizdate, bizdateSub, "app_bags_pop", userSet)
+    //    getSceneAnalysis(sqlContext, bizdate, bizdateSub, "app_clothing_pop", userSet)
+    //    getSceneAnalysis(sqlContext, bizdate, bizdateSub, "app_bags_pop", userSet)
     getSceneAnalysis(sqlContext, bizdate, bizdateSub, "app_shoes_pop", userSet)
   }
 }
