@@ -70,7 +70,7 @@ object PersonlizeAnalysisUtil {
       .select("user_id", "item_id", "pos", "label")
       .map(x => (x(0).toString, x(1).toString, x(2).toString, x(3).toString))
       .filter(x => Math.exp(x._3.toDouble) - 1 < 11d && userSet.contains(x._1)).groupBy(x => x._1).cache()
-    println(s"click ${bizdate} count:${clickSampleSub.count()}")
+    println(s"click ${bizdateSub} count:${clickSampleSub.count()}")
 
     val joinResult = clickSample.join(clickSampleSub).map(x => {
       val setA = x._2._1.map(x => x._2).toSet
@@ -88,8 +88,7 @@ object PersonlizeAnalysisUtil {
 
     val repeatStatic = joinResult.map(x => (x._2, x._3)).reduce((a, b) => (a._1 + b._1, a._2 + b._2))
     println(s"${code} repeatRatio: ${repeatStatic._1 / repeatStatic._2}")
-    println(s"${code} repeat item: ${repeatStatic._1}")
-    println(s"${code} expose item: ${repeatStatic._2}")
+    println(s"${code} repeatStatic: ${repeatStatic}")
 
     val ctr = joinResult.map(x => x._4).flatMap(x => x).groupBy(x => (x._1, x._2)).map(x => {
       val label = x._2.toList.map(x => x._3.toDouble)
