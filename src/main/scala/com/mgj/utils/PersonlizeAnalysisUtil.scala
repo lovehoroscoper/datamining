@@ -112,7 +112,7 @@ object PersonlizeAnalysisUtil {
   def main(args: Array[String]): Unit = {
     // args[0]: User base log.
     val conf = new SparkConf()
-      .setAppName("calculate user shop prefer")
+      .setAppName("data analysis")
       .set("spark.cores.max", "28")
 
     // Spark context.
