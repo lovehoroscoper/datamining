@@ -89,6 +89,8 @@ object PersonlizeAnalysisUtil {
     val repeatStatic = joinResult.map(x => (x._2, x._3)).reduce((a, b) => (a._1 + b._1, a._2 + b._2))
     println(s"${code} repeatRatio: ${repeatStatic._1 / repeatStatic._2}")
     println(s"${code} repeatStatic: ${repeatStatic}")
+    println(joinResult.filter(x => x._2 > 0).count())
+    println(joinResult.count())
 
     val ctr = joinResult.map(x => x._4).flatMap(x => x).groupBy(x => (x._1, x._2)).map(x => {
       val label = x._2.toList.map(x => x._3.toDouble)
