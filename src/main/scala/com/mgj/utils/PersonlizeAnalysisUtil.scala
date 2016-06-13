@@ -128,8 +128,9 @@ object PersonlizeAnalysisUtil {
     //    getRepeatAnalysis(sc, s"/user/digu/userShopPreferRecord/${bizdateSub}", s"/user/digu/userShopPreferRecord/${bizdate}", userSet)
     //    getRepeatAnalysis(sc, s"/user/digu/userItemPreferRecord/${bizdateSub}", s"/user/digu/userItemPreferRecord/${bizdate}", userSet)
 
-    //    getSceneAnalysis(sqlContext, bizdate, bizdateSub, "app_clothing_pop", userSet)
-    //    getSceneAnalysis(sqlContext, bizdate, bizdateSub, "app_bags_pop", userSet)
     getSceneAnalysis(sqlContext, bizdate, bizdateSub, "app_shoes_pop", userSet)
+    getSceneAnalysis(sqlContext, bizdate, bizdateSub, "app_clothing_pop", userSet)
+    getSceneAnalysis(sqlContext, bizdate, bizdateSub, "app_bags_pop", userSet)
+    getSceneAnalysis(sqlContext, bizdate, bizdateSub, "app_xitemsearch_pop", userSet)
   }
 }
