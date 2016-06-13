@@ -57,9 +57,9 @@ object OfflineTraining {
 
     def execute(): Unit = {
       if (stageSet.contains("build_sample")) {
-        val clickSampleDF = SampleV2Util.getClickSample(sqlContext, bizdate, code.split(","): _*)
+        val clickSampleDF = SampleV2Util.getClickSample(sqlContext, bizdate, true, code.split(","): _*)
         clickSampleDF.show()
-        val orderSampleDF = SampleV2Util.getOrderSample(sqlContext, bizdate, code.split(","): _*)
+        val orderSampleDF = SampleV2Util.getOrderSample(sqlContext, bizdate, true, code.split(","): _*)
         orderSampleDF.show
         var allSampleDF = clickSampleDF
         for (i <- 1 to N) {

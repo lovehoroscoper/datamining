@@ -60,13 +60,13 @@ object PersonlizeAnalysisUtil {
   }
 
   def getSceneAnalysis(sqlContext: HiveContext, bizdate: String, bizdateSub: String, code: String, userSet: Set[String]): Unit = {
-    val clickSample = SampleV2Util.getClickSample(sqlContext, bizdate, code)
+    val clickSample = SampleV2Util.getClickSample(sqlContext, bizdate, false, code)
       .select("user_id", "item_id", "pos", "label")
       .map(x => (x(0).toString, x(1).toString, x(2).toString, x(3).toString))
       .filter(x => Math.exp(x._3.toDouble) - 1 < 11d && userSet.contains(x._1)).groupBy(x => x._1).cache()
     println(s"click ${bizdate} count:${clickSample.count()}")
 
-    val clickSampleSub = SampleV2Util.getClickSample(sqlContext, bizdateSub, code)
+    val clickSampleSub = SampleV2Util.getClickSample(sqlContext, bizdateSub, false, code)
       .select("user_id", "item_id", "pos", "label")
       .map(x => (x(0).toString, x(1).toString, x(2).toString, x(3).toString))
       .filter(x => Math.exp(x._3.toDouble) - 1 < 11d && userSet.contains(x._1)).groupBy(x => x._1).cache()
@@ -122,8 +122,8 @@ object PersonlizeAnalysisUtil {
     val bizdate = args(1)
     val userSet = getUserSet(sqlContext, bizdateSub, bizdate)
 
-    getRepeatAnalysis(sc, s"/user/digu/userShopPreferRecord/${bizdateSub}", s"/user/digu/userShopPreferRecord/${bizdate}", userSet)
-    getRepeatAnalysis(sc, s"/user/digu/userItemPreferRecord/${bizdateSub}", s"/user/digu/userItemPreferRecord/${bizdate}", userSet)
+    //    getRepeatAnalysis(sc, s"/user/digu/userShopPreferRecord/${bizdateSub}", s"/user/digu/userShopPreferRecord/${bizdate}", userSet)
+    //    getRepeatAnalysis(sc, s"/user/digu/userItemPreferRecord/${bizdateSub}", s"/user/digu/userItemPreferRecord/${bizdate}", userSet)
 
     getSceneAnalysis(sqlContext, bizdate, bizdateSub, "app_clothing_pop", userSet)
     getSceneAnalysis(sqlContext, bizdate, bizdateSub, "app_bags_pop", userSet)

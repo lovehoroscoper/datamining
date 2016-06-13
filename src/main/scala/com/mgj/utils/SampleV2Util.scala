@@ -36,7 +36,7 @@ object SampleV2Util {
     return sampleFinal
   }
 
-  def getOrderSample(sqlContext: HiveContext, bizdate: String, appIds: String*): DataFrame = {
+  def getOrderSample(sqlContext: HiveContext, bizdate: String, isSample: Boolean, appIds: String*): DataFrame = {
     def getTimeDiff(visitTimex: String, visitTimey: String): Double = {
       val df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
       val datex = df.parse(visitTimex)
@@ -63,10 +63,14 @@ object SampleV2Util {
     val sdf: SimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
     val sampleFinalDF = sqlContext.createDataFrame(orderSampleRDD.map(x => Row(x._1, x._2, sdf.format(x._3.toLong * 1000), Math.log(1 + x._4.toDouble).toString, x._5)), schema).repartition(600)
     println(s"sample total count:${sampleFinalDF.count()}")
-    return this.takeSample(sampleFinalDF)
+    if (isSample) {
+      return this.takeSample(sampleFinalDF)
+    } else {
+      return sampleFinalDF
+    }
   }
 
-  def getClickSample(sqlContext: HiveContext, bizdate: String, appIds: String*): DataFrame = {
+  def getClickSample(sqlContext: HiveContext, bizdate: String, isSample: Boolean, appIds: String*): DataFrame = {
     def getTimeDiff(visitTimex: String, visitTimey: String): Double = {
       val df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
       val datex = df.parse(visitTimex)
@@ -130,7 +134,11 @@ object SampleV2Util {
     val sdf: SimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
     val sampleFinalDF = sqlContext.createDataFrame(sampleFinal.map(x => Row(x._1, x._2, sdf.format(x._3.toLong * 1000), Math.log(1 + x._4.toDouble).toString, x._5)), schema).repartition(600)
     println(s"sample total count:${sampleFinalDF.count()}")
-    return this.takeSample(sampleFinalDF)
+    if (isSample) {
+      return this.takeSample(sampleFinalDF)
+    } else {
+      return sampleFinalDF
+    }
   }
 
   def getOrderSampleLog(sqlContext: HiveContext, bizdate: String, code: String*): DataFrame = {
