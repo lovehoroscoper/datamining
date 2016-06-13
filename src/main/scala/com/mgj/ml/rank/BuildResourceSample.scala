@@ -28,7 +28,7 @@ object BuildResourceSample {
     println(s"bizdate:${bizdate}")
 
     // user_id, entity_id, expose_time, click_time, pos, label.
-    val clickSampleDF = SampleV2Util.getClickSample(sqlContext, bizdate, appIds: _*)
+    val clickSampleDF = SampleV2Util.getClickSample(sqlContext, bizdate, true, appIds: _*)
     clickSampleDF.show()
 
     //    clickSampleDF.registerTempTable(table + "_temp")
