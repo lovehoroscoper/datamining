@@ -131,6 +131,6 @@ object PersonlizeAnalysisUtil {
     getSceneAnalysis(sqlContext, bizdate, bizdateSub, "app_shoes_pop", userSet)
     getSceneAnalysis(sqlContext, bizdate, bizdateSub, "app_clothing_pop", userSet)
     getSceneAnalysis(sqlContext, bizdate, bizdateSub, "app_bags_pop", userSet)
-    getSceneAnalysis(sqlContext, bizdate, bizdateSub, "app_xitemsearch_pop", userSet)
+    //    getSceneAnalysis(sqlContext, bizdate, bizdateSub, "app_xitemsearch_pop", userSet)
   }
 }
