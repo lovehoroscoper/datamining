@@ -13,7 +13,7 @@ object PersonlizeAnalysisUtil {
   val N = 10
 
   def getUserSet(sqlContext: HiveContext, bizdateSub: String, bizdate: String): Set[String] = {
-    val clickLogSql = s"select user_id, item_id, time, category_id, pt from s_dg_user_base_log where pt >= '${bizdateSub}' and pt <= '${bizdate}' and action_type = 'click' and platform_type = 'app'"
+    val clickLogSql = s"select user_id, item_id, time, category_id, pt from s_dg_user_base_log where pt >= '${bizdateSub}' and pt <= '${bizdate}' and action_type = 'expose'"
     val clickLog = sqlContext.sql(clickLogSql).rdd.filter(x => x.anyNull == false).map(x => (x(0).toString, x(1).toString, x(4).toString))
     val userSet = clickLog.groupBy(x => x._1).map(x => (x._1, x._2.map(x => x._3).toList.distinct.size)).filter(x => x._2 > 1).map(x => x._1).collect().toSet
     println(s"userSet size:${userSet.size}")
