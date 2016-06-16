@@ -2,7 +2,7 @@
 
 # enviroment parameter.
 source /home/digu/.bash_profile
-source ./util/conf.sh
+source util/conf.sh
 
 # date.
 CUR_TIME=`date +%s`
