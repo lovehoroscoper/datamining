@@ -2,8 +2,10 @@
 
 # enviroment parameter.
 source /home/digu/.bash_profile
+source ./bin/utils/conf.sh
+source ./bin/utils/constant.sh
+source ./bin/utils/functions.sh
 
-# date.
 DATA_PATH="/home/digu/workspace/data/dict"
 if [ -f "${DATA_PATH}" ]; then
     # rm ${DATA_PATH}
@@ -24,30 +26,17 @@ head ${DATA_PATH}
 echo "data path: ${DATA_PATH}"
 
 RESULT_DIR="/user/digu/userWordPrefer"
-hdfs dfs -test -e ${RESULT_DIR}
-if [ $? -eq 0 ] ;then
-    echo "${RESULT_DIR} exists"
-    hdfs dfs -rm -r ${RESULT_DIR}
-fi
+remove_hdfs_file ${RESULT_DIR}
 echo "result dir: ${RESULT_DIR}"
 
 RESULT_IDF_DIR="/user/digu/queryIdf"
 echo "result dir: ${RESULT_IDF_DIR}"
 
-CUR_TIME=`date +%s`
-CUR_DATE=`date  +%Y-%m-%d`
-DAY_SUB1=`date -d "${CUR_DATE} -2 day" +"%Y-%m-%d"`
-DAY_SUB30=`date -d "${CUR_DATE} -30 day" +"%Y-%m-%d"`
 BIZDATE=${DAY_SUB1}
 BIZDATE_SUB=${DAY_SUB1}
 
 echo "bizdate:${BIZDATE}"
 echo "bizdate_sub:${BIZDATE_SUB}"
-
-SUBMIT="/home/spark/spark-1.6.0-bin-hadoop2.3/bin/spark-submit "
-JAR_PATH="`pwd`/target/data-mining-1.0-SNAPSHOT-jar-with-dependencies.jar"
-
-echo "${JAR_PATH}"
 
 ${SUBMIT}														\
 	--master yarn												\
@@ -64,10 +53,4 @@ ${SUBMIT}														\
 	"${BIZDATE_SUB}"											\
 	"${RESULT_IDF_DIR}"											\
 
-DAY_SUB20=`date -d "${CUR_DATE} -20 day" +"%Y-%m-%d"`
-RESULT_DIR_SUB=${RESULT_IDF_DIR}/${DAY_SUB20}
-hdfs dfs -test -e ${RESULT_DIR_SUB}
-if [ $? -eq 0 ] ;then
-    echo "${RESULT_DIR_SUB} exists"
-    hdfs dfs -rm -r ${RESULT_DIR_SUB}
-fi
+remove_hdfs_file ${RESULT_IDF_DIR} ${DAY_SUB20}

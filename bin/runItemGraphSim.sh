@@ -3,13 +3,10 @@
 # enviroment parameter.
 source /home/digu/.bash_profile
 
-# date.
-CUR_TIME=`date +%s`
-CUR_DATE=`date  +%Y-%m-%d`
-DAY_SUB1=`date -d "${CUR_DATE} -1 day" +"%Y-%m-%d"`
-DAY_SUB3=`date -d "${CUR_DATE} -3 day" +"%Y-%m-%d"`
-DAY_SUB7=`date -d "${CUR_DATE} -7 day" +"%Y-%m-%d"`
-DAY_SUB10=`date -d "${CUR_DATE} -10 day" +"%Y-%m-%d"`
+source ./bin/utils/conf.sh
+source ./bin/utils/constant.sh
+source ./bin/utils/functions.sh
+
 START=${DAY_SUB7}
 END=${DAY_SUB1}
 
@@ -20,19 +17,11 @@ CTR_DIFF="0.2"
 echo "ctr different:${CTR_DIFF}"
 
 RESULT_DIR="/user/digu/itemGraphSim"
-hdfs dfs -test -e ${RESULT_DIR}
-if [ $? -eq 0 ] ;then
-    echo "${RESULT_DIR} exists"
-    hdfs dfs -rm -r ${RESULT_DIR}
-fi
+remove_hdfs_file ${RESULT_DIR}
 echo "result dir: ${RESULT_DIR}"
 
 RESULT_DIR_V2="/user/digu/itemGraphSimWithTitle"
-hdfs dfs -test -e ${RESULT_DIR_V2}
-if [ $? -eq 0 ] ;then
-    echo "${RESULT_DIR_V2} exists"
-    hdfs dfs -rm -r ${RESULT_DIR_V2}
-fi
+remove_hdfs_file ${RESULT_DIR_V2}
 echo "result dir v2: ${RESULT_DIR_V2}"
 
 DATA_PATH="/home/digu/workspace/data/new_words_v2.txt"
@@ -53,11 +42,6 @@ echo "data path: ${DATA_PATH}"
 
 ITEM_CTR="/user/digu/LTR_FEATURE/old_ctr_score_sub"
 echo "item ctr: ${ITEM_CTR}"
-
-SUBMIT="/home/spark/spark-1.6.0-bin-hadoop2.3/bin/spark-submit "
-JAR_PATH="`pwd`/target/data-mining-1.0-SNAPSHOT-jar-with-dependencies.jar"
-
-echo "${JAR_PATH}"
 
 ${SUBMIT}														\
 	--master yarn												\

@@ -2,19 +2,12 @@
 
 # enviroment parameter.
 source /home/digu/.bash_profile
-
-# date.
-CUR_TIME=`date +%s`
-CUR_DATE=`date  +%Y-%m-%d`
+source ./bin/utils/conf.sh
+source ./bin/utils/constant.sh
+source ./bin/utils/functions.sh
 
 # input table.
 TABLE_NAME="s_dg_cf_user_click_log_7d"
-
-SUBMIT="/home/spark/spark-1.6.0-bin-hadoop2.3/bin/spark-submit "
-
-JAR_PATH="`pwd`/target/data-mining-1.0-SNAPSHOT-jar-with-dependencies.jar"
-
-echo "${JAR_PATH}"
 
 # dump to redis
 ${SUBMIT}														\

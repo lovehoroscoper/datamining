@@ -3,12 +3,10 @@
 # enviroment parameter.
 source /home/digu/.bash_profile
 
-# date.
-CUR_TIME=`date +%s`
-CUR_DATE=`date  +%Y-%m-%d`
-DAY_SUB1=`date -d "${CUR_DATE} -1 day" +"%Y-%m-%d"`
-DAY_SUB7=`date -d "${CUR_DATE} -7 day" +"%Y-%m-%d"`
-DAY_SUB10=`date -d "${CUR_DATE} -10 day" +"%Y-%m-%d"`
+source ./bin/utils/conf.sh
+source ./bin/utils/constant.sh
+source ./bin/utils/functions.sh
+
 START=${DAY_SUB1}
 END=${DAY_SUB1}
 
@@ -17,11 +15,6 @@ echo "end date:${END}"
 
 N="10"
 echo "N:${N}"
-
-SUBMIT="/home/spark/spark-1.6.0-bin-hadoop2.3/bin/spark-submit "
-JAR_PATH="`pwd`/target/data-mining-1.0-SNAPSHOT-jar-with-dependencies.jar"
-
-echo "${JAR_PATH}"
 
 ${SUBMIT}														\
 	--master yarn												\

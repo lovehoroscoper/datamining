@@ -3,38 +3,16 @@
 # enviroment parameter.
 source /home/digu/.bash_profile
 
-# date.
-CUR_TIME=`date +%s`
-CUR_DATE=`date  +%Y-%m-%d`
+source ./bin/utils/conf.sh
+source ./bin/utils/constant.sh
+source ./bin/utils/functions.sh
 
 DATA_DIR="/user/digu/itemBigraphSim/resultUnionGroup"
-for k in $( seq 1 10 )
-do
-	DAY_SUB=`date -d "${CUR_DATE} -${k} day" +"%Y-%m-%d"`
-	FILE_PATH=${DATA_DIR}/${DAY_SUB}
-	hdfs dfs -test -e ${FILE_PATH}/"_SUCCESS"
-	if [ $? -eq 0 ] ;then
-    	echo "${FILE_PATH} exists"
-    	break
-	fi
-done
-
-ITEM_BIGRAPH_SIM_PATH=${FILE_PATH}
+ITEM_BIGRAPH_SIM_PATH=`find_latest_file ${DATA_DIR} ${CUR_DATE} 10`
 echo "item bigraph sim path: ${ITEM_BIGRAPH_SIM_PATH}"
 
 DATA_DIR="/user/digu/itemSim"
-for k in $( seq 1 10 )
-do
-	DAY_SUB=`date -d "${CUR_DATE} -${k} day" +"%Y-%m-%d"`
-	FILE_PATH=${DATA_DIR}/${DAY_SUB}
-	hdfs dfs -test -e ${FILE_PATH}/"_SUCCESS"
-	if [ $? -eq 0 ] ;then
-    	echo "${FILE_PATH} exists"
-    	break
-	fi
-done
-
-ITEM_SIM_PATH=${FILE_PATH}
+ITEM_SIM_PATH=`find_latest_file ${DATA_DIR} ${CUR_DATE} 10`
 echo "item sim path: ${ITEM_SIM_PATH}"
 
 ITEM_SIM_MERGE_RESULT="/user/digu/itemSimMerge"
@@ -42,17 +20,7 @@ echo "item sim merge result: ${ITEM_SIM_MERGE_RESULT}"
 
 ITEM_SIM_SEARCH_DUMP_RESULT="/user/digu/itemSimSearchDump"
 echo "item sim search dump result: ${ITEM_SIM_SEARCH_DUMP_RESULT}"
-hdfs dfs -test -e ${ITEM_SIM_SEARCH_DUMP_RESULT}
-if [ $? -eq 0 ] ;then
-    echo "${ITEM_SIM_SEARCH_DUMP_RESULT} exists"
-    hdfs dfs -rm -r ${ITEM_SIM_SEARCH_DUMP_RESULT}
-fi
-
-SUBMIT="/home/spark/spark-1.6.0-bin-hadoop2.3/bin/spark-submit "
-
-JAR_PATH="`pwd`/target/data-mining-1.0-SNAPSHOT-jar-with-dependencies.jar"
-
-echo "${JAR_PATH}"
+remove_hdfs_file ${ITEM_SIM_SEARCH_DUMP_RESULT}
 
 ${SUBMIT}														\
 	--master yarn												\
@@ -97,11 +65,4 @@ curl "http://dc.algo.service.mogujie.org/action/fieldUpdate/doUpdate?id=85"
 #curl "http://10.19.16.30:10850/dumpData?featureName=itemSim&method=local"
 #curl "http://10.15.18.40:10850/dumpData?featureName=itemSim&method=local" &
 
-CUR_DATE=`date  +%Y-%m-%d`
-DAY_SUB20=`date -d "${CUR_DATE} -20 day" +"%Y-%m-%d"`
-RESULT_DIR_SUB=${ITEM_SIM_MERGE_RESULT}/${DAY_SUB20}
-hdfs dfs -test -e ${RESULT_DIR_SUB}
-if [ $? -eq 0 ] ;then
-    echo "${RESULT_DIR_SUB} exists"
-    hdfs dfs -rm -r ${RESULT_DIR_SUB}
-fi
+remove_hdfs_file ${ITEM_SIM_MERGE_RESULT} ${DAY_SUB20}

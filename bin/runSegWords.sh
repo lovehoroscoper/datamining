@@ -2,8 +2,10 @@
 
 # enviroment parameter.
 source /home/digu/.bash_profile
+source ./bin/utils/conf.sh
+source ./bin/utils/constant.sh
+source ./bin/utils/functions.sh
 
-# date.
 DATA_PATH="/home/digu/workspace/data/dict"
 if [ -f "${DATA_PATH}" ]; then
     rm ${DATA_PATH}
@@ -20,21 +22,12 @@ rm ${DATA_PATH}_temp
 head ${DATA_PATH}
 
 echo "data path: ${DATA_PATH}"
-GENE_PATH="/user/digu/itemGroupWithTitle/data"
 
+GENE_PATH="/user/digu/itemGroupWithTitle/data"
 RESULT_DIR="/user/digu/geneWordsWithTitle"
-hdfs dfs -test -e ${RESULT_DIR}
-if [ $? -eq 0 ] ;then
-    echo "${RESULT_DIR} exists"
-    hdfs dfs -rm -r ${RESULT_DIR}
-fi
+remove_hdfs_file ${RESULT_DIR}
 echo "result dir: ${RESULT_DIR}"
 echo "gene dir: ${GENE_PATH}"
-
-SUBMIT="/home/spark/spark-1.6.0-bin-hadoop2.3/bin/spark-submit "
-JAR_PATH="`pwd`/target/data-mining-1.0-SNAPSHOT-jar-with-dependencies.jar"
-
-echo "${JAR_PATH}"
 
 ${SUBMIT}														\
 	--master yarn												\

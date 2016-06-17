@@ -2,12 +2,9 @@
 
 # enviroment parameter.
 source /home/digu/.bash_profile
-
-CUR_TIME=`date +%s`
-CUR_DATE=`date  +%Y-%m-%d`
-DAY_SUB1=`date -d "${CUR_DATE} -1 day" +"%Y-%m-%d"`
-DAY_SUB2=`date -d "${CUR_DATE} -2 day" +"%Y-%m-%d"`
-DAY_SUB30=`date -d "${CUR_DATE} -30 day" +"%Y-%m-%d"`
+source ./bin/utils/conf.sh
+source ./bin/utils/constant.sh
+source ./bin/utils/functions.sh
 BIZDATE=${DAY_SUB2}
 
 #FEATURES="user_item_prefer,user_real_item_prefer,item_ctr,user_shop_prefer,user_shop_prefer_order,user_category_prefer,user_category_prefer_order,user_gene_prefer,user_gene_prefer_order"
@@ -19,11 +16,6 @@ SAMPLE="${2}"
 echo "bizdate: ${BIZDATE}"
 echo "features: ${FEATURES}"
 echo "sample: ${SAMPLE}"
-
-SUBMIT="/home/spark/spark-1.6.0-bin-hadoop2.3/bin/spark-submit "
-JAR_PATH="`pwd`/target/data-mining-1.0-SNAPSHOT-jar-with-dependencies.jar"
-
-echo "${JAR_PATH}"
 
 ${SUBMIT}														\
 	--master yarn												\
