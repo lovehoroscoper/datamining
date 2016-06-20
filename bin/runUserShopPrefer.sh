@@ -17,7 +17,7 @@ echo "bizdate_sub30:${BIZDATE_SUB30}"
 
 ${SUBMIT}														\
 	--master yarn												\
-	--queue root.data   										\
+	--queue root.algorithm   									\
 	--driver-memory	8g											\
 	--num-executors	32											\
 	--executor-cores 2											\

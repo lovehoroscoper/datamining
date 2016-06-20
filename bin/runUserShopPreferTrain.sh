@@ -29,7 +29,7 @@ echo "user shop prefer feature table: ${USER_SHOP_PREFER_FEATURE_TABLE}"
 
 ${SUBMIT}														\
 	--master yarn												\
-	--queue root.data   										\
+	--queue root.algorithm   									\
 	--driver-memory	8g											\
 	--num-executors 16											\
 	--executor-cores 2											\
