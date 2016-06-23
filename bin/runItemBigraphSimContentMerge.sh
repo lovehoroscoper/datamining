@@ -123,7 +123,7 @@ echo "${FILE_PATH} exists"
 RESULT_DIR_CURRENT_USED="/user/digu/itemSimCurrentUsedV2"
 remove_hdfs_file ${RESULT_DIR_CURRENT_USED}
 echo "result dir current used: ${RESULT_DIR_CURRENT_USED}"
-hdfs dfs -cp ${FILE_PATH} ${RESULT_DIR_CURRENT_USED} &
+hdfs dfs -cp ${FILE_PATH} ${RESULT_DIR_CURRENT_USED}
 
 curl "http://10.15.17.31:10850/dumpData?featureName=itemSimV2&method=local"
 #curl "http://10.19.22.49:10850/dumpData?featureName=itemSimV2&method=local"
