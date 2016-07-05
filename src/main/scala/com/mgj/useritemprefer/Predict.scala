@@ -5,7 +5,8 @@ import java.util.ArrayList
 import java.util.Arrays
 import java.util.HashSet
 
-import com.mgj.utils.{LRLearner, GBRTLearner}
+import com.mgj.feature.FeatureType
+import com.mgj.utils.{HiveUtil, LRLearner, GBRTLearner}
 import org.apache.spark.ml.classification.LogisticRegressionModel
 import org.apache.spark.ml.regression.GBTRegressionModel
 import org.apache.spark.mllib.linalg.{Vectors, Vector}
@@ -37,8 +38,7 @@ object Predict {
     val model = sc.objectFile[LogisticRegressionModel](userItemPreferModel).first()
     println("model")
     println(model)
-    println(model.weights)
-//    println(model.treeWeights)
+    println(model.coefficients)
 
     val sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
     val itemViewSql = "select user_id, item_id, category_id, time, pt from s_dg_user_base_log where pt >= '" + bizdateSub + "' and pt <= '" + bizdate + "' and action_type='click' and platform_type='app'"
@@ -160,6 +160,6 @@ object Predict {
     }
 
     result.map(x => (x(0), x(1), x(2).toDouble)).groupBy(x => x._1).filter(x => x._2.size > 0 && x._1.toLong > 0).map(x => x._1 + " " + sort(x._2, 50)).saveAsTextFile(userItemPreferPath)
+    HiveUtil.featureHdfsToHive(sc, sqlContext, "user_item_prefer", userItemPreferPath, bizdate, "s_dg_user_item_prefer", FeatureType.USER)
   }
-
 }

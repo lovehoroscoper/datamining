@@ -2,6 +2,9 @@
 
 # enviroment parameter.
 source /home/digu/.bash_profile
+source ./bin/utils/conf.sh
+source ./bin/utils/constant.sh
+source ./bin/utils/functions.sh
 
 RESULT_DIR="/user/digu/itemGroupWithTitle"
 echo "result dir: ${RESULT_DIR}"

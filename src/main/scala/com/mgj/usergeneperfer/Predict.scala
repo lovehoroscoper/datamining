@@ -3,7 +3,8 @@ package com.mgj.usergeneperfer
 import java.text.SimpleDateFormat
 import java.util.HashMap
 
-import com.mgj.utils.LRLearner
+import com.mgj.feature.FeatureType
+import com.mgj.utils.{HiveUtil, LRLearner}
 import org.apache.spark.ml.classification.LogisticRegressionModel
 import org.apache.spark.mllib.linalg.{Vector, Vectors}
 import org.apache.spark.rdd.RDD
@@ -169,5 +170,8 @@ object Predict {
     val writer = new PrintWriter(new File(isSuccessFile))
     writer.write("DONE!")
     writer.close()
+
+    HiveUtil.featureHdfsToHive(sc, sqlContext, "user_gene_prefer", userGenePreferPath, bizdate, "s_dg_user_gene_prefer", FeatureType.USER)
+    HiveUtil.featureHdfsToHive(sc, sqlContext, "user_gene_prefer_order", userGenePreferOrderPath, bizdate, "s_dg_user_gene_prefer_order", FeatureType.USER)
   }
 }

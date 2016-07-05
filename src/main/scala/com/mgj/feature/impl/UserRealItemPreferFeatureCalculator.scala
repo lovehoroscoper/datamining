@@ -2,11 +2,14 @@ package com.mgj.feature.impl
 
 import java.text.SimpleDateFormat
 
-import com.mgj.feature.{FeatureCalculator, FeatureConstant}
+import com.mgj.feature.{FeatureType, FeatureCalculator, FeatureConstant}
+import com.mgj.utils.HiveUtil
 import org.apache.spark.SparkContext
+import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.hive.HiveContext
 import org.apache.spark.sql.types.{DoubleType, StringType, StructField, StructType}
 import org.apache.spark.sql.{DataFrame, Row}
+import scala.collection.JavaConversions._
 
 /**
   * Created by xiaonuo on 12/5/15.
@@ -100,6 +103,23 @@ class UserRealItemPreferFeatureCalculator extends FeatureCalculator {
     return dataDF
   }
 
+  override def getFeatureRDD(sampleDF: DataFrame, sc: SparkContext, sqlContext: HiveContext): Seq[(RDD[(String, List[String])], List[String], String)] = {
+    val clickSql = "select user_id, item_id, time from s_dg_user_base_log where pt = '" + bizDate + "' and action_type = 'click' and platform_type = 'app'"
+    val userClickItem = sqlContext.sql(clickSql).rdd.filter(x => x.anyNull == false).map(x => (x(0).toString, x(1).toString, x(2).toString)).map(x => (x._1, x)).groupByKey().map(x => {
+      val clickList = x._2.map(x => (x._2 + ":" + x._3)).mkString(",")
+      Row(x._1, clickList)
+    })
+    val schemaUser = StructType(StructField(FeatureConstant.USER_KEY, StringType, true) :: StructField(userField, StringType, true) :: Nil)
+    val userClickItemDF = sqlContext.createDataFrame(userClickItem, schemaUser)
+    println(userField + " DataFrame")
+    userClickItemDF.show
+
+    val result = Seq[(RDD[(String, List[String])], List[String], String)]()
+    result.add(getFeature(userClickItemDF, FeatureType.USER))
+    return result
+
+  }
+
   override var featureName: String = _
   override var userField: String = _
   override var itemField: String = _
@@ -107,6 +127,7 @@ class UserRealItemPreferFeatureCalculator extends FeatureCalculator {
   override var itemFieldPath: String = _
   override var bizDate: String = _
   override var maxValue: String = _
+  override var tableName: String = _
 
-  override def toString = s"UserRealItemPreferFeatureCalculator($N, $featureName, $userField, $itemField, $userFieldPath, $itemFieldPath, $bizDate, $maxValue)"
+  override def toString = s"UserRealItemPreferFeatureCalculator($featureName, $userField, $itemField, $userFieldPath, $itemFieldPath, $bizDate, $maxValue, $tableName)"
 }

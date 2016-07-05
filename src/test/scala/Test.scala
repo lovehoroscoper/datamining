@@ -1,6 +1,9 @@
 
+import com.mgj.feature.UdfTemplate
+import com.mgj.feature.impl.udfs.TestUdf
 import com.mgj.ml.maxentropy.{MESample, MaxEntropy}
 import org.apache.spark.mllib.linalg.Vectors
+import org.apache.spark.sql.functions._
 import org.apache.spark.sql.{Row, SQLContext}
 import org.scalatest.{Matchers, FlatSpec}
 
@@ -83,5 +86,15 @@ class Test extends FlatSpec with Matchers with LocalSparkContext {
     //      val list = x._2.toList.head
     //      (list._1, list._2, x._2.size)
     //    }).filter(x => x._3 > 1)
+
+    //    val bizdate = "2015/02/12"
+    //    val pattern = """(\d{4}).*(\d{2}).*(\d{2})""".r
+    //    val dateMeta = pattern.findFirstIn(bizdate)
+    //    val bizdateNew = if (dateMeta != None) {
+    //      val pattern(year, month, day) = dateMeta.get
+    //      print(year + month + day)
+    //    } else {
+    //      print("error")
+    //    }
   }
 }

@@ -1,11 +1,13 @@
 package com.mgj.feature.impl
 
-import com.mgj.feature.{FeatureConstant, FeatureCalculator}
-import com.mgj.utils.HdfsUtil
+import com.mgj.feature.{FeatureType, FeatureConstant, FeatureCalculator}
+import com.mgj.utils.{HiveUtil, HdfsUtil}
 import org.apache.spark.SparkContext
+import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.hive.HiveContext
 import org.apache.spark.sql.{DataFrame, Row}
 import org.apache.spark.sql.types.{StringType, StructType, DoubleType, StructField}
+import scala.collection.JavaConversions._
 
 /**
   * Created by xiaonuo on 12/5/15.
@@ -88,6 +90,14 @@ class UserShopPreferFeatureCalculator extends FeatureCalculator {
     return dataDF
   }
 
+  override def getFeatureRDD(sampleDF: DataFrame, sc: SparkContext, sqlContext: HiveContext): Seq[(RDD[(String, List[String])], List[String], String)] = {
+    val result = super.getFeatureRDD(sampleDF, sc, sqlContext)
+    val itemShopFeatureDF = sqlContext.sql("select cast(tradeitemid as string) as " + FeatureConstant.ITEM_KEY + ", cast(shopid as string) as " + itemField + " from v_dw_trd_tradeitem where tradeitemid is not null and shopid is not null")
+    println(itemField + " DataFrame")
+    result.add(getFeature(itemShopFeatureDF, FeatureType.ITEM))
+    return result
+  }
+
   override var featureName: String = _
   override var userField: String = _
   override var itemField: String = _
@@ -95,6 +105,7 @@ class UserShopPreferFeatureCalculator extends FeatureCalculator {
   override var itemFieldPath: String = _
   override var bizDate: String = _
   override var maxValue: String = _
+  override var tableName: String = _
 
-  override def toString = s"UserShopPreferFeatureCalculator($featureName, $userField, $itemField, $userFieldPath, $itemFieldPath, $bizDate, $maxValue)"
+  override def toString = s"UserShopPreferFeatureCalculator($featureName, $userField, $itemField, $userFieldPath, $itemFieldPath, $bizDate, $maxValue, $tableName)"
 }

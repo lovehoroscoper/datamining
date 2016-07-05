@@ -8,6 +8,8 @@ import java.util
 class FeatureCalculatorFactory {
   private var calculators: util.HashMap[String, FeatureCalculator] = _
 
+  private var computers: util.HashMap[String, String] = _
+
   def setCalculators(calculators: util.HashMap[String, FeatureCalculator]): Unit = {
     this.calculators = calculators
   }
@@ -18,5 +20,17 @@ class FeatureCalculatorFactory {
 
   def containsCalculator(name: String): Boolean = {
     return calculators.containsKey(name)
+  }
+
+  def setComputers(calculators: util.HashMap[String, String]): Unit = {
+    this.computers = calculators
+  }
+
+  def getComputer(name: String): String = {
+    return computers.get(name)
+  }
+
+  def containsComputer(name: String): Boolean = {
+    return computers.containsKey(name)
   }
 }

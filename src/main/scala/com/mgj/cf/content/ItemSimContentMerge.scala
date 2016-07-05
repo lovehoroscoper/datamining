@@ -3,7 +3,8 @@ package com.mgj.cf.content
 import java.text.SimpleDateFormat
 import java.util.Calendar
 
-import com.mgj.utils.{NormalizeUtil, WordSegUtil}
+import com.mgj.feature.FeatureType
+import com.mgj.utils.{HiveUtil, NormalizeUtil, WordSegUtil}
 import org.apache.spark.sql.hive.HiveContext
 import org.apache.spark.{SparkConf, SparkContext}
 
@@ -137,5 +138,7 @@ object ItemSimContentMerge {
     }).saveAsTextFile(outputPath + "/" + sdf.format(calendar.getTime))
 
     itemSimWithContent.map(x => x._1 + " " + x._2 + " " + x._3).saveAsTextFile(outputPathOrigin + "/" + sdf.format(calendar.getTime))
+
+    HiveUtil.featureHdfsToHive(sc, sqlContext, "item_sim_merge", outputPathOrigin + "/" + sdf.format(calendar.getTime), sdf.format(calendar.getTime), "s_dg_item_sim_merge", FeatureType.ITEM)
   }
 }

@@ -7,7 +7,8 @@ package com.mgj.cf
 import java.text.SimpleDateFormat
 import java.util.Calendar
 
-import com.mgj.utils.NormalizeUtil
+import com.mgj.feature.FeatureType
+import com.mgj.utils.{HiveUtil, NormalizeUtil}
 import org.apache.spark.sql.hive.HiveContext
 import org.apache.spark.{SparkConf, SparkContext}
 
@@ -86,5 +87,7 @@ object ItemBigraphSimUnion {
     i2iUnion.map(x => x._1 + " " + x._2 + " " + x._3).saveAsTextFile(outputPath + "/" + sdf.format(calendarOutput.getTime))
 
     i2iUnion.map(x => (x._1, x._2, x._3)).groupBy(_._1).map(x => x._1 + " " + sort(x._2, N)).coalesce(2000).saveAsTextFile(outputGroupPath + "/" + sdf.format(calendarOutput.getTime))
+
+    HiveUtil.featureHdfsToHive(sc, sqlContext, "item_sim", outputGroupPath + "/" + sdf.format(calendarOutput.getTime), sdf.format(calendarOutput.getTime), "s_dg_item_sim", FeatureType.ITEM)
   }
 }

@@ -1,11 +1,13 @@
 package com.mgj.feature.impl
 
-import com.mgj.feature.{FeatureCalculator, FeatureConstant}
-import com.mgj.utils.HdfsUtil
+import com.mgj.feature.{FeatureType, FeatureCalculator, FeatureConstant}
+import com.mgj.utils.{HiveUtil, HdfsUtil}
 import org.apache.spark.SparkContext
+import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.hive.HiveContext
 import org.apache.spark.sql.types.{DoubleType, StringType, StructField, StructType}
 import org.apache.spark.sql.{DataFrame, Row}
+import scala.collection.JavaConversions._
 
 /**
   * Created by xiaonuo on 12/5/15.
@@ -80,6 +82,7 @@ class ItemFeatureCalculator extends FeatureCalculator {
   override var itemFieldPath: String = _
   override var bizDate: String = _
   override var maxValue: String = _
+  override var tableName: String = _
 
-  override def toString = s"ItemFeatureCalculator($featureName, $userField, $itemField, $userFieldPath, $itemFieldPath, $bizDate, $maxValue)"
+  override def toString = s"ItemFeatureCalculator($featureName, $userField, $itemField, $userFieldPath, $itemFieldPath, $bizDate, $maxValue, $tableName)"
 }

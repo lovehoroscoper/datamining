@@ -4,7 +4,8 @@ import java.text.SimpleDateFormat
 import java.util
 import java.util.HashMap
 
-import com.mgj.utils.LRLearner
+import com.mgj.feature.FeatureType
+import com.mgj.utils.{HiveUtil, LRLearner}
 import org.apache.spark.ml.classification.LogisticRegressionModel
 import org.apache.spark.mllib.linalg.{Vector, Vectors}
 import org.apache.spark.rdd.RDD
@@ -184,5 +185,8 @@ object Predict {
 
     result.map(x => (x(0), x(1), x(2), x(3).toDouble)).groupBy(_._1).filter(x => x._2.size > 0 && x._1.toLong > 0).map(x => x._1 + " " + sort(x._2, 50)).saveAsTextFile(userShopPerferPath)
     resultOrder.map(x => (x(0), x(1), x(2), x(3).toDouble)).groupBy(_._1).filter(x => x._2.size > 0 && x._1.toLong > 0).map(x => x._1 + " " + sort(x._2, 50)).saveAsTextFile(userShopPerferOrderPath)
+
+    HiveUtil.featureHdfsToHive(sc, sqlContext, "user_shop_prefer", userShopPerferPath, bizdate, "s_dg_user_shop_prefer", FeatureType.USER)
+    HiveUtil.featureHdfsToHive(sc, sqlContext, "user_shop_prefer_order", userShopPerferOrderPath, bizdate, "s_dg_user_shop_prefer_order", FeatureType.USER)
   }
 }
