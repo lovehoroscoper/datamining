@@ -1,10 +1,8 @@
 package com.mgj.feature
 
 import java.util
-import javax.annotation.PostConstruct
 
 import org.apache.spark.sql.hive.HiveContext
-import org.springframework.stereotype.Service
 
 /**
   * Created by xiaonuo on 7/5/16.
