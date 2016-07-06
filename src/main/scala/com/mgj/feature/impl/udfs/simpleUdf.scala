@@ -6,10 +6,8 @@ import org.springframework.stereotype.Service
 /**
   * Created by xiaonuo on 7/5/16.
   */
-@Service("identityUdf")
-class IdentityUdf extends UdfTemplate {
-  override var name: String = "identity"
-
+@Service("simpleUdf")
+class SimpleUdf extends UdfTemplate {
   override def buildFunction(): (String) => Double = {
     val function = (input: String) => input.toDouble
     return function

@@ -26,7 +26,7 @@ class UdfFactory {
 
   def init(sqlContext: HiveContext): Unit = {
     for (e <- udfs.keySet()) {
-      udfs.get(e).register(sqlContext)
+      udfs.get(e).register(sqlContext, e)
     }
   }
 }

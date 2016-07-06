@@ -6,6 +6,7 @@ import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.hive.HiveContext
 import scala.collection.JavaConversions._
+import scala.tools.scalap.scalax.rules.Units
 
 /**
   * Created by xiaonuo on 12/5/15.
@@ -57,7 +58,7 @@ abstract class FeatureCalculator extends java.io.Serializable {
 
   def getFeatureDF(sampleDF: DataFrame, sc: SparkContext, sqlContext: HiveContext): DataFrame
 
-  def getFeatureRDD(sampleDF: DataFrame, sc: SparkContext, sqlContext: HiveContext): Seq[(RDD[(String, List[String])], List[String], String)] = {
+  def getFeatureRDD(sc: SparkContext, sqlContext: HiveContext): Seq[(RDD[(String, List[String])], List[String], String)] = {
     val table = this.getTable(tableName)
     val result = Seq[(RDD[(String, List[String])], List[String], String)]()
 
@@ -72,12 +73,16 @@ abstract class FeatureCalculator extends java.io.Serializable {
         }
       }
 
-      val featureDF = sqlContext.sql(s"select * from ${getFullTableName(tableName, bizDate)}")
+      val featureDF = sqlContext.sql(s"select * from ${this.getFullTableName(tableName, bizDate)}")
 
       result.add(getFeature(featureDF, featureType))
     }
 
     return result
+  }
+
+  def getTables(): Map[String, String] = {
+    return this.getTable()
   }
 
   protected def getFeature(featureDF: DataFrame, featureType: String): (RDD[(String, List[String])], List[String], String) = {

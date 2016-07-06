@@ -90,8 +90,8 @@ class UserShopPreferFeatureCalculator extends FeatureCalculator {
     return dataDF
   }
 
-  override def getFeatureRDD(sampleDF: DataFrame, sc: SparkContext, sqlContext: HiveContext): Seq[(RDD[(String, List[String])], List[String], String)] = {
-    val result = super.getFeatureRDD(sampleDF, sc, sqlContext)
+  override def getFeatureRDD(sc: SparkContext, sqlContext: HiveContext): Seq[(RDD[(String, List[String])], List[String], String)] = {
+    val result = super.getFeatureRDD(sc, sqlContext)
     val itemShopFeatureDF = sqlContext.sql("select cast(tradeitemid as string) as " + FeatureConstant.ITEM_KEY + ", cast(shopid as string) as " + itemField + " from v_dw_trd_tradeitem where tradeitemid is not null and shopid is not null")
     println(itemField + " DataFrame")
     result.add(getFeature(itemShopFeatureDF, FeatureType.ITEM))

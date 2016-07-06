@@ -2,6 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
@@ -18,92 +19,103 @@
 
     <bean id="userCategoryPreferFeatureCalculator" class="com.mgj.feature.impl.UserCategoryPreferFeatureCalculator">
         <property name="featureName" value="user_category_prefer"/>
-        <property name="userField" value="userCategoryPrefer"/>
+        <property name="userField" value="user_category_prefer"/>
         <property name="itemField" value="category_id"/>
         <property name="userFieldPath" value="/user/digu/userGBPreferRecord"/>
         <property name="itemFieldPath" value=""/>
         <property name="maxValue" value=""/>
+        <property name="tableName" value="s_dg_user_category_prefer:user"/>
     </bean>
 
     <bean id="userCategoryPreferOrderFeatureCalculator"
           class="com.mgj.feature.impl.UserCategoryPreferFeatureCalculator">
         <property name="featureName" value="user_category_prefer_order"/>
-        <property name="userField" value="userCategoryPreferOrder"/>
+        <property name="userField" value="user_category_prefer_order"/>
         <property name="itemField" value="category_id"/>
         <property name="userFieldPath" value="/user/digu/userGBPreferOrderRecord"/>
         <property name="itemFieldPath" value=""/>
         <property name="maxValue" value=""/>
+        <property name="tableName" value="s_dg_user_category_prefer_order:user"/>
     </bean>
 
     <bean id="userShopPreferFeatureCalculator" class="com.mgj.feature.impl.UserShopPreferFeatureCalculator">
         <property name="featureName" value="user_shop_prefer"/>
-        <property name="userField" value="userShopPrefer"/>
+        <property name="userField" value="user_shop_prefer"/>
         <property name="itemField" value="shop_id"/>
         <property name="userFieldPath" value="/user/digu/userShopPreferRecord"/>
         <property name="itemFieldPath" value=""/>
         <property name="maxValue" value=""/>
+        <property name="tableName" value="s_dg_user_shop_prefer:user"/>
     </bean>
 
     <bean id="userShopPreferFeatureOrderCalculator" class="com.mgj.feature.impl.UserShopPreferFeatureCalculator">
         <property name="featureName" value="user_shop_prefer_order"/>
-        <property name="userField" value="userShopPreferOrder"/>
+        <property name="userField" value="user_shop_prefer_order"/>
         <property name="itemField" value="shop_id"/>
         <property name="userFieldPath" value="/user/digu/userShopPreferOrderRecord"/>
         <property name="itemFieldPath" value=""/>
         <property name="maxValue" value=""/>
+        <property name="tableName" value="s_dg_user_shop_prefer_order:user"/>
     </bean>
 
     <bean id="userRealItemPreferFeatureCalculator" class="com.mgj.feature.impl.UserRealItemPreferFeatureCalculator">
         <property name="featureName" value="user_real_item_prefer"/>
-        <property name="userField" value="userClickItem"/>
-        <property name="itemField" value="itemSim"/>
+        <property name="userField" value="user_real_item_prefer"/>
+        <property name="itemField" value="item_sim"/>
         <property name="itemFieldPath" value="/user/digu/itemSimCurrentUsed"/>
         <property name="userFieldPath" value=""/>
+        <property name="maxValue" value=""/>
+        <property name="tableName" value="s_dg_item_sim:item"/>
     </bean>
 
     <bean id="itemCtrFeatureCalculator" class="com.mgj.feature.impl.ItemFeatureCalculator">
         <property name="featureName" value="item_ctr"/>
         <property name="userField" value=""/>
-        <property name="itemField" value="itemCtr"/>
+        <property name="itemField" value="item_ctr"/>
         <property name="itemFieldPath" value="/user/bizdata/ctrRecord"/>
         <property name="userFieldPath" value=""/>
         <property name="maxValue" value="1000000"/>
+        <property name="tableName" value="s_dg_item_ctr:item"/>
     </bean>
 
     <bean id="itemSearchCtrFeatureCalculator" class="com.mgj.feature.impl.ItemFeatureCalculator">
         <property name="featureName" value="item_search_ctr"/>
         <property name="userField" value=""/>
-        <property name="itemField" value="itemSearchCtr"/>
+        <property name="itemField" value="item_search_ctr"/>
         <property name="itemFieldPath" value="/user/bizdata/searchCtrRecord"/>
         <property name="userFieldPath" value=""/>
         <property name="maxValue" value="10000000"/>
+        <property name="tableName" value="s_dg_search_ctr:item"/>
     </bean>
 
     <bean id="userGenePreferFeatureCalculator" class="com.mgj.feature.impl.UserGenePreferFeatureCalculator">
         <property name="featureName" value="user_gene_prefer"/>
-        <property name="userField" value="userGenePrefer"/>
-        <property name="itemField" value="gene_id"/>
+        <property name="userField" value="user_gene_prefer"/>
+        <property name="itemField" value="item_gene"/>
         <property name="userFieldPath" value="/user/digu/userGenePreferRecord"/>
         <property name="itemFieldPath" value="/user/digu/itemGeneRecord"/>
         <property name="maxValue" value=""/>
+        <property name="tableName" value="s_dg_user_gene_prefer:user,s_dg_item_gene:item"/>
     </bean>
 
     <bean id="userGenePreferOrderFeatureCalculator" class="com.mgj.feature.impl.UserGenePreferFeatureCalculator">
         <property name="featureName" value="user_gene_prefer_order"/>
-        <property name="userField" value="userGenePreferOrder"/>
-        <property name="itemField" value="gene_id"/>
+        <property name="userField" value="user_gene_prefer_order"/>
+        <property name="itemField" value="item_gene"/>
         <property name="userFieldPath" value="/user/digu/userGenePreferOrderRecord"/>
         <property name="itemFieldPath" value="/user/digu/itemGeneRecord"/>
         <property name="maxValue" value=""/>
+        <property name="tableName" value="s_dg_user_gene_prefer_order:user,s_dg_item_gene:item"/>
     </bean>
 
     <bean id="userItemPreferFeatureCalculator" class="com.mgj.feature.impl.UserItemPreferFeatureCalculator">
         <property name="featureName" value="user_item_prefer"/>
-        <property name="userField" value="userItemPrefer"/>
+        <property name="userField" value="user_item_prefer"/>
         <property name="itemField" value="item_id"/>
         <property name="userFieldPath" value="/user/digu/userItemPreferRecord"/>
         <property name="itemFieldPath" value=""/>
         <property name="maxValue" value=""/>
+        <property name="tableName" value="s_dg_user_item_prefer:user"/>
     </bean>
 
     <bean id="mfFeatureCalculator" class="com.mgj.feature.impl.MFFeatureCalculator">
@@ -113,24 +125,65 @@
         <property name="userFieldPath" value="/user/digu/itemMF/user"/>
         <property name="itemFieldPath" value="/user/digu/itemMF/product"/>
         <property name="maxValue" value=""/>
+        <property name="tableName" value=""/>
     </bean>
 
+    <bean id="itemTest1FeatureCalculator" class="com.mgj.feature.impl.ItemFeatureCalculator">
+        <property name="featureName" value="score"/>
+        <property name="userField" value=""/>
+        <property name="itemField" value="score"/>
+        <property name="itemFieldPath" value=""/>
+        <property name="userFieldPath" value=""/>
+        <property name="maxValue" value="10000000"/>
+        <property name="tableName" value="qd_tmp_score1:item"/>
+    </bean>
+
+    <bean id="itemTest2FeatureCalculator" class="com.mgj.feature.impl.ItemFeatureCalculator">
+        <property name="featureName" value="dpv0d_log"/>
+        <property name="userField" value=""/>
+        <property name="itemField" value="dpv0d_log"/>
+        <property name="itemFieldPath" value=""/>
+        <property name="userFieldPath" value=""/>
+        <property name="maxValue" value="10000000"/>
+        <property name="tableName" value="qd_tmp_f1:item"/>
+    </bean>
+
+    <util:map id="calculatorsRef">
+        <entry key="user_category_prefer" value-ref="userCategoryPreferFeatureCalculator"/>
+        <entry key="user_category_prefer_order" value-ref="userCategoryPreferOrderFeatureCalculator"/>
+        <entry key="user_gene_prefer" value-ref="userGenePreferFeatureCalculator"/>
+        <entry key="user_gene_prefer_order" value-ref="userGenePreferOrderFeatureCalculator"/>
+        <entry key="user_shop_prefer" value-ref="userShopPreferFeatureCalculator"/>
+        <entry key="user_shop_prefer_order" value-ref="userShopPreferFeatureOrderCalculator"/>
+        <entry key="user_real_item_prefer" value-ref="userRealItemPreferFeatureCalculator"/>
+        <entry key="item_ctr" value-ref="itemCtrFeatureCalculator"/>
+        <entry key="item_search_ctr" value-ref="itemSearchCtrFeatureCalculator"/>
+        <entry key="user_item_prefer" value-ref="userItemPreferFeatureCalculator"/>
+        <entry key="mf" value-ref="mfFeatureCalculator"/>
+    </util:map>
+
+    <util:map id="computersRef">
+        <entry key="user_category_prefer" value="match(user_category_prefer,category_id)"/>
+        <entry key="user_gene_prefer" value="match(user_gene_prefer,item_gene)"/>
+        <entry key="item_ctr" value="simple(item_ctr)"/>
+        <entry key="score" value="simple(score)"/>
+        <entry key="dpv0d_log" value="simple(dpv0d_log)"/>
+
+    </util:map>
+
+    <util:map id="udfRef">
+        <entry key="simple" value-ref="simpleUdf"/>
+        <entry key="match" value-ref="matchUdf"/>
+        <entry key="realSim" value-ref="realSimUdf"/>
+    </util:map>
+
     <bean id="featureCalculatorFactory" class="com.mgj.feature.FeatureCalculatorFactory">
-        <property name="calculators">
-            <map>
-                <entry key="user_category_prefer" value-ref="userCategoryPreferFeatureCalculator"></entry>
-                <entry key="user_category_prefer_order" value-ref="userCategoryPreferOrderFeatureCalculator"></entry>
-                <entry key="user_gene_prefer" value-ref="userGenePreferFeatureCalculator"></entry>
-                <entry key="user_gene_prefer_order" value-ref="userGenePreferOrderFeatureCalculator"></entry>
-                <entry key="user_shop_prefer" value-ref="userShopPreferFeatureCalculator"></entry>
-                <entry key="user_shop_prefer_order" value-ref="userShopPreferFeatureOrderCalculator"></entry>
-                <entry key="user_real_item_prefer" value-ref="userRealItemPreferFeatureCalculator"></entry>
-                <entry key="item_ctr" value-ref="itemCtrFeatureCalculator"></entry>
-                <entry key="item_search_ctr" value-ref="itemSearchCtrFeatureCalculator"></entry>
-                <entry key="user_item_prefer" value-ref="userItemPreferFeatureCalculator"></entry>
-                <entry key="mf" value-ref="mfFeatureCalculator"></entry>
-            </map>
-        </property>
+        <property name="calculators" ref="calculatorsRef"/>
+        <property name="computers" ref="computersRef"/>
+    </bean>
+
+    <bean id="udfFactory" class="com.mgj.feature.UdfFactory">
+        <property name="udfs" ref="udfRef"/>
     </bean>
 
 </beans>
