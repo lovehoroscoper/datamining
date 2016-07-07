@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service
   */
 @Service("realSimUdf")
 class RealSimUdf extends UdfTemplate {
-  val N = 50
 
   //  override def buildFunction(): (String, String, String) => Double = {
   //    val function = (userFeature: String, itemFeature: String, time: String) => {
@@ -41,6 +40,7 @@ class RealSimUdf extends UdfTemplate {
   //  }
 
   override def register(sqlContext: HiveContext, name: String): Unit = {
+    val N = 50
     val function = (userFeature: String, itemFeature: String, time: String) => {
       if (userFeature == null || itemFeature == null || time == null) {
         0d
