@@ -38,7 +38,7 @@ echo "model name:${MODEL_NAME}"
 
 ${SUBMIT}														\
 	--master yarn												\
-	--queue root.algorithm										\
+	--queue root.pool   										\
 	--driver-memory	8g											\
 	--num-executors	16											\
 	--executor-cores 4											\
