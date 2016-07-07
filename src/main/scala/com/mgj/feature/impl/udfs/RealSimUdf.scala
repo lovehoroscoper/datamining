@@ -42,11 +42,19 @@ class RealSimUdf extends UdfTemplate {
   override def register(sqlContext: HiveContext, name: String): Unit = {
     val N = 50
     val function = (userFeature: String, itemFeature: String, time: String) => {
-      if (userFeature == null || itemFeature == null || time == null) {
+      if (userFeature == null
+        || itemFeature == null
+        || time == null
+        || userFeature.equals("null")
+        || itemFeature.equals("null")
+        || time.equals("null")) {
         0d
       }
       val sdf: SimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-      val userClickList = userFeature.split(",").map(x => x.split("#", 2)).filter(x => x.size == 2).map(x => (x(0), x(1))).filter(x => {
+      val userClickList = userFeature
+        .split(",")
+        .map(x => x.split("#", 2))
+        .filter(x => x.size == 2).map(x => (x(0), x(1))).filter(x => {
         sdf.parse(x._2).getTime < sdf.parse(time).getTime
       })
       var timeDiff = Long.MaxValue
