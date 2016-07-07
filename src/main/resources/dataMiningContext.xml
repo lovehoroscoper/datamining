@@ -174,7 +174,8 @@
                 <entry key="user_category_prefer" value="match(user_category_prefer,category_id)"/>
                 <entry key="user_shop_prefer" value="match(user_shop_prefer,shop_id)"/>
                 <entry key="user_gene_prefer" value="match(user_gene_prefer,gene_id)"/>
-                <entry key="user_real_item_prefer" value="match(user_real_item_prefer,item_id,time)"/>
+                <entry key="user_item_prefer" value="match(user_item_prefer,item_id)"/>
+                <entry key="user_real_item_prefer" value="realSim(user_real_item_prefer,item_id,time)"/>
                 <entry key="item_ctr" value="simple(item_ctr)"/>
                 <entry key="score" value="simple(score)"/>
                 <entry key="dpv0d_log" value="simple(dpv0d_log)"/>
