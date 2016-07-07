@@ -35,7 +35,7 @@ object FeatureConstructor {
       ((x.get(userKeyIndex).toString, x.get(itemKeyIndex).toString), list)
     })
 
-    val result = Seq[(RDD[(String, List[String])], List[String], String)]()
+    val result = new util.ArrayList[(RDD[(String, List[String])], List[String], String)]()
 
     val tableSet = new util.HashSet[String]()
     for (feature <- features.toList) {
@@ -58,16 +58,16 @@ object FeatureConstructor {
       }
     }
 
-    val itemFeatureRDDList = result.filter(x => x._3.equals(FeatureType.ITEM)).map(x => x._1)
-    val itemFeatureSchemaList = result.filter(x => x._3.equals(FeatureType.ITEM)).map(x => x._2)
-    val userFeatureRDDList = result.filter(x => x._3.equals(FeatureType.USER)).map(x => x._1)
-    val userFeatureSchemaList = result.filter(x => x._3.equals(FeatureType.USER)).map(x => x._2)
+    val itemFeatureRDDList = result.toList.filter(x => x._3.equals(FeatureType.ITEM)).map(x => x._1)
+    val itemFeatureSchemaList = result.toList.filter(x => x._3.equals(FeatureType.ITEM)).map(x => x._2)
+    val userFeatureRDDList = result.toList.filter(x => x._3.equals(FeatureType.USER)).map(x => x._1)
+    val userFeatureSchemaList = result.toList.filter(x => x._3.equals(FeatureType.USER)).map(x => x._2)
 
-    val rddSeqA = Seq[RDD[(String, List[String])]]()
+    val rddSeqA = new util.ArrayList[RDD[(String, List[String])]]()
     val sampleRDDA = sampleRDD.map(x => (x._2.get(x._2.size - 2), x._2))
     rddSeqA.add(sampleRDDA)
     rddSeqA.addAll(userFeatureRDDList)
-    val resultA = joiner(rddSeqA).filter(x => x._2(0).size > 0).map(x => {
+    val resultA = joiner(rddSeqA.toList.toSeq).filter(x => x._2(0).size > 0).map(x => {
       val featureList = new util.ArrayList[String]()
       val sampleField = x._2(0).toList.map(x => x.toString)
       val key = sampleField.get(sampleField.size - 1)
@@ -88,11 +88,11 @@ object FeatureConstructor {
       (key, featureList.toList)
     })
 
-    val rddSeqB = Seq[RDD[(String, List[String])]]()
+    val rddSeqB = new util.ArrayList[RDD[(String, List[String])]]()
     rddSeqB.add(resultA)
     rddSeqB.addAll(itemFeatureRDDList)
 
-    val featureRDD = joiner(rddSeqB).filter(x => x._2(0).size > 0).map(x => {
+    val featureRDD = joiner(rddSeqB.toList.toSeq).filter(x => x._2(0).size > 0).map(x => {
       val featureList = new util.ArrayList[String]()
       val sampleField = x._2(0).toList.map(x => x.toString)
       val key = sampleField.get(sampleField.size - 1)
