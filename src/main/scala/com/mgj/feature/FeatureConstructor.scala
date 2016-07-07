@@ -19,24 +19,14 @@ object FeatureConstructor {
   val itemTableName = "wonderful_item_feature_table"
   val tableName = "wonderful_feature_table"
 
+  val userKeyAlias = FeatureConstant.USER_KEY + "_alias"
+  val itemKeyAlias = FeatureConstant.ITEM_KEY + "_alias"
+
   def init(sqlContext: HiveContext, udfFactory: UdfFactory): Unit = {
     udfFactory.init(sqlContext)
   }
 
   def construct(sc: SparkContext, sqlContext: HiveContext, sampleDF: DataFrame, featureCalculatorFactory: FeatureCalculatorFactory, bizdate: String, features: String*): DataFrame = {
-
-    val sampleSchema = sampleDF.schema.map(x => x.name).toList
-    println(s"sampleSchema:${sampleSchema}")
-
-    val sampleRDD = sampleDF.rdd.map(x => {
-      val itemKeyIndex = x.fieldIndex(FeatureConstant.ITEM_KEY)
-      val userKeyIndex = x.fieldIndex(FeatureConstant.USER_KEY)
-      val list = new util.ArrayList[String]()
-      list.addAll(x.toSeq.map(x => x.toString).toList)
-      list.add(x.get(userKeyIndex).toString)
-      list.add(x.get(itemKeyIndex).toString)
-      ((x.get(userKeyIndex).toString, x.get(itemKeyIndex).toString), list.toList)
-    })
 
     val result = new util.ArrayList[(RDD[(String, List[String])], List[String], String)]()
 
@@ -67,6 +57,9 @@ object FeatureConstructor {
     val userFeatureRDDList = result.toList.filter(x => x._3.equals(FeatureType.USER)).map(x => x._1)
     val userFeatureSchemaList = result.toList.filter(x => x._3.equals(FeatureType.USER)).map(x => x._2)
 
+    val userFlag = userFeatureRDDList.size > 0
+    val itemFlag = itemFeatureRDDList.size > 0
+
     println("itemFeatureRDDList")
     for (e <- itemFeatureRDDList.take(10)) {
       e.take(10).map(x => x._1 + ":" + x._2.mkString(",")).foreach(println)
@@ -76,70 +69,83 @@ object FeatureConstructor {
       e.take(10).map(x => x._1 + ":" + x._2.mkString(",")).foreach(println)
     }
 
-    val userFeatureRDD = joiner(userFeatureRDDList.toSeq).map(x => {
-      val featureList = new util.ArrayList[String]()
-      featureList.add(x._1)
+    var userFeatureDF: DataFrame = null
+    if (userFlag) {
+      val userFeatureRDD = joiner(userFeatureRDDList.toSeq).map(x => {
+        val featureList = new util.ArrayList[String]()
+        featureList.add(x._1)
 
-      for (i <- 0 to x._2.length - 1) {
-        val list = if (x._2(i).size > 0) {
-          x._2(i).toList.get(0).asInstanceOf[List[String]]
-        } else {
-          val zeroList = new util.ArrayList[String]()
-          for (k <- 1 to userFeatureSchemaList.get(i).size) {
-            zeroList.add("0")
+        for (i <- 0 to x._2.length - 1) {
+          val list = if (x._2(i).size > 0) {
+            x._2(i).toList.get(0).asInstanceOf[List[String]]
+          } else {
+            val zeroList = new util.ArrayList[String]()
+            for (k <- 1 to userFeatureSchemaList.get(i).size) {
+              zeroList.add("0")
+            }
+            zeroList.toList
           }
-          zeroList.toList
+          featureList.addAll(list)
         }
-        featureList.addAll(list)
-      }
-      featureList.toList
-    })
+        featureList.toList
+      })
 
-    val userSchemaList = new util.ArrayList[String]()
-    userSchemaList.add(FeatureConstant.USER_KEY + "_alias")
-    for (e <- userFeatureSchemaList) {
-      userSchemaList.addAll(e)
+      val userSchemaList = new util.ArrayList[String]()
+      userSchemaList.add(userKeyAlias)
+      for (e <- userFeatureSchemaList) {
+        userSchemaList.addAll(e)
+      }
+
+      val userStructField: List[StructField] = userSchemaList.toList.map(name => StructField(name, StringType, true))
+      userFeatureDF = sqlContext.createDataFrame(userFeatureRDD.map(x => Row(x)), StructType(userStructField))
+      println("userFeatureDF")
+      userFeatureDF.show
     }
 
-    val userStructField: List[StructField] = userSchemaList.toList.map(name => StructField(name, StringType, true))
-    val userFeatureDF = sqlContext.createDataFrame(userFeatureRDD.map(x => Row(x)), StructType(userStructField))
-    println("userFeatureDF")
-    userFeatureDF.show
+    var itemFeatureDF: DataFrame = null
 
-    val itemFeatureRDD = joiner(itemFeatureRDDList.toList.toSeq).filter(x => x._2(0).size > 0).map(x => {
-      val featureList = new util.ArrayList[String]()
-      featureList.add(x._1)
+    if (itemFlag) {
+      val itemFeatureRDD = joiner(itemFeatureRDDList.toList.toSeq).filter(x => x._2(0).size > 0).map(x => {
+        val featureList = new util.ArrayList[String]()
+        featureList.add(x._1)
 
-      for (i <- 0 to x._2.length - 1) {
-        val list = if (x._2(i).size > 0) {
-          x._2(i).toList.get(0).asInstanceOf[List[String]]
-        } else {
-          val zeroList = new util.ArrayList[String]()
-          for (k <- 1 to itemFeatureSchemaList.get(i).size) {
-            zeroList.add("0")
+        for (i <- 0 to x._2.length - 1) {
+          val list = if (x._2(i).size > 0) {
+            x._2(i).toList.get(0).asInstanceOf[List[String]]
+          } else {
+            val zeroList = new util.ArrayList[String]()
+            for (k <- 1 to itemFeatureSchemaList.get(i).size) {
+              zeroList.add("0")
+            }
+            zeroList.toList
           }
-          zeroList.toList
+          featureList.addAll(list)
         }
-        featureList.addAll(list)
-      }
-      featureList.toList
-    })
+        featureList.toList
+      })
 
-    val itemSchemaList = new util.ArrayList[String]()
-    itemSchemaList.add(FeatureConstant.USER_KEY + "_alias")
-    for (e <- userFeatureSchemaList) {
-      itemSchemaList.addAll(e)
+      val itemSchemaList = new util.ArrayList[String]()
+      itemSchemaList.add(itemKeyAlias)
+      for (e <- userFeatureSchemaList) {
+        itemSchemaList.addAll(e)
+      }
+
+
+      val itemStructField: List[StructField] = itemSchemaList.toList.map(name => StructField(name, StringType, true))
+      itemFeatureDF = sqlContext.createDataFrame(itemFeatureRDD.map(x => Row(x)), StructType(itemStructField))
+      println("userFeatureDF")
+      itemFeatureDF.show
     }
 
-    val itemStructField: List[StructField] = userSchemaList.toList.map(name => StructField(name, StringType, true))
-    val itemFeatureDF = sqlContext.createDataFrame(itemFeatureRDD.map(x => Row(x)), StructType(itemStructField))
-    println("userFeatureDF")
-    itemFeatureDF.show
-
-    //    val rawFeatureDF = sqlContext.createDataFrame(featureRDD.map(x => Row(x)), schema)
-    //
-    //    rawFeatureDF.registerTempTable(tableName)
-    //    rawFeatureDF.show
+    var rawFeatureDF = sampleDF
+    if (userFlag) {
+      rawFeatureDF = rawFeatureDF.join(userFeatureDF, sampleDF(FeatureConstant.USER_KEY) === userFeatureDF(userKeyAlias), "left_outer").drop(userKeyAlias).coalesce(500)
+    }
+    if (itemFlag) {
+      rawFeatureDF = rawFeatureDF.join(itemFeatureDF, sampleDF(FeatureConstant.ITEM_KEY) === itemFeatureDF(itemKeyAlias), "left_outer").drop(itemKeyAlias).coalesce(500)
+    }
+    rawFeatureDF.registerTempTable(tableName)
+    rawFeatureDF.show
 
     val sql = buildSql(featureCalculatorFactory, features: _*)
     println(s"sql:${sql}")
