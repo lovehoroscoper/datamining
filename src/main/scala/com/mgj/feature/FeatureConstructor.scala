@@ -132,7 +132,7 @@ object FeatureConstructor {
     }
 
     val itemStructField: List[StructField] = userSchemaList.toList.map(name => StructField(name, StringType, true))
-    val itemFeatureDF = sqlContext.createDataFrame(userFeatureRDD.map(x => Row(x)), StructType(itemStructField))
+    val itemFeatureDF = sqlContext.createDataFrame(itemFeatureRDD.map(x => Row(x)), StructType(itemStructField))
     println("userFeatureDF")
     itemFeatureDF.show
 
