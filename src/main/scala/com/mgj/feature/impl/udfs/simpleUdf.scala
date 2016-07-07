@@ -1,6 +1,7 @@
 package com.mgj.feature.impl.udfs
 
 import com.mgj.feature.UdfTemplate
+import org.apache.spark.sql.hive.HiveContext
 import org.springframework.stereotype.Service
 
 /**
@@ -8,8 +9,13 @@ import org.springframework.stereotype.Service
   */
 @Service("simpleUdf")
 class SimpleUdf extends UdfTemplate {
-  override def buildFunction(): (String) => Double = {
+  //  override def buildFunction(): (String) => Double = {
+  //    val function = (input: String) => input.toDouble
+  //    return function
+  //  }
+
+  override def register(sqlContext: HiveContext, name: String): Unit = {
     val function = (input: String) => input.toDouble
-    return function
+    sqlContext.udf.register(name, function)
   }
 }

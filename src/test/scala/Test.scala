@@ -96,5 +96,6 @@ class Test extends FlatSpec with Matchers with LocalSparkContext {
     //    } else {
     //      print("error")
     //    }
+    println("ok")
   }
 }
