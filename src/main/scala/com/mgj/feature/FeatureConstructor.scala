@@ -130,10 +130,10 @@ object FeatureConstructor {
       schemaList.addAll(e)
     }
 
-    val itemStructField: List[StructField] = schemaList.toList.map(name => StructField(name, StringType, true))
-    println(s"schema:${StructType(itemStructField)}")
-    val featureDF = sqlContext.createDataFrame(itemFeatureRDD.map(x => Row(x.toSeq: _*)), StructType(itemStructField))
-    println("itemFeatureDF")
+    val structField: List[StructField] = schemaList.toList.map(name => StructField(name, StringType, true))
+    println(s"schema:${StructType(structField)}")
+    val featureDF = sqlContext.createDataFrame(itemFeatureRDD.map(x => Row(x.toSeq: _*)), StructType(structField))
+    println("featureDF")
     featureDF.show
     return featureDF
   }
