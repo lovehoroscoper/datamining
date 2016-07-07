@@ -64,6 +64,11 @@ object FeatureConstructor {
     val userFeatureRDDList = result.toList.filter(x => x._3.equals(FeatureType.USER)).map(x => x._1)
     val userFeatureSchemaList = result.toList.filter(x => x._3.equals(FeatureType.USER)).map(x => x._2)
 
+    println("itemFeatureRDDList")
+    itemFeatureRDDList.take(10).map(x => x.take(10)).foreach(println)
+    println("userFeatureRDDList")
+    userFeatureRDDList.take(10).map(x => x.take(10)).foreach(println)
+
     val rddSeqA = new util.ArrayList[RDD[(String, List[String])]]()
     val sampleRDDA = sampleRDD.map(x => (x._2.get(x._2.size - 2), x._2))
     rddSeqA.add(sampleRDDA)
@@ -95,6 +100,7 @@ object FeatureConstructor {
     rddSeqB.add(resultA)
     rddSeqB.addAll(itemFeatureRDDList)
 
+    rddSeqB.take(10)
     joiner(rddSeqB.toList.toSeq).take(10).map(x => x._1 + x._2.map(x => x.toList.toString)).foreach(println)
 
     val featureRDD = joiner(rddSeqB.toList.toSeq).filter(x => x._2(0).size > 0).map(x => {
@@ -128,6 +134,8 @@ object FeatureConstructor {
     for (e <- itemFeatureSchemaList) {
       schemaList.addAll(e)
     }
+
+    println(s"schemaList:${schemaList}")
 
     val structField: List[StructField] = schemaList.toList.map(name => StructField(name, StringType, true))
     val schema = StructType(structField)
