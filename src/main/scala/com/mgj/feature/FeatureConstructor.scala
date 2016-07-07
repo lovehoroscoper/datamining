@@ -103,7 +103,7 @@ object FeatureConstructor {
     resultA.take(10).foreach(println)
 
     val rddSeqB = new util.ArrayList[RDD[(String, List[String])]]()
-    //    rddSeqB.add(resultA)
+    rddSeqB.add(resultA)
     rddSeqB.addAll(itemFeatureRDDList)
 
     val temp = joiner(rddSeqB.toList.toSeq).filter(x => x._2(0).size > 0).take(10)
