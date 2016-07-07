@@ -92,7 +92,7 @@
     <bean id="userGenePreferFeatureCalculator" class="com.mgj.feature.impl.UserGenePreferFeatureCalculator">
         <property name="featureName" value="user_gene_prefer"/>
         <property name="userField" value="user_gene_prefer"/>
-        <property name="itemField" value="item_gene"/>
+        <property name="itemField" value="gene_id"/>
         <property name="userFieldPath" value="/user/digu/userGenePreferRecord"/>
         <property name="itemFieldPath" value="/user/digu/itemGeneRecord"/>
         <property name="maxValue" value=""/>
@@ -102,7 +102,7 @@
     <bean id="userGenePreferOrderFeatureCalculator" class="com.mgj.feature.impl.UserGenePreferFeatureCalculator">
         <property name="featureName" value="user_gene_prefer_order"/>
         <property name="userField" value="user_gene_prefer_order"/>
-        <property name="itemField" value="item_gene"/>
+        <property name="itemField" value="gene_id"/>
         <property name="userFieldPath" value="/user/digu/userGenePreferOrderRecord"/>
         <property name="itemFieldPath" value="/user/digu/itemGeneRecord"/>
         <property name="maxValue" value=""/>
@@ -172,7 +172,9 @@
         <property name="computers">
             <map>
                 <entry key="user_category_prefer" value="match(user_category_prefer,category_id)"/>
-                <entry key="user_gene_prefer" value="match(user_gene_prefer,item_gene)"/>
+                <entry key="user_shop_prefer" value="match(user_shop_prefer,shop_id)"/>
+                <entry key="user_gene_prefer" value="match(user_gene_prefer,gene_id)"/>
+                <entry key="user_real_item_prefer" value="match(user_real_item_prefer,item_id,time)"/>
                 <entry key="item_ctr" value="simple(item_ctr)"/>
                 <entry key="score" value="simple(score)"/>
                 <entry key="dpv0d_log" value="simple(dpv0d_log)"/>

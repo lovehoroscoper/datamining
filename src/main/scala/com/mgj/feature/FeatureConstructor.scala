@@ -56,17 +56,8 @@ object FeatureConstructor {
     val userFlag = userFeatureRDDList.size > 0
     val itemFlag = itemFeatureRDDList.size > 0
 
-    println("itemFeatureRDDList")
-    for (e <- itemFeatureRDDList.take(10)) {
-      e.take(10).map(x => x._1 + ":" + x._2.mkString(",")).foreach(println)
-    }
-    println("userFeatureRDDList")
-    for (e <- userFeatureRDDList.take(10)) {
-      e.take(10).map(x => x._1 + ":" + x._2.mkString(",")).foreach(println)
-    }
-
-    val userFeatureDF: DataFrame = if (userFlag) getRawFeatureDF(sqlContext, userFeatureRDDList, userFeatureSchemaList, userKeyAlias) else null
-    val itemFeatureDF: DataFrame = if (itemFlag) getRawFeatureDF(sqlContext, itemFeatureRDDList, itemFeatureSchemaList, itemKeyAlias) else null
+    val userFeatureDF: DataFrame = if (userFlag) getRawFeatureDF(sqlContext, userFeatureRDDList, userFeatureSchemaList, userKeyAlias).cache() else null
+    val itemFeatureDF: DataFrame = if (itemFlag) getRawFeatureDF(sqlContext, itemFeatureRDDList, itemFeatureSchemaList, itemKeyAlias).cache() else null
 
     var rawFeatureDF = sampleDF
     if (userFlag) {
@@ -78,9 +69,10 @@ object FeatureConstructor {
     rawFeatureDF.registerTempTable(tableName)
     rawFeatureDF.show
 
+    val sampleSchema = sampleDF.schema.map(x => x.name).mkString(", ")
     val sql = buildSql(featureCalculatorFactory, features: _*)
-    println(s"sql:select ${sql} from ${tableName}")
-    val featureDF = sqlContext.sql(s"select ${sql} from ${tableName}")
+    println(s"sql:select ${sampleSchema}, ${sql} from ${tableName}")
+    val featureDF = sqlContext.sql(s"select ${sampleSchema}, ${sql} from ${tableName}")
     featureDF.show()
     return featureDF
   }
