@@ -117,7 +117,7 @@ object FeatureConstructor {
     val featureRDD = joiner(rddSeqB.toList.toSeq).filter(x => x._2(0).size > 0).map(x => {
       val featureList = new util.ArrayList[String]()
       val sampleField = x._2(0).toList.get(0).asInstanceOf[List[String]]
-      featureList.addAll(sampleField.take(sampleField.size - 2).toList)
+      featureList.addAll(sampleField)
 
       for (i <- 0 to x._2.length - 2) {
         val list = if (x._2(i + 1).size > 0) {
