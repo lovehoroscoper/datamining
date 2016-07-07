@@ -136,7 +136,7 @@
         <property name="itemFieldPath" value=""/>
         <property name="userFieldPath" value=""/>
         <property name="maxValue" value="10000000"/>
-        <property name="tableName" value="qd_tmp_score1:item"/>
+        <property name="tableName" value="qd_tmp_score2:item"/>
     </bean>
 
     <bean id="itemTest2FeatureCalculator" class="com.mgj.feature.impl.ItemFeatureCalculator">
@@ -146,7 +146,7 @@
         <property name="itemFieldPath" value=""/>
         <property name="userFieldPath" value=""/>
         <property name="maxValue" value="10000000"/>
-        <property name="tableName" value="qd_tmp_f1:item"/>
+        <property name="tableName" value="qd_tmp_f2:item"/>
     </bean>
 
     <bean id="featureCalculatorFactory" class="com.mgj.feature.FeatureCalculatorFactory">
