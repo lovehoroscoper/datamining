@@ -16,6 +16,8 @@
 
     <context:component-scan base-package="com.mgj.ml"/>
 
+    <context:component-scan base-package="com.mgj.feature.impl.udfs"/>
+
     <bean id="userCategoryPreferFeatureCalculator" class="com.mgj.feature.impl.UserCategoryPreferFeatureCalculator">
         <property name="featureName" value="user_category_prefer"/>
         <property name="userField" value="user_category_prefer"/>
