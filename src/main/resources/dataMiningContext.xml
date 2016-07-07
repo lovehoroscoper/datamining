@@ -164,8 +164,8 @@
                 <entry key="user_item_prefer" value-ref="userItemPreferFeatureCalculator"/>
                 <entry key="mf" value-ref="mfFeatureCalculator"/>
 
-                <entry key="mf" value-ref="itemTest2FeatureCalculator"/>
-                <entry key="mf" value-ref="itemTest1FeatureCalculator"/>
+                <entry key="score" value-ref="itemTest2FeatureCalculator"/>
+                <entry key="dpv0d_log" value-ref="itemTest1FeatureCalculator"/>
             </map>
         </property>
 
