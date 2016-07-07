@@ -66,9 +66,9 @@ object FeatureConstructor {
     val userFeatureSchemaList = result.toList.filter(x => x._3.equals(FeatureType.USER)).map(x => x._2)
 
     println("itemFeatureRDDList")
-    itemFeatureRDDList.take(10).map(x => x.take(10).map(x => x._1 + x._2.mkString(","))).foreach(println)
+    itemFeatureRDDList.take(10).map(x => x.take(10).map(x => x._1 + x._2.mkString(","))).mkString(",").foreach(println)
     println("userFeatureRDDList")
-    userFeatureRDDList.take(10).map(x => x.take(10).map(x => x._1 + x._2.mkString(","))).foreach(println)
+    userFeatureRDDList.take(10).map(x => x.take(10).map(x => x._1 + x._2.mkString(","))).mkString(",").foreach(println)
 
     val rddSeqA = new util.ArrayList[RDD[(String, List[String])]]()
     val sampleRDDA = sampleRDD.map(x => (x._2.get(x._2.size - 2), x._2))
@@ -101,8 +101,13 @@ object FeatureConstructor {
     rddSeqB.add(resultA)
     rddSeqB.addAll(itemFeatureRDDList)
 
-    joiner(rddSeqB.toList.toSeq).filter(x => x._2(0).size > 0).take(10).map(x => x._1 + x._2.map(x => x.toList.toString)).foreach(println)
-
+    val temp = joiner(rddSeqB.toList.toSeq).filter(x => x._2(0).size > 0).take(10)
+    for (e <- temp) {
+      println(e._1 + ":")
+      for (t <- e._2) {
+        t.toList.foreach(println)
+      }
+    }
     val featureRDD = joiner(rddSeqB.toList.toSeq).filter(x => x._2(0).size > 0).map(x => {
       val featureList = new util.ArrayList[String]()
       val sampleField = x._2(0).toList.map(x => x.toString)
@@ -123,6 +128,7 @@ object FeatureConstructor {
       featureList.toList
     })
 
+    println("featureRDD")
     featureRDD.take(10).foreach(println)
 
     val schemaList = new util.ArrayList[String]()
