@@ -98,7 +98,7 @@ abstract class FeatureCalculator extends java.io.Serializable {
       val list = new util.ArrayList[String]()
       list.addAll(x.toSeq.map(x => x.toString).toList)
       list.remove(keyIndex)
-      (x.get(keyIndex).toString, list)
+      (x.get(keyIndex).toString, list.toList)
     })
 
     val featureSchema = featureDF.schema
