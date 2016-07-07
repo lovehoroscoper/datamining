@@ -120,7 +120,7 @@ object FeatureConstructor {
           }
           featureList.addAll(list)
         }
-        featureList.toList
+        featureList.map(x => x.toString).toList
       })
 
       val itemSchemaList = new util.ArrayList[String]()
@@ -131,6 +131,7 @@ object FeatureConstructor {
 
       itemFeatureRDD.filter(x => x.size != itemSchemaList.size).take(10).foreach(println)
       itemFeatureRDD.take(10).foreach(println)
+      println(s"count:${itemFeatureRDD.count()}")
 
       val itemStructField: List[StructField] = itemSchemaList.toList.map(name => StructField(name, StringType, true))
       println(s"schema:${StructType(itemStructField)}")
