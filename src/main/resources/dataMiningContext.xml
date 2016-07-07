@@ -130,9 +130,9 @@
     </bean>
 
     <bean id="itemTest1FeatureCalculator" class="com.mgj.feature.impl.ItemFeatureCalculator">
-        <property name="featureName" value="item_search_ctr"/>
+        <property name="featureName" value="score"/>
         <property name="userField" value=""/>
-        <property name="itemField" value="item_search_ctr"/>
+        <property name="itemField" value="score"/>
         <property name="itemFieldPath" value="/user/bizdata/searchCtrRecord"/>
         <property name="userFieldPath" value=""/>
         <property name="maxValue" value="10000000"/>
@@ -140,9 +140,9 @@
     </bean>
 
     <bean id="itemTest2FeatureCalculator" class="com.mgj.feature.impl.ItemFeatureCalculator">
-        <property name="featureName" value="item_search_ctr"/>
+        <property name="featureName" value="dpv0d_log"/>
         <property name="userField" value=""/>
-        <property name="itemField" value="item_search_ctr"/>
+        <property name="itemField" value="dpv0d_log"/>
         <property name="itemFieldPath" value="/user/bizdata/searchCtrRecord"/>
         <property name="userFieldPath" value=""/>
         <property name="maxValue" value="10000000"/>
@@ -163,6 +163,9 @@
                 <entry key="item_search_ctr" value-ref="itemSearchCtrFeatureCalculator"/>
                 <entry key="user_item_prefer" value-ref="userItemPreferFeatureCalculator"/>
                 <entry key="mf" value-ref="mfFeatureCalculator"/>
+
+                <entry key="mf" value-ref="itemTest2FeatureCalculator"/>
+                <entry key="mf" value-ref="itemTest1FeatureCalculator"/>
             </map>
         </property>
 
