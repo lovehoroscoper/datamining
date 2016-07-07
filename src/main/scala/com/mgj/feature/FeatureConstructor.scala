@@ -129,6 +129,9 @@ object FeatureConstructor {
         itemSchemaList.addAll(e)
       }
 
+      itemFeatureRDD.filter(x => x.size != itemSchemaList.size).take(10).foreach(println)
+      itemFeatureRDD.take(10).foreach(println)
+
       val itemStructField: List[StructField] = itemSchemaList.toList.map(name => StructField(name, StringType, true))
       println(s"schema:${StructType(itemStructField)}")
       itemFeatureDF = sqlContext.createDataFrame(itemFeatureRDD.map(x => Row(x)), StructType(itemStructField))
