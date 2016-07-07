@@ -46,7 +46,7 @@ class RealSimUdf extends UdfTemplate {
         0d
       }
       val sdf: SimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-      val userClickList = userFeature.split(",").map(x => (x.split("#", 2)(0), x.split("#", 2)(1))).filter(x => {
+      val userClickList = userFeature.split(",").filter(x => x.size > 0).map(x => (x.split("#", 2)(0), x.split("#", 2)(1))).filter(x => {
         sdf.parse(x._2).getTime < sdf.parse(time).getTime
       })
       var timeDiff = Long.MaxValue
