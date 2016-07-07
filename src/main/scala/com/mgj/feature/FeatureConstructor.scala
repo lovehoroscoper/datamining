@@ -81,14 +81,13 @@ object FeatureConstructor {
 
     val resultA = joiner(rddSeqA.toList.toSeq).filter(x => x._2(0).size > 0).map(x => {
       val featureList = new util.ArrayList[String]()
-      val sampleField = x._2(0).toList.map(x => x.toString)
-
+      val sampleField = x._2(0).toList.get(0).asInstanceOf[List[String]]
       val key = sampleField.get(sampleField.size - 1)
       featureList.addAll(sampleField.take(sampleField.size - 2).toList)
 
       for (i <- 0 to x._2.length - 2) {
         val list = if (x._2(i + 1).size > 0) {
-          x._2(i + 1).map(x => x.toString).toList
+          x._2(i + 1).toList.get(0).asInstanceOf[List[String]]
         } else {
           val zeroList = new util.ArrayList[String]()
           for (k <- 1 to userFeatureSchemaList.get(i).size) {
@@ -98,14 +97,13 @@ object FeatureConstructor {
         }
         featureList.addAll(list)
       }
-//      (key, featureList.toList)
-      sampleField
+      (key, featureList.toList)
     })
 
     resultA.take(10).foreach(println)
 
     val rddSeqB = new util.ArrayList[RDD[(String, List[String])]]()
-//    rddSeqB.add(resultA)
+    //    rddSeqB.add(resultA)
     rddSeqB.addAll(itemFeatureRDDList)
 
     val temp = joiner(rddSeqB.toList.toSeq).filter(x => x._2(0).size > 0).take(10)
@@ -118,12 +116,12 @@ object FeatureConstructor {
 
     val featureRDD = joiner(rddSeqB.toList.toSeq).filter(x => x._2(0).size > 0).map(x => {
       val featureList = new util.ArrayList[String]()
-      val sampleField = x._2(0).toList.map(x => x.toString)
+      val sampleField = x._2(0).toList.get(0).asInstanceOf[List[String]]
       featureList.addAll(sampleField.take(sampleField.size - 2).toList)
 
       for (i <- 0 to x._2.length - 2) {
         val list = if (x._2(i + 1).size > 0) {
-          x._2(i + 1).map(x => x.toString).toList
+          x._2(i + 1).toList.get(0).asInstanceOf[List[String]]
         } else {
           val zeroList = new util.ArrayList[String]()
           for (k <- 1 to itemFeatureSchemaList.get(i).size) {
