@@ -125,7 +125,7 @@ object FeatureConstructor {
 
       val itemSchemaList = new util.ArrayList[String]()
       itemSchemaList.add(itemKeyAlias)
-      for (e <- userFeatureSchemaList) {
+      for (e <- itemFeatureSchemaList) {
         itemSchemaList.addAll(e)
       }
 
