@@ -65,7 +65,7 @@ object FeatureConstructor {
       e.take(10).map(x => x._1 + ":" + x._2.mkString(",")).foreach(println)
     }
 
-    val userFeatureDF: DataFrame = if (userFlag) getRawFeatureDF(sqlContext, userFeatureRDDList, userFeatureSchemaList, itemKeyAlias) else null
+    val userFeatureDF: DataFrame = if (userFlag) getRawFeatureDF(sqlContext, userFeatureRDDList, userFeatureSchemaList, userKeyAlias) else null
     val itemFeatureDF: DataFrame = if (itemFlag) getRawFeatureDF(sqlContext, itemFeatureRDDList, itemFeatureSchemaList, itemKeyAlias) else null
 
     var rawFeatureDF = sampleDF

@@ -106,7 +106,6 @@ abstract class FeatureCalculator extends java.io.Serializable {
       .filter(x => !x.equals(FeatureConstant.USER_KEY))
       .toList
 
-    println(s"featureSchema after filter:${featureSchema}")
     return (featureRDD, featureSchema, featureType)
   }
 
