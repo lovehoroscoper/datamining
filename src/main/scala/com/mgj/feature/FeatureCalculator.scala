@@ -76,8 +76,8 @@ abstract class FeatureCalculator extends java.io.Serializable {
         }
       }
 
-      println(s"full table name:${this.getFullTableName(name, bizDate)}")
-      val featureDF = sqlContext.sql(s"select * from ${this.getFullTableName(name, bizDate)}")
+      println(s"full table name:${HiveUtil.getFullTableName(name, bizDate)}")
+      val featureDF = sqlContext.sql(s"select * from ${HiveUtil.getFullTableName(name, bizDate)}")
       featureDF.show()
 
       result.add(getFeature(featureDF, featureType))
@@ -106,11 +106,6 @@ abstract class FeatureCalculator extends java.io.Serializable {
       .map(x => x.name).toList
 
     return (featureRDD, featureSchema, featureType)
-  }
-
-  protected def getFullTableName(tableName: String, bizdate: String): String = {
-    val date = HiveUtil.getDate(bizDate)
-    return if (date.isEmpty) tableName else s"${tableName}_${date}"
   }
 
   protected def getTable(tableName: String = this.tableName): Map[String, String] = {

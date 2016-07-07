@@ -39,9 +39,14 @@ object HiveUtil {
   }
 
   def checkTable(sqlContext: HiveContext, tableName: String, bizdate: String): Boolean = {
-    val fullTableName = tableName + getDate(bizdate)
+    val fullTableName = getFullTableName(tableName, bizdate)
     val tableSet = sqlContext.sql("show tables").select("tableName").map(x => x(0).toString).collect().toSet
     return tableSet.contains(fullTableName)
+  }
+
+  def getFullTableName(tableName: String, bizdate: String): String = {
+    val date = this.getDate(bizdate)
+    return if (date.isEmpty) tableName else s"${tableName}_${date}"
   }
 
   def getDate(date: String): String = {
