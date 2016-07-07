@@ -168,7 +168,7 @@ object FeatureConstructor {
 
     for (feature <- features) {
       val computer = featureCalculatorFactory.getComputer(feature)
-      val sql = s"${computer} as feature"
+      val sql = s"${computer} as ${feature}"
       list.add(sql)
     }
     return list.mkString(", ")
