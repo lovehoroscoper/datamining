@@ -101,10 +101,10 @@ abstract class FeatureCalculator extends java.io.Serializable {
       (x.get(keyIndex).toString, list.toList)
     })
 
-    val featureSchema = featureDF.schema
+    val featureSchema = featureDF.schema.map(x => x.name)
       .filter(x => !x.equals(FeatureConstant.ITEM_KEY))
       .filter(x => !x.equals(FeatureConstant.USER_KEY))
-      .map(x => x.name).toList
+      .toList
 
     println(s"featureSchema after filter:${featureSchema}")
     return (featureRDD, featureSchema, featureType)
