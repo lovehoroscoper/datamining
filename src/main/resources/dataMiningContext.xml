@@ -133,7 +133,7 @@
         <property name="featureName" value="score"/>
         <property name="userField" value=""/>
         <property name="itemField" value="score"/>
-        <property name="itemFieldPath" value="/user/bizdata/searchCtrRecord"/>
+        <property name="itemFieldPath" value=""/>
         <property name="userFieldPath" value=""/>
         <property name="maxValue" value="10000000"/>
         <property name="tableName" value="qd_tmp_score1:item"/>
@@ -143,7 +143,7 @@
         <property name="featureName" value="dpv0d_log"/>
         <property name="userField" value=""/>
         <property name="itemField" value="dpv0d_log"/>
-        <property name="itemFieldPath" value="/user/bizdata/searchCtrRecord"/>
+        <property name="itemFieldPath" value=""/>
         <property name="userFieldPath" value=""/>
         <property name="maxValue" value="10000000"/>
         <property name="tableName" value="qd_tmp_f1:item"/>

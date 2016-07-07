@@ -29,10 +29,11 @@ object FeatureConstructor {
     val sampleRDD = sampleDF.rdd.map(x => {
       val itemKeyIndex = x.fieldIndex(FeatureConstant.ITEM_KEY)
       val userKeyIndex = x.fieldIndex(FeatureConstant.USER_KEY)
-      val list = x.toSeq.map(x => x.toString).toList
+      val list = new util.ArrayList[String]()
+      list.addAll(x.toSeq.map(x => x.toString).toList)
       list.add(x.get(userKeyIndex).toString)
       list.add(x.get(itemKeyIndex).toString)
-      ((x.get(userKeyIndex).toString, x.get(itemKeyIndex).toString), list)
+      ((x.get(userKeyIndex).toString, x.get(itemKeyIndex).toString), list.toList)
     })
 
     val result = new util.ArrayList[(RDD[(String, List[String])], List[String], String)]()
