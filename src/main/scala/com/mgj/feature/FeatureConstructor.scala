@@ -99,7 +99,7 @@ object FeatureConstructor {
       (key, featureList.toList)
     })
 
-    sampleRDDA.take(10).foreach(println)
+    resultA.take(10).foreach(println)
 
     val rddSeqB = new util.ArrayList[RDD[(String, List[String])]]()
     rddSeqB.add(resultA)
