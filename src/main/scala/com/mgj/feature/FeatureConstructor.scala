@@ -44,6 +44,8 @@ object FeatureConstructor {
         calculator.setBizDate(bizdate)
         println(calculator)
         val tableMap = calculator.getTables().filter(x => tableSet.contains(x._1))
+        println(s"tableMap:${tableMap}")
+        println(s"tableSet:${tableSet}")
         if (tableMap.size > 0) {
           val tableName = tableMap.map(x => s"${x._1}:${x._2}").mkString(",")
           calculator.setTableName(tableName)
