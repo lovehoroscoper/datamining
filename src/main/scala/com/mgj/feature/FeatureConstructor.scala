@@ -15,8 +15,6 @@ import scala.reflect.ClassTag
   */
 object FeatureConstructor {
 
-  val userTableName = "wonderful_user_feature_table"
-  val itemTableName = "wonderful_item_feature_table"
   val tableName = "wonderful_feature_table"
 
   val userKeyAlias = FeatureConstant.USER_KEY + "_alias"
@@ -97,6 +95,7 @@ object FeatureConstructor {
       }
 
       val userStructField: List[StructField] = userSchemaList.toList.map(name => StructField(name, StringType, true))
+      println(s"schema:${StructType(userStructField)}")
       userFeatureDF = sqlContext.createDataFrame(userFeatureRDD.map(x => Row(x)), StructType(userStructField))
       println("userFeatureDF")
       userFeatureDF.show
@@ -130,10 +129,10 @@ object FeatureConstructor {
         itemSchemaList.addAll(e)
       }
 
-
       val itemStructField: List[StructField] = itemSchemaList.toList.map(name => StructField(name, StringType, true))
+      println(s"schema:${StructType(itemStructField)}")
       itemFeatureDF = sqlContext.createDataFrame(itemFeatureRDD.map(x => Row(x)), StructType(itemStructField))
-      println("userFeatureDF")
+      println("itemFeatureDF")
       itemFeatureDF.show
     }
 
@@ -169,5 +168,4 @@ object FeatureConstructor {
     val cg = new CoGroupedRDD[K](seq, partitioner)
     return cg
   }
-
 }
