@@ -95,7 +95,8 @@ abstract class FeatureCalculator extends java.io.Serializable {
         case FeatureType.ITEM => x.fieldIndex(FeatureConstant.ITEM_KEY)
         case FeatureType.USER => x.fieldIndex(FeatureConstant.USER_KEY)
       }
-      val list = x.toSeq.map(x => x.toString).toList
+      val list = new util.ArrayList[String]()
+      list.addAll(x.toSeq.map(x => x.toString).toList)
       list.remove(keyIndex)
       (x.get(keyIndex).toString, list)
     })
