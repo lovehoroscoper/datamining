@@ -26,6 +26,7 @@ class UdfFactory {
   def init(sqlContext: HiveContext): Unit = {
     for (e <- udfs.keySet()) {
       udfs.get(e).register(sqlContext, e)
+      println(s"udf:${e} has been registered")
     }
   }
 }

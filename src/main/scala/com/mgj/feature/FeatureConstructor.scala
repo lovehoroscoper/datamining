@@ -24,6 +24,7 @@ object FeatureConstructor {
   def construct(sc: SparkContext, sqlContext: HiveContext, sampleDF: DataFrame, featureCalculatorFactory: FeatureCalculatorFactory, bizdate: String, features: String*): DataFrame = {
 
     val sampleSchema = sampleDF.schema.map(x => x.name).toList
+    println(s"sampleSchema:${sampleSchema}")
 
     val sampleRDD = sampleDF.rdd.map(x => {
       val itemKeyIndex = x.fieldIndex(FeatureConstant.ITEM_KEY)

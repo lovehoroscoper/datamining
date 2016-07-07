@@ -60,6 +60,7 @@ abstract class FeatureCalculator extends java.io.Serializable {
 
   def getFeatureRDD(sc: SparkContext, sqlContext: HiveContext): Seq[(RDD[(String, List[String])], List[String], String)] = {
     val table = this.getTable(tableName)
+    println(s"table:${table}")
     val result = Seq[(RDD[(String, List[String])], List[String], String)]()
 
     for (e <- table.keys) {
@@ -74,6 +75,8 @@ abstract class FeatureCalculator extends java.io.Serializable {
       }
 
       val featureDF = sqlContext.sql(s"select * from ${this.getFullTableName(tableName, bizDate)}")
+      println(s"full table name:${this.getFullTableName(tableName, bizDate)}")
+      featureDF.show()
 
       result.add(getFeature(featureDF, featureType))
     }

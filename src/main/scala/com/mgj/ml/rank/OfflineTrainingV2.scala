@@ -76,7 +76,6 @@ object OfflineTrainingV2 {
       }
 
       if (stageSet.contains("train")) {
-        //        sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
         val dataDF = sqlContext.sql(s"select ${features},label from ${featureTable}").cache()
         val learner: LRLearnerV2 = new LRLearnerV2()
         val model = learner.run(sc, dataDF)
