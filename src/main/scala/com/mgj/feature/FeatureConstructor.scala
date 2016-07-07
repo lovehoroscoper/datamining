@@ -113,14 +113,17 @@ object FeatureConstructor {
       featureList.toList
     })
 
+    val schemaList = new util.ArrayList[String]()
+    schemaList.addAll(sampleSchema)
+
     for (e <- userFeatureSchemaList) {
-      sampleSchema.addAll(e)
+      schemaList.addAll(e)
     }
     for (e <- itemFeatureSchemaList) {
-      sampleSchema.addAll(e)
+      schemaList.addAll(e)
     }
 
-    val structField: List[StructField] = sampleSchema.map(name => StructField(name, StringType, true))
+    val structField: List[StructField] = schemaList.map(name => StructField(name, StringType, true))
     val schema = StructType(structField)
 
     val rawFeatureDF = sqlContext.createDataFrame(featureRDD.map(x => Row(x)), schema)
