@@ -1,5 +1,7 @@
 package com.mgj.feature
 
+import java.util
+
 import com.mgj.utils.HiveUtil
 import org.apache.spark.SparkContext
 import org.apache.spark.rdd.RDD
@@ -61,7 +63,7 @@ abstract class FeatureCalculator extends java.io.Serializable {
   def getFeatureRDD(sc: SparkContext, sqlContext: HiveContext): Seq[(RDD[(String, List[String])], List[String], String)] = {
     val table = this.getTable(tableName)
     println(s"table:${table}")
-    val result = Seq[(RDD[(String, List[String])], List[String], String)]()
+    val result = new util.ArrayList[(RDD[(String, List[String])], List[String], String)]()
 
     for (e <- table.keys) {
       val name = e
@@ -81,7 +83,7 @@ abstract class FeatureCalculator extends java.io.Serializable {
       result.add(getFeature(featureDF, featureType))
     }
 
-    return result
+    return result.toList.toSeq
   }
 
   def getTables(): Map[String, String] = {
