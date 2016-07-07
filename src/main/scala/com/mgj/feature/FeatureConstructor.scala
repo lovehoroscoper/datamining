@@ -89,6 +89,8 @@ object FeatureConstructor {
       (key, featureList.toList)
     })
 
+    sampleRDDA.take(10).foreach(println)
+
     val rddSeqB = new util.ArrayList[RDD[(String, List[String])]]()
     rddSeqB.add(resultA)
     rddSeqB.addAll(itemFeatureRDDList)
@@ -96,7 +98,6 @@ object FeatureConstructor {
     val featureRDD = joiner(rddSeqB.toList.toSeq).filter(x => x._2(0).size > 0).map(x => {
       val featureList = new util.ArrayList[String]()
       val sampleField = x._2(0).toList.map(x => x.toString)
-      val key = sampleField.get(sampleField.size - 1)
       featureList.addAll(sampleField.take(sampleField.size - 2).toList)
 
       for (i <- 0 to x._2.length - 2) {

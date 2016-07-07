@@ -8,7 +8,6 @@ import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.hive.HiveContext
 import scala.collection.JavaConversions._
-import scala.tools.scalap.scalax.rules.Units
 
 /**
   * Created by xiaonuo on 12/5/15.
