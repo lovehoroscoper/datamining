@@ -95,6 +95,8 @@ object FeatureConstructor {
     rddSeqB.add(resultA)
     rddSeqB.addAll(itemFeatureRDDList)
 
+    joiner(rddSeqB.toList.toSeq).take(10).foreach(println)
+
     val featureRDD = joiner(rddSeqB.toList.toSeq).filter(x => x._2(0).size > 0).map(x => {
       val featureList = new util.ArrayList[String]()
       val sampleField = x._2(0).toList.map(x => x.toString)
@@ -114,6 +116,8 @@ object FeatureConstructor {
       }
       featureList.toList
     })
+
+    featureRDD.take(10).foreach(println)
 
     val schemaList = new util.ArrayList[String]()
     schemaList.addAll(sampleSchema)
