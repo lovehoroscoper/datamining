@@ -52,6 +52,7 @@ object FeatureConstructor {
           calculator.setTableName(tableName)
           tableSet.addAll(tableMap.keySet)
           val featureRDD = calculator.getFeatureRDD(sc, sqlContext)
+          featureRDD.take(10).foreach(println)
           result.addAll(featureRDD)
         }
       } else {
@@ -65,9 +66,9 @@ object FeatureConstructor {
     val userFeatureSchemaList = result.toList.filter(x => x._3.equals(FeatureType.USER)).map(x => x._2)
 
     println("itemFeatureRDDList")
-    itemFeatureRDDList.take(10).map(x => x.take(10)).foreach(println)
+    itemFeatureRDDList.take(10).map(x => x.take(10).map(x => x._1 + x._2.mkString(","))).foreach(println)
     println("userFeatureRDDList")
-    userFeatureRDDList.take(10).map(x => x.take(10)).foreach(println)
+    userFeatureRDDList.take(10).map(x => x.take(10)).map(x => x._1 + x._2.mkString(","))).foreach(println)
 
     val rddSeqA = new util.ArrayList[RDD[(String, List[String])]]()
     val sampleRDDA = sampleRDD.map(x => (x._2.get(x._2.size - 2), x._2))
@@ -100,8 +101,7 @@ object FeatureConstructor {
     rddSeqB.add(resultA)
     rddSeqB.addAll(itemFeatureRDDList)
 
-    rddSeqB.take(10)
-    joiner(rddSeqB.toList.toSeq).take(10).map(x => x._1 + x._2.map(x => x.toList.toString)).foreach(println)
+    joiner(rddSeqB.toList.toSeq).filter(x => x._2(0).size > 0).take(10).map(x => x._1 + x._2.map(x => x.toList.toString)).foreach(println)
 
     val featureRDD = joiner(rddSeqB.toList.toSeq).filter(x => x._2(0).size > 0).map(x => {
       val featureList = new util.ArrayList[String]()
