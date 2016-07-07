@@ -68,7 +68,7 @@ object FeatureConstructor {
     println("itemFeatureRDDList")
     itemFeatureRDDList.take(10).map(x => x.take(10).map(x => x._1 + x._2.mkString(","))).foreach(println)
     println("userFeatureRDDList")
-    userFeatureRDDList.take(10).map(x => x.take(10).map(x => x._1 + x._2.mkString(",")).foreach(println)
+    userFeatureRDDList.take(10).map(x => x.take(10).map(x => x._1 + x._2.mkString(","))).foreach(println)
 
     val rddSeqA = new util.ArrayList[RDD[(String, List[String])]]()
     val sampleRDDA = sampleRDD.map(x => (x._2.get(x._2.size - 2), x._2))
