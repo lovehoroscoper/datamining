@@ -1,6 +1,7 @@
 package com.mgj.feature.impl
 
 import java.text.SimpleDateFormat
+import java.util
 
 import com.mgj.feature.{FeatureType, FeatureCalculator, FeatureConstant}
 import com.mgj.utils.HiveUtil
@@ -116,9 +117,9 @@ class UserRealItemPreferFeatureCalculator extends FeatureCalculator {
     println(userField + " DataFrame")
     userClickItemDF.show
 
-    val result = Seq[(RDD[(String, List[String])], List[String], String)]()
+    val result = new util.ArrayList[(RDD[(String, List[String])], List[String], String)]()
     result.add(getFeature(userClickItemDF, FeatureType.USER))
-    return result
+    return result.toList.toSeq
   }
 
   override var featureName: String = _
