@@ -43,7 +43,7 @@ object FeatureConstructor {
         val calculator = featureCalculatorFactory.getCalculator(feature)
         calculator.setBizDate(bizdate)
         println(calculator)
-        val tableMap = calculator.getTables().filter(x => tableSet.contains(x._1))
+        val tableMap = calculator.getTables().filter(x => !tableSet.contains(x._1))
         println(s"tableMap:${tableMap}")
         println(s"tableSet:${tableSet}")
         if (tableMap.size > 0) {
