@@ -131,11 +131,11 @@ object FeatureConstructor {
 
       itemFeatureRDD.filter(x => x.size != itemSchemaList.size).take(10).foreach(println)
       itemFeatureRDD.take(10).foreach(println)
-      println(s"count:${itemFeatureRDD.count()}")
+      itemFeatureRDD.map(x => Row(x.toSeq: _*)).take(10).foreach(println)
 
       val itemStructField: List[StructField] = itemSchemaList.toList.map(name => StructField(name, StringType, true))
       println(s"schema:${StructType(itemStructField)}")
-      itemFeatureDF = sqlContext.createDataFrame(itemFeatureRDD.map(x => Row(x)), StructType(itemStructField))
+      itemFeatureDF = sqlContext.createDataFrame(itemFeatureRDD.map(x => Row(x.toSeq: _*)), StructType(itemStructField))
       println("itemFeatureDF")
       itemFeatureDF.show
     }
