@@ -27,7 +27,7 @@ object HiveUtil {
     featureDF.show
     val bizdateNew = getDate(bizdate)
     val fullTableName = s"${tableName}_${bizdateNew}"
-    print(s"full table name:${fullTableName}")
+    println(s"full table name:${fullTableName}")
     sqlContext.sql(s"drop table if exists ${fullTableName}")
     featureDF.write.saveAsTable(fullTableName)
     return featureDF

@@ -74,8 +74,8 @@ abstract class FeatureCalculator extends java.io.Serializable {
         }
       }
 
-      val featureDF = sqlContext.sql(s"select * from ${this.getFullTableName(tableName, bizDate)}")
       println(s"full table name:${this.getFullTableName(tableName, bizDate)}")
+      val featureDF = sqlContext.sql(s"select * from ${this.getFullTableName(tableName, bizDate)}")
       featureDF.show()
 
       result.add(getFeature(featureDF, featureType))
