@@ -16,7 +16,7 @@ import scala.reflect.ClassTag
 object FeatureConstructor {
 
   val userTableName = "wonderful_user_feature_table"
-  val userTableName = "wonderful_item_feature_table"
+  val itemTableName = "wonderful_item_feature_table"
   val tableName = "wonderful_feature_table"
 
   def init(sqlContext: HiveContext, udfFactory: UdfFactory): Unit = {
