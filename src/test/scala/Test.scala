@@ -1,6 +1,5 @@
 
 import com.mgj.feature.UdfTemplate
-import com.mgj.feature.impl.udfs.TestUdf
 import com.mgj.ml.maxentropy.{MESample, MaxEntropy}
 import org.apache.spark.mllib.linalg.Vectors
 import org.apache.spark.sql.functions._
