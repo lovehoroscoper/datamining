@@ -17,7 +17,7 @@ echo "code:${CODE}"
 # user_category_prefer,user_category_prefer_order,user_item_prefer,user_real_item_prefer,item_ctr,user_shop_prefer,user_shop_prefer_order,user_gene_prefer,user_gene_prefer_order,pos
 #FEATURES="user_category_prefer,user_category_prefer_order,user_item_prefer,user_real_item_prefer,item_ctr,user_shop_prefer,user_shop_prefer_order,user_gene_prefer,user_gene_prefer_order,pos"
 #FEATURES="user_category_prefer,user_category_prefer_order,user_item_prefer,user_real_item_prefer,item_search_ctr,user_shop_prefer,user_shop_prefer_order,user_gene_prefer,user_gene_prefer_order,pos"
-FEATURES="item_ctr,score,dpv0d_log"
+FEATURES="item_ctr,score,dpv0d_log,user_category_prefer"
 echo "features:${FEATURES}"
 
 SAMPLE_TABLE="s_dg_sample_${CODE}"
