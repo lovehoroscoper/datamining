@@ -30,11 +30,11 @@ class MatchUdf extends UdfTemplate {
         userFeature.split(",").foreach(x => {
           val kv = x.split(":")
           if (kv(0).equals(itemFeature)) {
-            kv(1).toDouble / 100000d
+            return kv(1).toDouble / 100000d
           }
         })
       }
-      0d
+      return 0d
     }
     sqlContext.udf.register(name, function)
   }

@@ -15,7 +15,7 @@ class SimpleUdf extends UdfTemplate {
   //  }
 
   override def register(sqlContext: HiveContext, name: String): Unit = {
-    val function = (input: String) => input.toDouble
+    val function = (input: String) => return input.toDouble
     sqlContext.udf.register(name, function)
   }
 }
