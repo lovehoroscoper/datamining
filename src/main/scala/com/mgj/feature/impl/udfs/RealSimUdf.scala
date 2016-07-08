@@ -41,7 +41,7 @@ class RealSimUdf extends UdfTemplate {
 
   override def register(sqlContext: HiveContext, name: String): Unit = {
     val N = 50
-    val function = (userFeature: String, itemFeature: String, time: String) => {
+    def udf(userFeature: String, itemFeature: String, time: String): Double = {
       if (userFeature == null
         || itemFeature == null
         || time == null
@@ -72,6 +72,8 @@ class RealSimUdf extends UdfTemplate {
       }
       return score
     }
+
+    val function = (userFeature: String, itemFeature: String, time: String) => udf(userFeature, itemFeature, time)
 
     sqlContext.udf.register(name, function)
   }

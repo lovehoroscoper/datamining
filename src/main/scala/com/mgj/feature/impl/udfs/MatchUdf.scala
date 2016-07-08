@@ -25,7 +25,7 @@ class MatchUdf extends UdfTemplate {
   //  }
 
   override def register(sqlContext: HiveContext, name: String): Unit = {
-    val function = (userFeature: String, itemFeature: String) => {
+    def udf(userFeature: String, itemFeature: String): Double = {
       if (userFeature != null && itemFeature != null) {
         userFeature.split(",").foreach(x => {
           val kv = x.split(":")
@@ -36,6 +36,7 @@ class MatchUdf extends UdfTemplate {
       }
       return 0d
     }
+    val function = (userFeature: String, itemFeature: String) => udf(userFeature, itemFeature)
     sqlContext.udf.register(name, function)
   }
 
