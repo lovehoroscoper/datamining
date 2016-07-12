@@ -116,24 +116,6 @@
         <property name="tableName" value=""/>
     </bean>
 
-    <bean id="itemTest1FeatureCalculator" class="com.mgj.feature.impl.ItemFeatureCalculator">
-        <property name="featureName" value="score"/>
-        <property name="userField" value=""/>
-        <property name="itemField" value="score"/>
-        <property name="itemFieldPath" value=""/>
-        <property name="userFieldPath" value=""/>
-        <property name="tableName" value="qd_tmp_score2:item"/>
-    </bean>
-
-    <bean id="itemTest2FeatureCalculator" class="com.mgj.feature.impl.ItemFeatureCalculator">
-        <property name="featureName" value="dpv0d_log"/>
-        <property name="userField" value=""/>
-        <property name="itemField" value="dpv0d_log"/>
-        <property name="itemFieldPath" value=""/>
-        <property name="userFieldPath" value=""/>
-        <property name="tableName" value="qd_tmp_f2:item"/>
-    </bean>
-
     <!-- feature config -->
     <bean id="featureCalculatorFactory" class="com.mgj.feature.FeatureCalculatorFactory">
         <property name="calculators">
@@ -149,9 +131,6 @@
                 <entry key="item_search_ctr" value-ref="itemSearchCtrFeatureCalculator"/>
                 <entry key="user_item_prefer" value-ref="userItemPreferFeatureCalculator"/>
                 <entry key="mf" value-ref="mfFeatureCalculator"/>
-
-                <entry key="score" value-ref="itemTest2FeatureCalculator"/>
-                <entry key="dpv0d_log" value-ref="itemTest1FeatureCalculator"/>
             </map>
         </property>
 
