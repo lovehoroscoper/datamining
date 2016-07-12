@@ -15,6 +15,20 @@ import scala.collection.JavaConversions._
   */
 object SampleV2Util {
 
+  def getBlackDeviceId(sqlContext: HiveContext): Set[String] = {
+    val sql = SqlUtil.getBlackDeviceSql()
+    val blackDeviceDF = sqlContext.sql(sql)
+    val blackDeviceSet = blackDeviceDF.map(x => x(0).toString).collect().toSet
+    return blackDeviceSet
+  }
+
+  def getBlackUserId(sqlContext: HiveContext): Set[String] = {
+    val sql = SqlUtil.getBlackUserSql()
+    val blackUserDF = sqlContext.sql(sql)
+    val blackUserSet = blackUserDF.map(x => x(0).toString).collect().toSet
+    return blackUserSet
+  }
+
   def getExpId(sqlContext: HiveContext, code: String*): Seq[String] = {
     val sql = SqlUtil.getResourceSql("/sql/get_appids.sql", code: _*)
     val appIdsDF = sqlContext.sql(sql)
@@ -157,10 +171,18 @@ object SampleV2Util {
 
   def getSampleLog(sqlContext: HiveContext, path: String, appIdSchema: String, bizdate: String, appIds: String*): DataFrame = {
     val appIdSet = appIds.toSet
+    val blackUserSet = getBlackUserId(sqlContext)
+    val blackDeviceSet = getBlackDeviceId(sqlContext)
+
     val isContain = udf { (appId: String) => if (appIdSet.contains(appId)) true else false }
+    val isBlackUser = udf { (userId: String) => if (blackUserSet.contains(userId)) true else false }
+    val isBlackDevice = udf { (deviceId: String) => if (blackDeviceSet.contains(deviceId)) true else false }
+
     val sql = SqlUtil.getSampleSql(path, bizdate)
     val sampleLog = sqlContext.sql(sql)
-    val sampleLogFilter = sampleLog.filter(isContain(sampleLog(appIdSchema)))
+    val sampleLogFilter = sampleLog.filter(isContain(sampleLog(appIdSchema))
+      && !isBlackUser(sampleLog("user_id"))
+      && !isBlackDevice(sampleLog("device_id")))
     return sampleLogFilter
   }
 }
