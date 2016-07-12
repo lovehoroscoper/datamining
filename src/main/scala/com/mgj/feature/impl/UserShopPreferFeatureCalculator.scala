@@ -108,8 +108,7 @@ class UserShopPreferFeatureCalculator extends FeatureCalculator {
   override var userFieldPath: String = _
   override var itemFieldPath: String = _
   override var bizDate: String = _
-  override var maxValue: String = _
   override var tableName: String = _
 
-  override def toString = s"UserShopPreferFeatureCalculator($featureName, $userField, $itemField, $userFieldPath, $itemFieldPath, $bizDate, $maxValue, $tableName)"
+  override def toString = s"UserShopPreferFeatureCalculator($featureName, $userField, $itemField, $userFieldPath, $itemFieldPath, $bizDate, $tableName)"
 }

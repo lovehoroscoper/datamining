@@ -14,6 +14,8 @@ import scala.collection.JavaConversions._
   */
 class ItemFeatureCalculator extends FeatureCalculator {
 
+  val maxValue = 1e6
+
   override def compute(sampleDF: DataFrame, sc: SparkContext, sqlContext: HiveContext): DataFrame = {
     println("build feature: " + this.featureName)
     println("userField: " + userField)
@@ -34,7 +36,7 @@ class ItemFeatureCalculator extends FeatureCalculator {
       var featureVal: String = "0"
       val score = x.getAs[String](itemField)
       if (score != null && score != None) {
-        featureVal = (score.toDouble / maxValue.toDouble).toString
+        featureVal = (score.toDouble / maxValue).toString
       }
       val uVal: String = x.getAs[String](FeatureConstant.USER_KEY)
       val iVal: String = x.getAs[String](FeatureConstant.ITEM_KEY)
@@ -81,8 +83,7 @@ class ItemFeatureCalculator extends FeatureCalculator {
   override var userFieldPath: String = _
   override var itemFieldPath: String = _
   override var bizDate: String = _
-  override var maxValue: String = _
   override var tableName: String = _
 
-  override def toString = s"ItemFeatureCalculator($featureName, $userField, $itemField, $userFieldPath, $itemFieldPath, $bizDate, $maxValue, $tableName)"
+  override def toString = s"ItemFeatureCalculator($featureName, $userField, $itemField, $userFieldPath, $itemFieldPath, $bizDate, $tableName)"
 }

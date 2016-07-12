@@ -20,7 +20,6 @@ abstract class FeatureCalculator extends java.io.Serializable {
   var itemField: String
   var itemFieldPath: String
   var bizDate: String
-  var maxValue: String
   var tableName: String
 
   def setUserFieldPath(userFieldPath: String): Unit = {
