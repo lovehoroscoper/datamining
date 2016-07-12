@@ -16,15 +16,12 @@
 
     <context:component-scan base-package="com.mgj.ml"/>
 
-    <context:component-scan base-package="com.mgj.feature.impl.udfs"/>
-
     <bean id="userCategoryPreferFeatureCalculator" class="com.mgj.feature.impl.UserCategoryPreferFeatureCalculator">
         <property name="featureName" value="user_category_prefer"/>
         <property name="userField" value="user_category_prefer"/>
         <property name="itemField" value="category_id"/>
         <property name="userFieldPath" value="/user/digu/userGBPreferRecord"/>
         <property name="itemFieldPath" value=""/>
-        <property name="maxValue" value=""/>
         <property name="tableName" value="s_dg_user_category_prefer:user"/>
     </bean>
 
@@ -35,7 +32,6 @@
         <property name="itemField" value="category_id"/>
         <property name="userFieldPath" value="/user/digu/userGBPreferOrderRecord"/>
         <property name="itemFieldPath" value=""/>
-        <property name="maxValue" value=""/>
         <property name="tableName" value="s_dg_user_category_prefer_order:user"/>
     </bean>
 
@@ -45,7 +41,6 @@
         <property name="itemField" value="shop_id"/>
         <property name="userFieldPath" value="/user/digu/userShopPreferRecord"/>
         <property name="itemFieldPath" value=""/>
-        <property name="maxValue" value=""/>
         <property name="tableName" value="s_dg_user_shop_prefer:user"/>
     </bean>
 
@@ -55,7 +50,6 @@
         <property name="itemField" value="shop_id"/>
         <property name="userFieldPath" value="/user/digu/userShopPreferOrderRecord"/>
         <property name="itemFieldPath" value=""/>
-        <property name="maxValue" value=""/>
         <property name="tableName" value="s_dg_user_shop_prefer_order:user"/>
     </bean>
 
@@ -65,7 +59,6 @@
         <property name="itemField" value="item_sim"/>
         <property name="itemFieldPath" value="/user/digu/itemSimCurrentUsed"/>
         <property name="userFieldPath" value=""/>
-        <property name="maxValue" value=""/>
         <property name="tableName" value="s_dg_item_sim:item"/>
     </bean>
 
@@ -75,7 +68,6 @@
         <property name="itemField" value="item_ctr"/>
         <property name="itemFieldPath" value="/user/bizdata/ctrRecord"/>
         <property name="userFieldPath" value=""/>
-        <property name="maxValue" value="1000000"/>
         <property name="tableName" value="s_dg_item_ctr:item"/>
     </bean>
 
@@ -85,7 +77,6 @@
         <property name="itemField" value="item_search_ctr"/>
         <property name="itemFieldPath" value="/user/bizdata/searchCtrRecord"/>
         <property name="userFieldPath" value=""/>
-        <property name="maxValue" value="10000000"/>
         <property name="tableName" value="s_dg_search_ctr:item"/>
     </bean>
 
@@ -95,7 +86,6 @@
         <property name="itemField" value="gene_id"/>
         <property name="userFieldPath" value="/user/digu/userGenePreferRecord"/>
         <property name="itemFieldPath" value="/user/digu/itemGeneRecord"/>
-        <property name="maxValue" value=""/>
         <property name="tableName" value="s_dg_user_gene_prefer:user,s_dg_item_gene:item"/>
     </bean>
 
@@ -105,7 +95,6 @@
         <property name="itemField" value="gene_id"/>
         <property name="userFieldPath" value="/user/digu/userGenePreferOrderRecord"/>
         <property name="itemFieldPath" value="/user/digu/itemGeneRecord"/>
-        <property name="maxValue" value=""/>
         <property name="tableName" value="s_dg_user_gene_prefer_order:user,s_dg_item_gene:item"/>
     </bean>
 
@@ -115,7 +104,6 @@
         <property name="itemField" value="item_id"/>
         <property name="userFieldPath" value="/user/digu/userItemPreferRecord"/>
         <property name="itemFieldPath" value=""/>
-        <property name="maxValue" value=""/>
         <property name="tableName" value="s_dg_user_item_prefer:user"/>
     </bean>
 
@@ -125,7 +113,6 @@
         <property name="itemField" value="item_mf"/>
         <property name="userFieldPath" value="/user/digu/itemMF/user"/>
         <property name="itemFieldPath" value="/user/digu/itemMF/product"/>
-        <property name="maxValue" value=""/>
         <property name="tableName" value=""/>
     </bean>
 
@@ -135,7 +122,6 @@
         <property name="itemField" value="score"/>
         <property name="itemFieldPath" value=""/>
         <property name="userFieldPath" value=""/>
-        <property name="maxValue" value="10000000"/>
         <property name="tableName" value="qd_tmp_score2:item"/>
     </bean>
 
@@ -145,10 +131,10 @@
         <property name="itemField" value="dpv0d_log"/>
         <property name="itemFieldPath" value=""/>
         <property name="userFieldPath" value=""/>
-        <property name="maxValue" value="10000000"/>
         <property name="tableName" value="qd_tmp_f2:item"/>
     </bean>
 
+    <!-- feature config -->
     <bean id="featureCalculatorFactory" class="com.mgj.feature.FeatureCalculatorFactory">
         <property name="calculators">
             <map>
@@ -176,12 +162,17 @@
                 <entry key="user_gene_prefer" value="match(user_gene_prefer,gene_id)"/>
                 <entry key="user_item_prefer" value="match(user_item_prefer,item_id)"/>
                 <entry key="user_real_item_prefer" value="realSim(user_real_item_prefer,item_id,time)"/>
-                <entry key="item_ctr" value="simple(item_ctr)"/>
-                <entry key="score" value="simple(score)"/>
-                <entry key="dpv0d_log" value="simple(dpv0d_log)"/>
+                <entry key="item_ctr" value="simple(item_ctr,1000000)"/>
+                <entry key="score" value="simple(score,1000000)"/>
+                <entry key="dpv0d_log" value="simple(dpv0d_log,1000000)"/>
             </map>
         </property>
     </bean>
+
+    <!-- udf config -->
+    <bean id="matchUdf" class="com.mgj.feature.impl.udfs.MatchUdf"/>
+    <bean id="realSimUdf" class="com.mgj.feature.impl.udfs.RealSimUdf"/>
+    <bean id="simpleUdf" class="com.mgj.feature.impl.udfs.SimpleUdf"/>
 
     <bean id="udfFactory" class="com.mgj.feature.UdfFactory">
         <property name="udfs">

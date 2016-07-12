@@ -10,7 +10,10 @@ import org.springframework.stereotype.Service
 @Service("simpleUdf")
 class SimpleUdf extends UdfTemplate {
   override def buildFunction(): Seq[String] => Double = {
-    val function = (input: Seq[String]) => input(0).toDouble
+    def udf(featureValue: String, scale: String): Double = {
+      return featureValue.toDouble / scale.toDouble
+    }
+    val function = (input: Seq[String]) => udf(input(0), input(1))
     return function
   }
 
