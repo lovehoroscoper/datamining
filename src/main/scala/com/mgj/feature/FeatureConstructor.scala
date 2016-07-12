@@ -122,7 +122,7 @@ object FeatureConstructor {
 
     val structField: List[StructField] = schemaList.toList.map(name => StructField(name, StringType, true))
     println(s"schema:${StructType(structField)}")
-    val featureDF = sqlContext.createDataFrame(itemFeatureRDD.map(x => Row(x.toSeq: _*)), StructType(structField))
+    val featureDF = sqlContext.createDataFrame(itemFeatureRDD.map(x => Row(x.toSeq: _*)), StructType(structField)).dropDuplicates()
     println("featureDF")
     featureDF.show
     return featureDF
