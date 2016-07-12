@@ -163,7 +163,7 @@
                 <entry key="user_item_prefer" value="match(user_item_prefer,item_id)"/>
                 <entry key="user_real_item_prefer" value="realSim(user_real_item_prefer,item_id,time)"/>
                 <entry key="item_ctr" value="simple(item_ctr,1000000)"/>
-                <entry key="score" value="simple(score,1000000)"/>
+                <entry key="score" value="simple(score,max(score))"/>
                 <entry key="dpv0d_log" value="simple(dpv0d_log,1000000)"/>
             </map>
         </property>
