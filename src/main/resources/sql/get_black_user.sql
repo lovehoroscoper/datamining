@@ -3,5 +3,4 @@ SELECT 
  FROM 
   s_algo_user_black_set
  WHERE 
-  pt >= 'BIZDATE_SUB7'
-  AND type = 'user_id'
+  pt >= 'BIZDATE_SUB7' AND type = 'user_id'
