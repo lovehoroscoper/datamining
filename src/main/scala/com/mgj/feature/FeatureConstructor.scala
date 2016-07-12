@@ -50,14 +50,15 @@ object FeatureConstructor {
 
     val itemFeatureRDDList = result.toList.filter(x => x._3.equals(FeatureType.ITEM)).map(x => x._1)
     val itemFeatureSchemaList = result.toList.filter(x => x._3.equals(FeatureType.ITEM)).map(x => x._2)
+
     val userFeatureRDDList = result.toList.filter(x => x._3.equals(FeatureType.USER)).map(x => x._1)
     val userFeatureSchemaList = result.toList.filter(x => x._3.equals(FeatureType.USER)).map(x => x._2)
 
     val userFlag = userFeatureRDDList.size > 0
     val itemFlag = itemFeatureRDDList.size > 0
 
-    val userFeatureDF: DataFrame = if (userFlag) getRawFeatureDF(sqlContext, userFeatureRDDList, userFeatureSchemaList, userKeyAlias).cache() else null
     val itemFeatureDF: DataFrame = if (itemFlag) getRawFeatureDF(sqlContext, itemFeatureRDDList, itemFeatureSchemaList, itemKeyAlias).cache() else null
+    val userFeatureDF: DataFrame = if (userFlag) getRawFeatureDF(sqlContext, userFeatureRDDList, userFeatureSchemaList, userKeyAlias).cache() else null
 
     var rawFeatureDF = sampleDF
     if (userFlag) {
@@ -94,8 +95,46 @@ object FeatureConstructor {
     return cg
   }
 
+  private def dropDuplicate(featureSchemaList: List[List[String]], featureRDDList: List[RDD[(String, List[String])]]): (List[List[String]], List[RDD[(String, List[String])]]) = {
+    val featureSchemaListDropDuplicate = new util.ArrayList[List[String]]()
+    val featureRDDListDropDuplicate = new util.ArrayList[RDD[(String, List[String])]]()
+
+    val schemaSet = new util.HashSet[String]()
+
+    for (i <- 0 to featureSchemaList.size - 1) {
+      val list = new util.ArrayList[String]()
+      val indexSet = new util.HashSet[Int]()
+
+      for (j <- 0 to featureSchemaList.get(i).size - 1) {
+        val schema = featureSchemaList.get(i).get(j)
+        if (!schemaSet.contains(schema)) {
+          schemaSet.add(schema)
+          list.add(schema)
+          indexSet.add(j)
+        }
+      }
+
+      val rdd = featureRDDList.get(i).map(x => {
+        val list = new util.ArrayList[String]()
+        for (i <- 0 to x._2.size - 1) {
+          if (indexSet.contains(i)) {
+            list.add(x._2.get(i))
+          }
+        }
+        (x._1, list.toList)
+      })
+
+      if (list.size > 0) {
+        featureSchemaListDropDuplicate.add(list.toList)
+        featureRDDListDropDuplicate.add(rdd)
+      }
+    }
+    (featureSchemaListDropDuplicate.toList, featureRDDListDropDuplicate.toList)
+  }
+
   private def getRawFeatureDF(sqlContext: HiveContext, featureRDDList: List[RDD[(String, List[String])]], featureSchemaList: List[List[String]], keySchema: String): DataFrame = {
-    val itemFeatureRDD = joiner(featureRDDList.toList.toSeq).filter(x => x._2(0).size > 0).map(x => {
+    val (featureSchemaListDropDuplicate, featureRDDListDropDuplicate) = dropDuplicate(featureSchemaList, featureRDDList)
+    val featureRDD = joiner(featureRDDListDropDuplicate.toList.toSeq).filter(x => x._2(0).size > 0).map(x => {
       val featureList = new util.ArrayList[String]()
       featureList.add(x._1)
 
@@ -104,7 +143,7 @@ object FeatureConstructor {
           x._2(i).toList.get(0).asInstanceOf[List[String]]
         } else {
           val zeroList = new util.ArrayList[String]()
-          for (k <- 1 to featureSchemaList.get(i).size) {
+          for (k <- 1 to featureSchemaListDropDuplicate.get(i).size) {
             zeroList.add("0")
           }
           zeroList.toList
@@ -116,13 +155,13 @@ object FeatureConstructor {
 
     val schemaList = new util.ArrayList[String]()
     schemaList.add(keySchema)
-    for (e <- featureSchemaList) {
+    for (e <- featureSchemaListDropDuplicate) {
       schemaList.addAll(e)
     }
 
     val structField: List[StructField] = schemaList.toList.map(name => StructField(name, StringType, true))
     println(s"schema:${StructType(structField)}")
-    val featureDF = sqlContext.createDataFrame(itemFeatureRDD.map(x => Row(x.toSeq: _*)), StructType(structField)).dropDuplicates()
+    val featureDF = sqlContext.createDataFrame(featureRDD.map(x => Row(x.toSeq: _*)), StructType(structField))
     println("featureDF")
     featureDF.show
     return featureDF
