@@ -73,8 +73,8 @@ object OfflineTrainingV2 {
         dataDF.show()
         FeatureConstructor.init(sqlContext, udfFactory)
         dataDF = FeatureConstructor.construct(sc, sqlContext, dataDF, featureCalculatorFactory, bizdate, features.split(","): _*)
-        sqlContext.sql("drop table if exists s_dg_test_v2")
-        dataDF.write.saveAsTable("s_dg_test_v2")
+        sqlContext.sql(s"drop table if exists ${featureTable}")
+        dataDF.write.saveAsTable(s"${featureTable}")
       }
 
       if (stageSet.contains("train")) {
