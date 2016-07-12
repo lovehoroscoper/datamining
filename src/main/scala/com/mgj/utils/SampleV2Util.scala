@@ -18,14 +18,14 @@ object SampleV2Util {
   def getBlackDeviceId(sqlContext: HiveContext): Set[String] = {
     val sql = SqlUtil.getBlackDeviceSql()
     val blackDeviceDF = sqlContext.sql(sql)
-    val blackDeviceSet = blackDeviceDF.map(x => x(0).toString).collect().toSet
+    val blackDeviceSet = blackDeviceDF.rdd.filter(x => x.anyNull == false).map(x => x(0).toString).collect().toSet
     return blackDeviceSet
   }
 
   def getBlackUserId(sqlContext: HiveContext): Set[String] = {
     val sql = SqlUtil.getBlackUserSql()
     val blackUserDF = sqlContext.sql(sql)
-    val blackUserSet = blackUserDF.map(x => x(0).toString).collect().toSet
+    val blackUserSet = blackUserDF.rdd.filter(x => x.anyNull == false).map(x => x(0).toString).collect().toSet
     return blackUserSet
   }
 
