@@ -9,22 +9,24 @@ import org.springframework.stereotype.Service
   */
 @Service("matchUdf")
 class MatchUdf extends UdfTemplate {
-  //  override def buildFunction(): (String, String) => Double = {
-  //    val function = (userFeature: String, itemFeature: String) => {
+
+  //  override def register(sqlContext: HiveContext, name: String): Unit = {
+  //    def udf(userFeature: String, itemFeature: String): Double = {
   //      if (userFeature != null && itemFeature != null) {
   //        userFeature.split(",").foreach(x => {
   //          val kv = x.split(":")
   //          if (kv(0).equals(itemFeature)) {
-  //            kv(1).toDouble / 100000d
+  //            return kv(1).toDouble / 100000d
   //          }
   //        })
   //      }
-  //      0d
+  //      return 0d
   //    }
-  //    return function
+  //    val function = (userFeature: String, itemFeature: String) => udf(userFeature, itemFeature)
+  //    sqlContext.udf.register(name, function)
   //  }
 
-  override def register(sqlContext: HiveContext, name: String): Unit = {
+  override def buildFunction(): Seq[String] => Double = {
     def udf(userFeature: String, itemFeature: String): Double = {
       if (userFeature != null && itemFeature != null) {
         userFeature.split(",").foreach(x => {
@@ -36,8 +38,8 @@ class MatchUdf extends UdfTemplate {
       }
       return 0d
     }
-    val function = (userFeature: String, itemFeature: String) => udf(userFeature, itemFeature)
-    sqlContext.udf.register(name, function)
+    //    val function = (userFeature: String, itemFeature: String) => udf(userFeature, itemFeature)
+    val function = (input: Seq[String]) => udf(input(0), input(1))
+    return function
   }
-
 }
