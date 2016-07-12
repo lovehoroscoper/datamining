@@ -26,6 +26,7 @@ object SqlUtil {
     val code = resourceCodes.map(x => "'" + x + "'").mkString(",")
     val sql: String = sqlTemplate.replace(RESOURCE_CONST, code)
 
+    println(sql)
     return sql
   }
 
@@ -39,6 +40,7 @@ object SqlUtil {
 
     val sql: String = sqlTemplate.replace(DATE_CONST, getDate(-1))
 
+    println(sql)
     return sql
   }
 
@@ -52,6 +54,7 @@ object SqlUtil {
 
     val sql: String = sqlTemplate.replace(DATE_CONST, bizdate)
 
+    println(sql)
     return sql
   }
 
@@ -65,6 +68,7 @@ object SqlUtil {
 
     val sql: String = sqlTemplate.replace(DATE_SUB7_CONST, getDate(-8))
 
+    println(sql)
     return sql
   }
 
@@ -78,6 +82,7 @@ object SqlUtil {
 
     val sql: String = sqlTemplate.replace(DATE_SUB7_CONST, getDate(-8))
 
+    println(sql)
     return sql
   }
 
