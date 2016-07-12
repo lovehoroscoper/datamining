@@ -46,10 +46,6 @@ abstract class FeatureCalculator extends java.io.Serializable {
     this.bizDate = bizDate
   }
 
-  def setMaxValue(maxValue: String): Unit = {
-    this.maxValue = maxValue
-  }
-
   def setTableName(tableName: String): Unit = {
     this.tableName = tableName
   }
