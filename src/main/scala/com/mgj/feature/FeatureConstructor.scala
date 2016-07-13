@@ -80,8 +80,8 @@ object FeatureConstructor {
 
     val sampleSchema = sampleDF.schema.map(x => x.name).mkString(", ")
     val sql = buildSql(featureCalculatorFactory, features: _*)
-    println(s"sql:select ${sampleSchema}, ${sql} from ${tableName}")
-    val featureDF = sqlContext.sql(s"select ${sampleSchema}, ${sql} from ${tableName}").cache()
+    println(s"sql:select ${sql} from ${tableName}")
+    val featureDF = sqlContext.sql(s"select ${sql} from ${tableName}").cache()
     rawFeatureDF.unpersist(blocking = false)
     featureDF.show()
     return featureDF
