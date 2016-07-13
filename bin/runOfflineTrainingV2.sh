@@ -27,7 +27,7 @@ FEATURE_TABLE="s_dg_sample_${CODE}"
 echo "feature table:${FEATURE_TABLE}"
 
 # build_sample,adapt_features,train
-STAGE="build_sample,adapt_features,train"
+STAGE="adapt_features"
 echo "stage:${STAGE}"
 
 N="20"
