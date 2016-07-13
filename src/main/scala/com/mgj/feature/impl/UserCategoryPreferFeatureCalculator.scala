@@ -8,7 +8,7 @@ import org.apache.spark.SparkContext
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.hive.HiveContext
 import org.apache.spark.sql.types.{StringType, StructField, StructType}
-import org.apache.spark.sql.{DataFrame, Row}
+import org.apache.spark.sql.{Dataset, DataFrame, Row}
 import scala.collection.JavaConversions._
 
 /**
@@ -92,10 +92,10 @@ class UserCategoryPreferFeatureCalculator extends FeatureCalculator {
     return dataDF
   }
 
-  override def getFeatureRDD(sc: SparkContext, sqlContext: HiveContext): Seq[(RDD[(String, List[String])], List[String], String)] = {
+  override def getFeatureRDD(sc: SparkContext, sqlContext: HiveContext): Seq[(Dataset[(String, List[String])], List[String], String)] = {
     val temp = super.getFeatureRDD(sc, sqlContext)
     val itemCategoryFeatureDF = sqlContext.sql("select cast(tradeitemid as string) as " + FeatureConstant.ITEM_KEY + ", cast(cid as string) as " + itemField + " from v_dw_trd_tradeitem where tradeitemid is not null and cid is not null")
-    val result = new util.ArrayList[(RDD[(String, List[String])], List[String], String)]()
+    val result = new util.ArrayList[(Dataset[(String, List[String])], List[String], String)]()
     result.addAll(temp)
     result.add(getFeature(itemCategoryFeatureDF, FeatureType.ITEM))
     return result.toList.toSeq

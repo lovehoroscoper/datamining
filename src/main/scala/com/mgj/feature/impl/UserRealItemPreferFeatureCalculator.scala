@@ -9,7 +9,7 @@ import org.apache.spark.SparkContext
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.hive.HiveContext
 import org.apache.spark.sql.types.{DoubleType, StringType, StructField, StructType}
-import org.apache.spark.sql.{DataFrame, Row}
+import org.apache.spark.sql.{Dataset, DataFrame, Row}
 import scala.collection.JavaConversions._
 
 /**
@@ -104,7 +104,7 @@ class UserRealItemPreferFeatureCalculator extends FeatureCalculator {
     return dataDF
   }
 
-  override def getFeatureRDD(sc: SparkContext, sqlContext: HiveContext): Seq[(RDD[(String, List[String])], List[String], String)] = {
+  override def getFeatureRDD(sc: SparkContext, sqlContext: HiveContext): Seq[(Dataset[(String, List[String])], List[String], String)] = {
     val itemSim = sc.textFile(itemFieldPath).map(x => (x.split(" ")(0), x.split(" ")(1).split(",").take(N).mkString(","))).collect().toMap
 
     val clickSql = "select user_id, item_id, time from s_dg_user_base_log where pt = '" + bizDate + "' and action_type = 'click' and platform_type = 'app'"
@@ -117,7 +117,7 @@ class UserRealItemPreferFeatureCalculator extends FeatureCalculator {
     println(userField + " DataFrame")
     userClickItemDF.show
 
-    val result = new util.ArrayList[(RDD[(String, List[String])], List[String], String)]()
+    val result = new util.ArrayList[(Dataset[(String, List[String])], List[String], String)]()
     result.add(getFeature(userClickItemDF, FeatureType.USER))
     return result.toList.toSeq
   }

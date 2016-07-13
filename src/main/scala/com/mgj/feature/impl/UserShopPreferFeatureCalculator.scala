@@ -7,7 +7,7 @@ import com.mgj.utils.{HiveUtil, HdfsUtil}
 import org.apache.spark.SparkContext
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.hive.HiveContext
-import org.apache.spark.sql.{DataFrame, Row}
+import org.apache.spark.sql.{Dataset, DataFrame, Row}
 import org.apache.spark.sql.types.{StringType, StructType, DoubleType, StructField}
 import scala.collection.JavaConversions._
 
@@ -92,11 +92,11 @@ class UserShopPreferFeatureCalculator extends FeatureCalculator {
     return dataDF
   }
 
-  override def getFeatureRDD(sc: SparkContext, sqlContext: HiveContext): Seq[(RDD[(String, List[String])], List[String], String)] = {
+  override def getFeatureRDD(sc: SparkContext, sqlContext: HiveContext): Seq[(Dataset[(String, List[String])], List[String], String)] = {
     val temp = super.getFeatureRDD(sc, sqlContext)
     val itemShopFeatureDF = sqlContext.sql("select cast(tradeitemid as string) as " + FeatureConstant.ITEM_KEY + ", cast(shopid as string) as " + itemField + " from v_dw_trd_tradeitem where tradeitemid is not null and shopid is not null")
     println(itemField + " DataFrame")
-    val result = new util.ArrayList[(RDD[(String, List[String])], List[String], String)]()
+    val result = new util.ArrayList[(Dataset[(String, List[String])], List[String], String)]()
     result.addAll(temp)
     result.add(getFeature(itemShopFeatureDF, FeatureType.ITEM))
     return result.toList.toSeq
