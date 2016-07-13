@@ -72,9 +72,9 @@ abstract class FeatureCalculator extends java.io.Serializable {
 
       println(s"full table name:${HiveUtil.getFullTableName(name, bizDate)}")
       val featureDF = sqlContext.sql(s"select * from ${HiveUtil.getFullTableName(name, bizDate)}")
-      featureDF.show()
 
       result.add(getFeature(featureDF, featureType))
+      featureDF.unpersist(blocking = false)
     }
 
     return result.toList.toSeq
@@ -94,7 +94,7 @@ abstract class FeatureCalculator extends java.io.Serializable {
       list.addAll(x.toSeq.map(x => x.toString).toList)
       list.remove(keyIndex)
       (x.get(keyIndex).toString, list.toList)
-    })
+    }).cache()
 
     val featureSchema = featureDF.schema.map(x => x.name)
       .filter(x => !x.equals(FeatureConstant.ITEM_KEY))
