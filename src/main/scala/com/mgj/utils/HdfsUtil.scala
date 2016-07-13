@@ -24,7 +24,12 @@ object HdfsUtil {
       val dateMeta = pattern.findFirstIn(date)
       if (dateMeta != None) {
         val pattern(year, month, day) = dateMeta.get
-        return s"${pathPrefix}/${year}${month}${day}"
+        val newPath = s"${pathPrefix}/${year}${month}${day}"
+        if (isExists(sc, newPath)) {
+          return newPath
+        } else {
+          return s"${pathPrefix}"
+        }
       } else {
         return s"${pathPrefix}"
       }
