@@ -78,7 +78,6 @@ object FeatureConstructor {
     rawFeatureDF.registerTempTable(tableName)
     rawFeatureDF.show
 
-    val sampleSchema = sampleDF.schema.map(x => x.name).mkString(", ")
     val sql = buildSql(featureCalculatorFactory, features: _*)
     println(s"sql:select ${sql} from ${tableName}")
     val featureDF = sqlContext.sql(s"select ${sql} from ${tableName}").cache()
