@@ -4,7 +4,7 @@ import java.util
 
 import org.apache.spark.{HashPartitioner, SparkContext}
 import org.apache.spark.rdd.{CoGroupedRDD, RDD}
-import org.apache.spark.sql.{Row, DataFrame}
+import org.apache.spark.sql.{Dataset, Row, DataFrame}
 import org.apache.spark.sql.hive.HiveContext
 import org.apache.spark.sql.types.{StructType, StructField, StringType}
 import scala.collection.JavaConversions._
@@ -26,7 +26,7 @@ object FeatureConstructor {
 
   def construct(sc: SparkContext, sqlContext: HiveContext, sampleDF: DataFrame, featureCalculatorFactory: FeatureCalculatorFactory, bizdate: String, features: String*): DataFrame = {
 
-    val result = new util.ArrayList[(RDD[(String, List[String])], List[String], String)]()
+    val result = new util.ArrayList[(Dataset[(String, List[String])], List[String], String)]()
 
     val tableSet = new util.HashSet[String]()
     for (feature <- features.toList) {
@@ -103,9 +103,9 @@ object FeatureConstructor {
     return cg
   }
 
-  private def dropDuplicate(featureSchemaList: List[List[String]], featureRDDList: List[RDD[(String, List[String])]]): (List[List[String]], List[RDD[(String, List[String])]]) = {
+  private def dropDuplicate(featureSchemaList: List[List[String]], featureRDDList: List[Dataset[(String, List[String])]]): (List[List[String]], List[Dataset[(String, List[String])]]) = {
     val featureSchemaListDropDuplicate = new util.ArrayList[List[String]]()
-    val featureRDDListDropDuplicate = new util.ArrayList[RDD[(String, List[String])]]()
+    val featureRDDListDropDuplicate = new util.ArrayList[Dataset[(String, List[String])]]()
 
     val schemaSet = new util.HashSet[String]()
 
@@ -140,12 +140,12 @@ object FeatureConstructor {
     (featureSchemaListDropDuplicate.toList, featureRDDListDropDuplicate.toList)
   }
 
-  private def getRawFeatureDF(sqlContext: HiveContext, featureRDDList: List[RDD[(String, List[String])]], featureSchemaList: List[List[String]], keySchema: String): DataFrame = {
+  private def getRawFeatureDF(sqlContext: HiveContext, featureRDDList: List[Dataset[(String, List[String])]], featureSchemaList: List[List[String]], keySchema: String): DataFrame = {
     val (featureSchemaListDropDuplicate, featureRDDListDropDuplicate) = dropDuplicate(featureSchemaList, featureRDDList)
     for (e <- featureRDDList) {
       e.unpersist(blocking = false)
     }
-    val featureRDD = joiner(featureRDDListDropDuplicate.toList.toSeq).filter(x => x._2(0).size > 0).map(x => {
+    val featureRDD = joiner(featureRDDListDropDuplicate.toList.map(x => x.rdd).toSeq).filter(x => x._2(0).size > 0).map(x => {
       val featureList = new util.ArrayList[String]()
       featureList.add(x._1)
 

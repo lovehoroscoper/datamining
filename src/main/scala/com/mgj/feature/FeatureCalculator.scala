@@ -5,7 +5,7 @@ import java.util
 import com.mgj.utils.HiveUtil
 import org.apache.spark.SparkContext
 import org.apache.spark.rdd.RDD
-import org.apache.spark.sql.DataFrame
+import org.apache.spark.sql.{Dataset, Row, DataFrame}
 import org.apache.spark.sql.hive.HiveContext
 import scala.collection.JavaConversions._
 
@@ -54,10 +54,10 @@ abstract class FeatureCalculator extends java.io.Serializable {
 
   def getFeatureDF(sampleDF: DataFrame, sc: SparkContext, sqlContext: HiveContext): DataFrame
 
-  def getFeatureRDD(sc: SparkContext, sqlContext: HiveContext): Seq[(RDD[(String, List[String])], List[String], String)] = {
+  def getFeatureRDD(sc: SparkContext, sqlContext: HiveContext): Seq[(Dataset[(String, List[String])], List[String], String)] = {
     val table = this.getTable(tableName)
     println(s"table:${table}")
-    val result = new util.ArrayList[(RDD[(String, List[String])], List[String], String)]()
+    val result = new util.ArrayList[(Dataset[(String, List[String])], List[String], String)]()
 
     for (e <- table.keys) {
       val name = e
@@ -84,8 +84,8 @@ abstract class FeatureCalculator extends java.io.Serializable {
     return this.getTable()
   }
 
-  protected def getFeature(featureDF: DataFrame, featureType: String): (RDD[(String, List[String])], List[String], String) = {
-    val featureRDD = featureDF.map(x => {
+  protected def getFeature(featureDF: DataFrame, featureType: String): (Dataset[(String, List[String])], List[String], String) = {
+    val featureRDD = featureDF.as[Row].map(x => {
       val keyIndex = featureType match {
         case FeatureType.ITEM => x.fieldIndex(FeatureConstant.ITEM_KEY)
         case FeatureType.USER => x.fieldIndex(FeatureConstant.USER_KEY)
