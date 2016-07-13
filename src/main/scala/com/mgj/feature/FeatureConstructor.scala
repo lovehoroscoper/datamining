@@ -58,7 +58,13 @@ object FeatureConstructor {
     val itemFlag = itemFeatureRDDList.size > 0
 
     val itemFeatureDF: DataFrame = if (itemFlag) getRawFeatureDF(sqlContext, itemFeatureRDDList, itemFeatureSchemaList, itemKeyAlias).cache() else null
+    for (e <- itemFeatureRDDList) {
+      e.unpersist(blocking = false)
+    }
     val userFeatureDF: DataFrame = if (userFlag) getRawFeatureDF(sqlContext, userFeatureRDDList, userFeatureSchemaList, userKeyAlias).cache() else null
+    for (e <- userFeatureRDDList) {
+      e.unpersist(blocking = false)
+    }
 
     var rawFeatureDF = sampleDF
     if (userFlag) {
