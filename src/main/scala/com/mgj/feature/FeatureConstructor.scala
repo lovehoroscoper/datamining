@@ -123,17 +123,16 @@ object FeatureConstructor {
         }
       }
 
-      val rdd = featureRDDList.get(i).map(x => {
-        val list = new util.ArrayList[String]()
-        for (i <- 0 to x._2.size - 1) {
-          if (indexSet.contains(i)) {
-            list.add(x._2.get(i))
-          }
-        }
-        (x._1, list.toList)
-      })
-
       if (list.size > 0) {
+        val rdd = featureRDDList.get(i).map(x => {
+          val list = new util.ArrayList[String]()
+          for (i <- 0 to x._2.size - 1) {
+            if (indexSet.contains(i)) {
+              list.add(x._2.get(i))
+            }
+          }
+          (x._1, list.toList)
+        })
         featureSchemaListDropDuplicate.add(list.toList)
         featureRDDListDropDuplicate.add(rdd)
       }
