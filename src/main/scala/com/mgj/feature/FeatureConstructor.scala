@@ -124,7 +124,8 @@ object FeatureConstructor {
       }
 
       if (list.size > 0) {
-        val rdd = featureRDDList.get(i).map(x => {
+        val rdd = if (indexSet.size == featureSchemaList.get(i).size) featureRDDList.get(i)
+        else featureRDDList.get(i).map(x => {
           val list = new util.ArrayList[String]()
           for (i <- 0 to x._2.size - 1) {
             if (indexSet.contains(i)) {
