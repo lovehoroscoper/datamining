@@ -68,18 +68,21 @@ object FeatureConstructor {
 
     var rawFeatureDF = sampleDF
     if (userFlag) {
-      rawFeatureDF = rawFeatureDF.join(userFeatureDF, sampleDF(FeatureConstant.USER_KEY) === userFeatureDF(userKeyAlias), "left_outer").drop(userKeyAlias).coalesce(500)
+      rawFeatureDF = rawFeatureDF.join(userFeatureDF, sampleDF(FeatureConstant.USER_KEY) === userFeatureDF(userKeyAlias), "left_outer").drop(userKeyAlias).coalesce(1000).cache()
     }
+    userFeatureDF.unpersist(blocking = false)
     if (itemFlag) {
-      rawFeatureDF = rawFeatureDF.join(itemFeatureDF, sampleDF(FeatureConstant.ITEM_KEY) === itemFeatureDF(itemKeyAlias), "left_outer").drop(itemKeyAlias).coalesce(500)
+      rawFeatureDF = rawFeatureDF.join(itemFeatureDF, sampleDF(FeatureConstant.ITEM_KEY) === itemFeatureDF(itemKeyAlias), "left_outer").drop(itemKeyAlias).coalesce(1000).cache()
     }
+    itemFeatureDF.unpersist(blocking = false)
     rawFeatureDF.registerTempTable(tableName)
     rawFeatureDF.show
 
     val sampleSchema = sampleDF.schema.map(x => x.name).mkString(", ")
     val sql = buildSql(featureCalculatorFactory, features: _*)
     println(s"sql:select ${sampleSchema}, ${sql} from ${tableName}")
-    val featureDF = sqlContext.sql(s"select ${sampleSchema}, ${sql} from ${tableName}")
+    val featureDF = sqlContext.sql(s"select ${sampleSchema}, ${sql} from ${tableName}").cache()
+    rawFeatureDF.unpersist(blocking = false)
     featureDF.show()
     return featureDF
   }
@@ -140,6 +143,9 @@ object FeatureConstructor {
 
   private def getRawFeatureDF(sqlContext: HiveContext, featureRDDList: List[RDD[(String, List[String])]], featureSchemaList: List[List[String]], keySchema: String): DataFrame = {
     val (featureSchemaListDropDuplicate, featureRDDListDropDuplicate) = dropDuplicate(featureSchemaList, featureRDDList)
+    for (e <- featureRDDList) {
+      e.unpersist(blocking = false)
+    }
     val featureRDD = joiner(featureRDDListDropDuplicate.toList.toSeq).filter(x => x._2(0).size > 0).map(x => {
       val featureList = new util.ArrayList[String]()
       featureList.add(x._1)
