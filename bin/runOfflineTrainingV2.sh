@@ -27,13 +27,13 @@ FEATURE_TABLE="s_dg_feature_${CODE}"
 echo "feature table:${FEATURE_TABLE}"
 
 # build_sample,adapt_features,train
-STAGE="adapt_features"
+STAGE="build_sample,adapt_features,train"
 echo "stage:${STAGE}"
 
 N="20"
 echo "N:${N}"
 
-MODEL_NAME="SPORT_MODEL"
+MODEL_NAME="DIGU_MODEL"
 echo "model name:${MODEL_NAME}"
 
 ${SUBMIT}														\
