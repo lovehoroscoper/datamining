@@ -3,7 +3,7 @@ package com.mgj.feature
 import java.util
 
 import com.mgj.utils.HiveUtil
-import org.apache.spark.SparkContext
+import org.apache.spark.{HashPartitioner, SparkContext}
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql._
 import org.apache.spark.sql.hive.HiveContext
@@ -94,7 +94,7 @@ abstract class FeatureCalculator extends java.io.Serializable {
       list.addAll(x.toSeq.map(x => x.toString).toList)
       list.remove(keyIndex)
       (x.get(keyIndex).toString, list.toList)
-    })
+    }).partitionBy(new HashPartitioner(500)).cache()
 
     val featureSchema = featureDF.schema.map(x => x.name)
       .filter(x => !x.equals(FeatureConstant.ITEM_KEY))
