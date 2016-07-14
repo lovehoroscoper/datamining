@@ -145,7 +145,7 @@ object FeatureConstructor {
     for (e <- featureRDDList) {
       e.unpersist(blocking = false)
     }
-    val featureRDD = joiner(featureRDDListDropDuplicate.toList.map(x => x.rdd).toSeq).filter(x => x._2(0).size > 0).map(x => {
+    val featureRDD = joiner(featureRDDListDropDuplicate.toSeq).filter(x => x._2(0).size > 0).map(x => {
       val featureList = new util.ArrayList[String]()
       featureList.add(x._1)
 
