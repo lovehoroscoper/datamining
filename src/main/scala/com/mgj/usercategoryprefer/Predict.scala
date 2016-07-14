@@ -1,7 +1,7 @@
 package com.mgj.usercategoryprefer
 
 import java.text.SimpleDateFormat
-import java.util.HashMap
+import java.util.{Calendar, HashMap}
 
 import com.mgj.feature.FeatureType
 import com.mgj.utils.{HiveUtil, LRLearner}
@@ -150,7 +150,9 @@ object Predict {
     result.map(x => (x(0), x(1), x(2).toDouble)).groupBy(_._1).filter(x => x._2.size > 0 && x._1.toLong > 0).map(x => x._1 + " " + sort(x._2, 50)).saveAsTextFile(userCategoryPerferPath)
     resultOrder.map(x => (x(0), x(1), x(2).toDouble)).groupBy(_._1).filter(x => x._2.size > 0 && x._1.toLong > 0).map(x => x._1 + " " + sort(x._2, 50)).saveAsTextFile(userCategoryPerferOrderPath)
 
-    HiveUtil.featureHdfsToHive(sc, sqlContext, "user_category_prefer", userCategoryPerferPath, bizdate, "s_dg_category_prefer", FeatureType.USER)
-    HiveUtil.featureHdfsToHive(sc, sqlContext, "user_category_prefer_order", userCategoryPerferOrderPath, bizdate, "s_dg_category_prefer_order", FeatureType.USER)
+    val sdf = new SimpleDateFormat("yyyyMMdd")
+    val calendar = Calendar.getInstance()
+    HiveUtil.featureHdfsToHive(sc, sqlContext, "user_category_prefer", userCategoryPerferPath, sdf.format(calendar.getTime), "s_dg_category_prefer", FeatureType.USER)
+    HiveUtil.featureHdfsToHive(sc, sqlContext, "user_category_prefer_order", userCategoryPerferOrderPath, sdf.format(calendar.getTime), "s_dg_category_prefer_order", FeatureType.USER)
   }
 }

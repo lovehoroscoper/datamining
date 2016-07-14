@@ -86,7 +86,7 @@
         <property name="itemField" value="gene_id"/>
         <property name="userFieldPath" value="/user/digu/userGenePreferRecord"/>
         <property name="itemFieldPath" value="/user/digu/itemGeneRecord"/>
-        <property name="tableName" value="s_dg_user_gene_prefer:user,s_dg_item_gene:item"/>
+        <property name="tableName" value="s_dg_user_gene_prefer:user,s_dg_gene_id:item"/>
     </bean>
 
     <bean id="userGenePreferOrderFeatureCalculator" class="com.mgj.feature.impl.UserGenePreferFeatureCalculator">
@@ -95,7 +95,7 @@
         <property name="itemField" value="gene_id"/>
         <property name="userFieldPath" value="/user/digu/userGenePreferOrderRecord"/>
         <property name="itemFieldPath" value="/user/digu/itemGeneRecord"/>
-        <property name="tableName" value="s_dg_user_gene_prefer_order:user,s_dg_item_gene:item"/>
+        <property name="tableName" value="s_dg_user_gene_prefer_order:user,s_dg_gene_id:item"/>
     </bean>
 
     <bean id="userItemPreferFeatureCalculator" class="com.mgj.feature.impl.UserItemPreferFeatureCalculator">

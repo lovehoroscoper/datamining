@@ -1,9 +1,7 @@
 package com.mgj.useritemprefer
 
 import java.text.SimpleDateFormat
-import java.util.ArrayList
-import java.util.Arrays
-import java.util.HashSet
+import java.util.{Calendar, ArrayList, Arrays, HashSet}
 
 import com.mgj.feature.FeatureType
 import com.mgj.utils.{HiveUtil, LRLearner, GBRTLearner}
@@ -160,6 +158,9 @@ object Predict {
     }
 
     result.map(x => (x(0), x(1), x(2).toDouble)).groupBy(x => x._1).filter(x => x._2.size > 0 && x._1.toLong > 0).map(x => x._1 + " " + sort(x._2, 50)).saveAsTextFile(userItemPreferPath)
-    HiveUtil.featureHdfsToHive(sc, sqlContext, "user_item_prefer", userItemPreferPath, bizdate, "s_dg_user_item_prefer", FeatureType.USER)
+
+    val sdfyyyyMMdd = new SimpleDateFormat("yyyyMMdd")
+    val calendar = Calendar.getInstance()
+    HiveUtil.featureHdfsToHive(sc, sqlContext, "user_item_prefer", userItemPreferPath, sdfyyyyMMdd.format(calendar.getTime), "s_dg_user_item_prefer", FeatureType.USER)
   }
 }
