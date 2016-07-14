@@ -19,9 +19,12 @@ object OfflineTrainingV2 {
   val udfFactory: UdfFactory = context.getBean(classOf[UdfFactory])
 
   def main(args: Array[String]): Unit = {
-    val conf = new SparkConf().
-      setAppName("offline training").
-      set("spark.sql.parquet.binaryAsString", "true")
+    val conf = new SparkConf()
+      .setAppName("offline training")
+      .set("spark.sql.parquet.binaryAsString", "true")
+      .set("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
+
+    conf.registerKryoClasses(Array(classOf[Tuple2[String, List[String]]]))
 
     // Spark context.
     val sc: SparkContext = new SparkContext(conf)
