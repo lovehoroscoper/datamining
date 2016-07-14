@@ -144,8 +144,8 @@
                 <entry key="user_gene_prefer" value="match(user_gene_prefer,gene_id)"/>
                 <entry key="user_item_prefer" value="match(user_item_prefer,item_id)"/>
                 <entry key="user_real_item_prefer" value="realSim(user_real_item_prefer,item_id,time)"/>
-                <entry key="item_ctr" value="simple(item_ctr,100000)"/>
-                <entry key="item_search_ctr" value="simple(item_search_ctr,1000000)"/>
+                <entry key="item_ctr" value="simple(item_ctr,1000000)"/>
+                <entry key="item_search_ctr" value="simple(item_search_ctr,10000000)"/>
                 <entry key="pos" value="simple(pos,1)"/>
                 <entry key="label" value="simple(label,1)"/>
             </map>
