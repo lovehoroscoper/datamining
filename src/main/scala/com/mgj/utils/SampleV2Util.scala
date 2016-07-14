@@ -180,9 +180,10 @@ object SampleV2Util {
 
     val sql = SqlUtil.getSampleSql(path, bizdate)
     val sampleLog = sqlContext.sql(sql)
-    val sampleLogFilter = sampleLog.filter(isContain(sampleLog(appIdSchema))
-      && !isBlackUser(sampleLog("user_id"))
-      && !isBlackDevice(sampleLog("device_id")))
+    //    val sampleLogFilter = sampleLog.filter(isContain(sampleLog(appIdSchema))
+    //      && !isBlackUser(sampleLog("user_id"))
+    //      && !isBlackDevice(sampleLog("device_id")))
+    val sampleLogFilter = sampleLog.filter(isContain(sampleLog(appIdSchema)))
     return sampleLogFilter
   }
 }
