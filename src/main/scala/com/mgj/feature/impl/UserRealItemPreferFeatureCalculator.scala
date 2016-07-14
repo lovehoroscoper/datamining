@@ -104,7 +104,7 @@ class UserRealItemPreferFeatureCalculator extends FeatureCalculator {
     return dataDF
   }
 
-  override def getFeatureRDD(sc: SparkContext, sqlContext: HiveContext): Seq[(Dataset[(String, List[String])], List[String], String)] = {
+  override def getFeatureRDD(sc: SparkContext, sqlContext: HiveContext): Seq[(RDD[(String, List[String])], List[String], String)] = {
     val itemSim = sc.textFile(itemFieldPath).map(x => (x.split(" ")(0), x.split(" ")(1).split(",").take(N).mkString(","))).collect().toMap
 
     val clickSql = "select user_id, item_id, time from s_dg_user_base_log where pt = '" + bizDate + "' and action_type = 'click' and platform_type = 'app'"
