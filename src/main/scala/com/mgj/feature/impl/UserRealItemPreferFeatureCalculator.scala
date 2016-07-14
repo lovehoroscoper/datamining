@@ -117,8 +117,8 @@ class UserRealItemPreferFeatureCalculator extends FeatureCalculator {
     println(userField + " DataFrame")
     userClickItemDF.show
 
-    val result = new util.ArrayList[(Dataset[(String, List[String])], List[String], String)]()
-    result.add(getFeature(userClickItemDF, FeatureType.USER))
+    val result = new util.ArrayList[(RDD[(String, List[String])], List[String], String)]()
+    result.add(getFeature(sqlContext, userClickItemDF, FeatureType.USER))
     return result.toList.toSeq
   }
 

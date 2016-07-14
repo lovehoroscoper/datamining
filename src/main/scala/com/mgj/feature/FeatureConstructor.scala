@@ -26,7 +26,7 @@ object FeatureConstructor {
 
   def construct(sc: SparkContext, sqlContext: HiveContext, sampleDF: DataFrame, featureCalculatorFactory: FeatureCalculatorFactory, bizdate: String, features: String*): DataFrame = {
 
-    val result = new util.ArrayList[(Dataset[(String, List[String])], List[String], String)]()
+    val result = new util.ArrayList[(RDD[(String, List[String])], List[String], String)]()
 
     val tableSet = new util.HashSet[String]()
     for (feature <- features.toList) {
@@ -103,9 +103,9 @@ object FeatureConstructor {
     return cg
   }
 
-  private def dropDuplicate(featureSchemaList: List[List[String]], featureRDDList: List[Dataset[(String, List[String])]]): (List[List[String]], List[Dataset[(String, List[String])]]) = {
+  private def dropDuplicate(featureSchemaList: List[List[String]], featureRDDList: List[RDD[(String, List[String])]]): (List[List[String]], List[RDD[(String, List[String])]]) = {
     val featureSchemaListDropDuplicate = new util.ArrayList[List[String]]()
-    val featureRDDListDropDuplicate = new util.ArrayList[Dataset[(String, List[String])]]()
+    val featureRDDListDropDuplicate = new util.ArrayList[RDD[(String, List[String])]]()
 
     val schemaSet = new util.HashSet[String]()
 
@@ -140,7 +140,7 @@ object FeatureConstructor {
     (featureSchemaListDropDuplicate.toList, featureRDDListDropDuplicate.toList)
   }
 
-  private def getRawFeatureDF(sqlContext: HiveContext, featureRDDList: List[Dataset[(String, List[String])]], featureSchemaList: List[List[String]], keySchema: String): DataFrame = {
+  private def getRawFeatureDF(sqlContext: HiveContext, featureRDDList: List[RDD[(String, List[String])]], featureSchemaList: List[List[String]], keySchema: String): DataFrame = {
     val (featureSchemaListDropDuplicate, featureRDDListDropDuplicate) = dropDuplicate(featureSchemaList, featureRDDList)
     for (e <- featureRDDList) {
       e.unpersist(blocking = false)

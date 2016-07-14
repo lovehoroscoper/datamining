@@ -8,7 +8,7 @@ source ./bin/utils/functions.sh
 
 YESTERDAY=`date -d "${CUR_DATE} -1 day" +"%Y-%m-%d %H:%M:%S"`
 
-BIZDATE="2016-07-11"
+BIZDATE="2016-07-13"
 echo "bizdate: ${BIZDATE}"
 
 CODE="app_sport_pop"
