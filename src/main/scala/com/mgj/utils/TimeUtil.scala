@@ -15,8 +15,12 @@ object TimeUtil {
     this.endTime = System.currentTimeMillis()
   }
 
-  def timeCost(): Long = {
+  def timeMillisCost(): Long = {
     return this.endTime - this.startTime
+  }
+
+  def timeCost(): Double = {
+    return 1.0 * (this.endTime - this.startTime) / 1000 / 60
   }
 }
 
