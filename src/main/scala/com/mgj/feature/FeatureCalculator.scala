@@ -94,20 +94,14 @@ abstract class FeatureCalculator extends java.io.Serializable {
       list.addAll(x.toSeq.map(x => x.toString).toList)
       list.remove(keyIndex)
       (x.get(keyIndex).toString, list.toList)
-    })
-
-    val featureRDDPT = featureType match {
-      case FeatureType.ITEM => featureRDD.partitionBy(new HashPartitioner(200)).cache()
-      case FeatureType.USER => featureRDD.partitionBy(new HashPartitioner(1000)).cache()
-    }
-    featureRDD.unpersist(blocking = false)
+    }).cache()
 
     val featureSchema = featureDF.schema.map(x => x.name)
       .filter(x => !x.equals(FeatureConstant.ITEM_KEY))
       .filter(x => !x.equals(FeatureConstant.USER_KEY))
       .toList
 
-    return (featureRDDPT, featureSchema, featureType)
+    return (featureRDD, featureSchema, featureType)
   }
 
   protected def getTable(tableName: String = this.tableName): Map[String, String] = {
