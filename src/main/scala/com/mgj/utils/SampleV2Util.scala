@@ -171,12 +171,12 @@ object SampleV2Util {
 
   def getSampleLog(sqlContext: HiveContext, path: String, appIdSchema: String, bizdate: String, appIds: String*): DataFrame = {
     val appIdSet = appIds.toSet
-    val blackUserSet = getBlackUserId(sqlContext)
-    val blackDeviceSet = getBlackDeviceId(sqlContext)
+    //    val blackUserSet = getBlackUserId(sqlContext)
+    //    val blackDeviceSet = getBlackDeviceId(sqlContext)
 
     val isContain = udf { (appId: String) => if (appIdSet.contains(appId)) true else false }
-    val isBlackUser = udf { (userId: String) => if (blackUserSet.contains(userId)) true else false }
-    val isBlackDevice = udf { (deviceId: String) => if (blackDeviceSet.contains(deviceId)) true else false }
+    //    val isBlackUser = udf { (userId: String) => if (blackUserSet.contains(userId)) true else false }
+    //    val isBlackDevice = udf { (deviceId: String) => if (blackDeviceSet.contains(deviceId)) true else false }
 
     val sql = SqlUtil.getSampleSql(path, bizdate)
     val sampleLog = sqlContext.sql(sql)

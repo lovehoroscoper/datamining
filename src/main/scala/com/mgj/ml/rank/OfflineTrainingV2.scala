@@ -61,13 +61,15 @@ object OfflineTrainingV2 {
 
     def execute(): Unit = {
       if (stageSet.contains("build_sample")) {
+        val clickSampleDF = SampleV2Util.getClickSample(sqlContext, bizdate, true, code.split(","): _*)
         val orderSampleDF = SampleV2Util.getOrderSample(sqlContext, bizdate, true, code.split(","): _*)
-        orderSampleDF.show
-        val allSampleDF = orderSampleDF
+        var allSampleDF = clickSampleDF
+        for (i <- 1 to N) {
+          allSampleDF = allSampleDF.unionAll(orderSampleDF)
+        }
 
         sqlContext.sql(s"drop table if exists ${sampleTable}")
         allSampleDF.write.saveAsTable(s"${sampleTable}")
-
         allSampleDF.unpersist(blocking = false)
       }
 
