@@ -14,7 +14,7 @@
         <scala.version>2.10.3</scala.version>
         <scala.compat.version>2.10</scala.compat.version>
         <spring.version>4.1.6.RELEASE</spring.version>
-        <spark.version>1.6.0</spark.version>
+        <spark.version>1.6.1</spark.version>
         <nd4j.version>0.4-rc3.8</nd4j.version>
     </properties>
 
