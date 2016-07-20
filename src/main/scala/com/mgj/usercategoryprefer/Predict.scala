@@ -152,7 +152,7 @@ object Predict {
 
     val sdf = new SimpleDateFormat("yyyyMMdd")
     val calendar = Calendar.getInstance()
-    HiveUtil.featureHdfsToHive(sc, sqlContext, "user_category_prefer", userCategoryPerferPath, sdf.format(calendar.getTime), "s_dg_category_prefer", FeatureType.USER)
-    HiveUtil.featureHdfsToHive(sc, sqlContext, "user_category_prefer_order", userCategoryPerferOrderPath, sdf.format(calendar.getTime), "s_dg_category_prefer_order", FeatureType.USER)
+    HiveUtil.featureHdfsToHive(sc, sqlContext, "user_category_prefer", userCategoryPerferPath, sdf.format(calendar.getTime), "s_dg_user_category_prefer", FeatureType.USER)
+    HiveUtil.featureHdfsToHive(sc, sqlContext, "user_category_prefer_order", userCategoryPerferOrderPath, sdf.format(calendar.getTime), "s_dg_user_category_prefer_order", FeatureType.USER)
   }
 }
