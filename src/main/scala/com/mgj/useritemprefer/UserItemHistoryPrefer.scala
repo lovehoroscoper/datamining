@@ -27,6 +27,8 @@ object UserItemHistoryPrefer {
 
     // Hive context.
     val sqlContext: HiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
+ 		sqlContext.sql("set hive.exec.dynamic.partition.mode=nonstrict")
+ 		sqlContext.setConf("fs.defaultFS","hdfs://mgjcluster")
 
     // User click log: user_id, item_id, visit_time.
     val biztime = args(0)

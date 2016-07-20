@@ -25,6 +25,8 @@ object Predict {
       set("spark.sql.parquet.binaryAsString", "true")
     val sc: SparkContext = new SparkContext(conf)
     val sqlContext: HiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
+ 		sqlContext.sql("set hive.exec.dynamic.partition.mode=nonstrict")
+ 		sqlContext.setConf("fs.defaultFS","hdfs://mgjcluster")
 
     val bizdate = args(0)
     val bizdateSub = args(1)

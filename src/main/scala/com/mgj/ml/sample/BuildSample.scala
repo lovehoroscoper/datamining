@@ -28,6 +28,8 @@ object BuildSample {
     val sc: SparkContext = new SparkContext(conf)
     // Hive context.
     val sqlContext: HiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
+ 		sqlContext.sql("set hive.exec.dynamic.partition.mode=nonstrict")
+ 		sqlContext.setConf("fs.defaultFS","hdfs://mgjcluster")
 
     init()
 

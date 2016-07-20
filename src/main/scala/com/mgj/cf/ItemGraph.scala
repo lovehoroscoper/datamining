@@ -27,6 +27,8 @@ object ItemGraph {
 
     // Hive context.
     val sqlContext: HiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
+ 		sqlContext.sql("set hive.exec.dynamic.partition.mode=nonstrict")
+ 		sqlContext.setConf("fs.defaultFS","hdfs://mgjcluster")
 
     val originalSimFeature = sqlContext.sql("select * from s_dg_item_sim_original_feature")
       .map(x => (x(0).toString, x(1).toString, x(2).toString.toInt, x(3).toString.toInt, x(4).toString.toDouble, x(5).toString.toDouble, x(6).toString.toDouble, x(7).toString.toDouble))

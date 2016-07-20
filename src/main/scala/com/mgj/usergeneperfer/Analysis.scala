@@ -19,6 +19,8 @@ object Analysis {
 
     // Hive context.
     val sqlContext: HiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
+ 		sqlContext.sql("set hive.exec.dynamic.partition.mode=nonstrict")
+ 		sqlContext.setConf("fs.defaultFS","hdfs://mgjcluster")
 
     val userGenePrefer = sc.textFile("/user/digu/userGenePreferSub")
     userGenePrefer.take(10)

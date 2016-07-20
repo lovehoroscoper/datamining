@@ -17,6 +17,8 @@ object UserRealShopPrefer {
     val sc: SparkContext = new SparkContext(conf)
     // Hive context.
     val sqlContext: HiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
+ 		sqlContext.sql("set hive.exec.dynamic.partition.mode=nonstrict")
+ 		sqlContext.setConf("fs.defaultFS","hdfs://mgjcluster")
 
     //    val userOrderLog = sqlContext.sql("select user_id, shop_id, time from s_dg_user_base_log where pt = '2015-11-26' and action_type = 'order' and platform_type = 'app'")
     //    val userClickLog = sqlContext.sql("select user_id, shop_id, time from s_dg_user_base_log where pt = '2015-11-26' and action_type = 'click' and platform_type = 'app'")

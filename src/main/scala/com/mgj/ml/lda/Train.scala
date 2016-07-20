@@ -17,7 +17,9 @@ object Train {
     // Spark context.
     val sc: SparkContext = new SparkContext(conf);
     // Hive context.
-    val sqlContext: HiveContext = new org.apache.spark.sql.hive.HiveContext(sc);
+    val sqlContext: HiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
+ 		sqlContext.sql("set hive.exec.dynamic.partition.mode=nonstrict")
+ 		sqlContext.setConf("fs.defaultFS","hdfs://mgjcluster");
 
     // User click log: user_id, item_id, visit_time.
     val userBaseLogApp = sqlContext.sql("select userid as user_id, tradeitemid as item_id, visit_time from user_click_log where visit_date >= '" + args(1) + "' and visit_date <= '" + args(2) + "'").repartition(100).rdd.filter(r => r.anyNull == false);

@@ -16,7 +16,9 @@ object UserItemPreferDump {
     // Spark context.
     val sc: SparkContext = new SparkContext(conf);
     // Hive context.
-    val sqlContext: HiveContext = new org.apache.spark.sql.hive.HiveContext(sc);
+    val sqlContext: HiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
+ 		sqlContext.sql("set hive.exec.dynamic.partition.mode=nonstrict")
+ 		sqlContext.setConf("fs.defaultFS","hdfs://mgjcluster");
 
     //    val userItemPreferDataFrame = sqlContext.sql("select * from s_dg_user_item_prefer_spark");
     val userItemPrefer = sc.textFile("/user/digu/userItemPrefer");

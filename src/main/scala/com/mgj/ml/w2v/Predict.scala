@@ -21,6 +21,8 @@ object Predict {
     val sc: SparkContext = new SparkContext(conf)
 
     val sqlContext: HiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
+ 		sqlContext.sql("set hive.exec.dynamic.partition.mode=nonstrict")
+ 		sqlContext.setConf("fs.defaultFS","hdfs://mgjcluster")
 
     val modelStr = args(0)
     val clusterStr = args(1)

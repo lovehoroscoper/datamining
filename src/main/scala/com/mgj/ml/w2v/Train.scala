@@ -40,6 +40,8 @@ object Train {
 
     // hive context
     val sqlContext: HiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
+ 		sqlContext.sql("set hive.exec.dynamic.partition.mode=nonstrict")
+ 		sqlContext.setConf("fs.defaultFS","hdfs://mgjcluster")
 
     val dataSql = "select user_id, " + entityType + ", time from s_dg_user_base_log where pt >= '" + start + "' and pt <= '" + end + "' and action_type = 'click' and platform_type = 'app'"
     println("dataSql:" + dataSql)

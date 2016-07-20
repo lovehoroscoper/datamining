@@ -22,6 +22,8 @@ object SimRank {
 
     // Hive context.
     val sqlContext: HiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
+ 		sqlContext.sql("set hive.exec.dynamic.partition.mode=nonstrict")
+ 		sqlContext.setConf("fs.defaultFS","hdfs://mgjcluster")
 
     val graphSim = sqlContext.sql("select * from s_dg_item_sim_merge").map(x => (x(0).toString.toInt, x(1).toString.toInt, x(2).toString.toDouble))
 
