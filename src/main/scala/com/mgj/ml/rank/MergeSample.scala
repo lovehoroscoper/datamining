@@ -39,7 +39,7 @@ object MergeSample {
     //    itemCtrFeatureCalculator.setBizDate(bizDate)
     //    itemCtrFeatureCalculator.setFeatureName("item_ctr")
     //    itemCtrFeatureCalculator.setItemField("itemCtr")
-    //    itemCtrFeatureCalculator.setItemFieldPath("/user/digu/LTR_FEATURE/old_ctr_score_sub")
+    //    itemCtrFeatureCalculator.setItemFieldPath("hdfs://mgjcluster/user/digu/LTR_FEATURE/old_ctr_score_sub")
     //    itemCtrFeatureCalculator.setUserFieldPath("")
     //    itemCtrFeatureCalculator.setUserField("")
     //    val dataDFTemp = itemCtrFeatureCalculator.getFeatureDF(dataDF, sc, sqlContext)
@@ -64,7 +64,6 @@ object MergeSample {
     val schema = StructType(columns.split(",").map(x => StructField(x, DoubleType, true)))
     dataDF = sqlContext.createDataFrame(dataDFRDD, schema)
 
-    //    sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
     //    dataDF.registerTempTable("test_sample_temp")
     //    sqlContext.sql("drop table if exists test_sample")
     //    sqlContext.sql("create table test_sample as select * from test_sample_temp")

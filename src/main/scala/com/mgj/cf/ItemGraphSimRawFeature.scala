@@ -142,7 +142,6 @@ object ItemGraphSimRawFeature {
           StructField("sim_scoreD", StringType, true) ::
           Nil)
 
-    //    sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
     val featureDF = sqlContext.createDataFrame(cfSim.map(x => Row(x._1, x._2, x._3.toString, x._4.toString, x._5.toString, x._6.toString, x._7.toString, x._8.toString)), schema)
     cfSim.unpersist(blocking = false)
     //    featureDF.registerTempTable("s_dg_item_sim_original_feature_temp")

@@ -9,7 +9,7 @@ source ./bin/utils/functions.sh
 START=${DAY_SUB2}
 END=${DAY_SUB1}
 
-ITEM_SIM_MODEL_HDFS_DIR="/user/digu/itemSimModel"
+ITEM_SIM_MODEL_HDFS_DIR="${RESULT_PATH_PREFIX}/user/digu/itemSimModel"
 remove_hdfs_file ${ITEM_SIM_MODEL_HDFS_DIR}
 echo "item sim model: ${ITEM_SIM_MODEL_HDFS_DIR}"
 

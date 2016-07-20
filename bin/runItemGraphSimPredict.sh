@@ -7,10 +7,10 @@ source ./bin/utils/constant.sh
 source ./bin/utils/functions.sh
 
 # date.
-ITEM_SIM_MODEL_HDFS_DIR="/user/digu/itemSimModel"
+ITEM_SIM_MODEL_HDFS_DIR="${RESULT_PATH_PREFIX}/user/digu/itemSimModel"
 echo "item sim model: ${ITEM_SIM_MODEL_HDFS_DIR}"
 
-ITEM_SIM_RESULT_HDFS_DIR="/user/digu/itemSim"
+ITEM_SIM_RESULT_HDFS_DIR="${RESULT_PATH_PREFIX}/user/digu/itemSim"
 echo "item sim result: ${ITEM_SIM_RESULT_HDFS_DIR}"
 
 ${SUBMIT}														\
@@ -28,7 +28,7 @@ ${SUBMIT}														\
 FILE_PATH=`find_latest_file ${ITEM_SIM_RESULT_HDFS_DIR} ${CUR_DATE} 10`
 echo "${FILE_PATH} exists"
 
-RESULT_DIR_CURRENT_USED="/user/digu/itemSimCurrentUsed"
+RESULT_DIR_CURRENT_USED="${RESULT_PATH_PREFIX}/user/digu/itemSimCurrentUsed"
 remove_hdfs_file ${RESULT_DIR_CURRENT_USED}
 echo "result dir current used: ${RESULT_DIR_CURRENT_USED}"
 ${HDFS} -cp ${FILE_PATH} ${RESULT_DIR_CURRENT_USED} &

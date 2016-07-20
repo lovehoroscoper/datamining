@@ -210,8 +210,8 @@ object BuildPairSample {
     val sample = sc.parallelize(sampleList.toList) //.union(sampleV2)
     println("sampleCount: " + sample.count)
 
-    //    val LTRScoreOld = sc.textFile("/user/digu/LTR_FEATURE/old_ctr_score_sub").map(x => (x.split(" ")(0), x.split(" ")(1))).collect.toMap
-    //    val LTRScoreNew = sc.textFile("/user/digu/LTR_FEATURE/new_ctr_score_sub").map(x => (x.split(",")(0), x.split(",")(1))).collect.toMap
+    //    val LTRScoreOld = sc.textFile("hdfs://mgjcluster/user/digu/LTR_FEATURE/old_ctr_score_sub").map(x => (x.split(" ")(0), x.split(" ")(1))).collect.toMap
+    //    val LTRScoreNew = sc.textFile("hdfs://mgjcluster/user/digu/LTR_FEATURE/new_ctr_score_sub").map(x => (x.split(",")(0), x.split(",")(1))).collect.toMap
     //
     //    val oldScore = sample.map(x => (LTRScoreOld.get(x._1).getOrElse(0).toString.toDouble - LTRScoreOld.get(x._2).getOrElse(0).toString.toDouble, x._3))
     //    val newScore = sample.map(x => (LTRScoreNew.get(x._1).getOrElse(0).toString.toDouble - LTRScoreNew.get(x._2).getOrElse(0).toString.toDouble, x._3))
@@ -229,14 +229,13 @@ object BuildPairSample {
     //
     //    sampleDF.registerTempTable("s_dg_gmv_pair_sample_temp")
     //
-    //    sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
     //    sqlContext.sql("drop table if exists s_dg_gmv_pair_sample")
     //    sqlContext.sql("create table s_dg_gmv_pair_sample as select * from s_dg_gmv_pair_sample_temp")
 
     //    val bizDateFeature = "20160114"
     //    val bizDateFeatureSub = "20160113"
-    //    val path = "/user/wujia/ltr/cvr/" + bizDateFeature + "/" + bizDateFeatureSub + ".train.app"
-    val path = "/user/wujia/ltr/bookorder/cvr/" + bizDateFeature + "/" + bizDateFeatureSub + ".train.app"
+    //    val path = "hdfs://mgjcluster/user/wujia/ltr/cvr/" + bizDateFeature + "/" + bizDateFeatureSub + ".train.app"
+    val path = "hdfs://mgjcluster/user/wujia/ltr/bookorder/cvr/" + bizDateFeature + "/" + bizDateFeatureSub + ".train.app"
     println("path: " + path)
     val feature = sc.textFile(path).filter(x => NumberUtils.isNumber(x.split(",", 2)(0))).map(x => {
       val featureList = x.split(",", 2)(1).split(",")
@@ -260,7 +259,6 @@ object BuildPairSample {
     var sampleDF = sqlContext.createDataFrame(sampleRow, schema)
     sampleDF.show()
 
-    //    sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
     //    sampleDF.registerTempTable("s_wj_sample_temp")
     //    sqlContext.sql("drop table if exists s_wj_sample")
     //    sqlContext.sql("create table s_wj_sample as select * from s_wj_sample_temp")
@@ -274,8 +272,8 @@ object BuildPairSample {
     val learner = new LRLearner()
     val model = learner.train(sc, sqlContext, sampleDF)
 
-    //    val pathPredict = "/user/wujia/ltr/cvr/" + today + "/" + today + ".train.app"
-    val pathPredict = "/user/digu/LTR_FEATURE/feature_predict"
+    //    val pathPredict = "hdfs://mgjcluster/user/wujia/ltr/cvr/" + today + "/" + today + ".train.app"
+    val pathPredict = "hdfs://mgjcluster/user/digu/LTR_FEATURE/feature_predict"
     val featurePredict = sc.textFile(pathPredict).filter(x => NumberUtils.isNumber(x.split(",", 2)(0))).map(x => {
       val featureList = x.split(",", 2)(1).split(",")
       (x.split(",", 2)(0), featureList.toList.map(x => x.toDouble).takeRight(featureList.size - 1))
@@ -301,7 +299,7 @@ object BuildPairSample {
       rankResult.add((x._1, rank))
       rank += 1
     }
-    sc.parallelize(rankResult).map(x => x._1 + "," + x._2 + "," + x._2).saveAsTextFile("/user/digu/LTR_FEATURE/pair_predict")
+    sc.parallelize(rankResult).map(x => x._1 + "," + x._2 + "," + x._2).saveAsTextFile("hdfs://mgjcluster/user/digu/LTR_FEATURE/pair_predict")
 
     //    sqlContext.sql("select * from")
     println("THE END")

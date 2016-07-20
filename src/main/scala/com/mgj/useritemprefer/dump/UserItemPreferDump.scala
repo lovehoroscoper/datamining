@@ -21,7 +21,7 @@ object UserItemPreferDump {
  		sqlContext.setConf("fs.defaultFS","hdfs://mgjcluster");
 
     //    val userItemPreferDataFrame = sqlContext.sql("select * from s_dg_user_item_prefer_spark");
-    val userItemPrefer = sc.textFile("/user/digu/userItemPrefer");
+    val userItemPrefer = sc.textFile("hdfs://mgjcluster/user/digu/userItemPrefer");
 
     // Dump to redis
     // val df = new java.text.DecimalFormat("0.000E0");

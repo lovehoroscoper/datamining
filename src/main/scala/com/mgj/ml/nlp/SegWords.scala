@@ -34,7 +34,6 @@ object SegWords {
     val dictPath = args(0)
     val geneDir = args(1)
     val outputDir = args(2)
-    //    val geneDir = "/user/digu/itemGroup/data"
 
     val itemTitle = sqlContext.sql("select tradeitemid, title from v_dw_trd_tradeitem").map(x => (x(0).toString, x(1).toString))
     val gene = sc.textFile(geneDir).map(x => (x.split(" ")(0), x.split(" ")(1)))
@@ -45,7 +44,7 @@ object SegWords {
     geneSeg.take(10).foreach(println)
 
     val doc = sc.parallelize(geneSeg)
-    //    val doc = sc.textFile("/user/digu/geneWords").map(_.split(" ")).filter(x => x.size ==3).map(x => (x(0),x(1),x(2)))
+    //    val doc = sc.textFile("hdfs://mgjcluster/user/digu/geneWords").map(_.split(" ")).filter(x => x.size ==3).map(x => (x(0),x(1),x(2)))
     val docNum = doc.map(x => x._2).distinct.count
     println("document number: " + docNum)
 

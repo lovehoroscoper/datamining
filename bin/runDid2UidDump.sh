@@ -8,7 +8,7 @@ source ./bin/utils/constant.sh
 source ./bin/utils/functions.sh
 
 # input table.
-OUTPUT_PATH="/user/digu/did2uid"
+OUTPUT_PATH="${RESULT_PATH_PREFIX}/user/digu/did2uid"
 remove_hdfs_file ${OUTPUT_PATH}
 echo "output path: ${OUTPUT_PATH}"
 

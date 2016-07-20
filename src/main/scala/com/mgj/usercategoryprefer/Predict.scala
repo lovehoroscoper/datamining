@@ -27,20 +27,22 @@ object Predict {
     val sc: SparkContext = new SparkContext(conf)
     // Hive context.
     val sqlContext: HiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
- 		sqlContext.sql("set hive.exec.dynamic.partition.mode=nonstrict")
- 		sqlContext.setConf("fs.defaultFS","hdfs://mgjcluster")
+    sqlContext.sql("set hive.exec.dynamic.partition.mode=nonstrict")
+    sqlContext.setConf("fs.defaultFS", "hdfs://mgjcluster")
 
     val bizdate = args(0)
     val bizdateSub30 = args(1)
     val userCategoryPerferPath = args(2)
     val userCategoryPerferOrderPath = args(3)
+    val userCategoryPreferModel = args(4)
+    val userCategoryPreferOrderModel = args(5)
 
-    val model = sc.objectFile[LogisticRegressionModel]("/user/digu/userCategoryPreferModel").first()
+    val model = sc.objectFile[LogisticRegressionModel](userCategoryPreferModel).first()
     println("model")
     println(model)
     println(model.coefficients)
 
-    val modelOrder = sc.objectFile[LogisticRegressionModel]("/user/digu/userCategoryPreferOrderModel").first()
+    val modelOrder = sc.objectFile[LogisticRegressionModel](userCategoryPreferOrderModel).first()
     println("model order")
     println(modelOrder)
     println(modelOrder.coefficients)

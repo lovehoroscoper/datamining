@@ -29,7 +29,7 @@ object UserRealShopPrefer {
     //    val userClickLog = sqlContext.sql("select user_id, shop_id, time from s_dg_user_base_log where pt = '2015-11-26' and action_type = 'click' and platform_type = 'app'")
     //
     //    val userOrderLog = sqlContext.sql("select user_id, shop_id, time from s_dg_user_base_log where pt = '2015-12-15' and action_type = 'order' and platform_type = 'app'").rdd.filter(x => x.anyNull == false).map(x => (x(0).toString, x(1).toString))
-    //    val userShopPreferOrderSub = sc.textFile("/user/digu/userShopPreferSub").map(x => (x.split(" ")(0), x.split(" ")(1).split(",").map(x => x.split(":")(0)).take(20))).map(x => x._2.map(y => x._1 + "_" + y)).flatMap(x => x).map(x => (x.split("_")(0), x.split("_")(1)))
+    //    val userShopPreferOrderSub = sc.textFile("hdfs://mgjcluster/user/digu/userShopPreferSub").map(x => (x.split(" ")(0), x.split(" ")(1).split(",").map(x => x.split(":")(0)).take(20))).map(x => x._2.map(y => x._1 + "_" + y)).flatMap(x => x).map(x => (x.split("_")(0), x.split("_")(1)))
 
     //    println(userOrderLog.count())
     //    println(userOrderLog.map(x => x._1).distinct().count())
@@ -37,7 +37,7 @@ object UserRealShopPrefer {
     //    println(r.count)
     //    println(r.map(x => (x._2._1._1)).distinct().count)
     //
-    //    val userShopPreferOrderSub10 = sc.textFile("/user/digu/userShopPreferSub").map(x => (x.split(" ")(0), x.split(" ")(1).split(",").map(x => x.split(":")(0)).take(10))).map(x => x._2.map(y => x._1 + "_" + y)).flatMap(x => x).map(x => (x.split("_")(0), x.split("_")(1)))
+    //    val userShopPreferOrderSub10 = sc.textFile("hdfs://mgjcluster/user/digu/userShopPreferSub").map(x => (x.split(" ")(0), x.split(" ")(1).split(",").map(x => x.split(":")(0)).take(10))).map(x => x._2.map(y => x._1 + "_" + y)).flatMap(x => x).map(x => (x.split("_")(0), x.split("_")(1)))
     //    val r10 = userOrderLog.map(x => (x._1 + x._2, x)).join(userShopPreferOrderSub10.map(x => (x._1 + x._2, x)))
     //    println(r10.count)
     //    println(r10.map(x => (x._2._1._1)).distinct().count)

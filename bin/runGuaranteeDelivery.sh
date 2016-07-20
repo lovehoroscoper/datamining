@@ -11,8 +11,8 @@ ITER_NUM="30"
 BETA="1"
 PIT_NUM="500"
 MU="10"
-MODEL_HDFS_DIR="/user/digu/shopDelivery"
-INPUT_HDFS_DIR="/user/digu/userShopPreferSub"
+MODEL_HDFS_DIR="${RESULT_PATH_PREFIX}/user/digu/shopDelivery"
+INPUT_HDFS_DIR="${RESULT_PATH_PREFIX}/user/digu/userShopPreferSub"
 remove_hdfs_file ${MODEL_HDFS_DIR}
 
 echo "iteration number: ${ITER_NUM}"

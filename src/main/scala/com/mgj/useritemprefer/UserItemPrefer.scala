@@ -32,11 +32,6 @@ object UserItemPrefer {
     val itemSimPath = args(3)
     val itemCtrPath = args(4)
 
-    //    val bizdate = "2016-01-18"
-    //    val bizdateSub = "2016-01-17"
-    //    val bizdateSubSub = "2016-01-15"
-    //    val itemSimPath = "/user/digu/itemSim"
-
     PartitionUtil.checkAppLog(sqlContext, bizdate, "click")
     val sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
     val itemViewSql = "select user_id, item_id, category_id, time, pt from s_dg_user_base_log where pt >= '" + bizdateSubSub + "' and pt <= '" + bizdateSub + "' and action_type='click' and platform_type='app'"
@@ -160,7 +155,6 @@ object UserItemPrefer {
           :: StructField("label", DoubleType, true)
           :: Nil)
 
-    //    sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
     val sampleDF: DataFrame = sqlContext.createDataFrame(sampleFinal, schema)
     sampleFinal.unpersist(blocking = false)
     //    sampleDF.registerTempTable("s_dg_user_item_prefer_sample_temp")

@@ -9,8 +9,8 @@ source ./bin/utils/functions.sh
 START=${DAY_SUB7}
 END=${DAY_SUB1}
 
-MODEL_HDFS_DIR="/user/digu/shopWord2VecModel"
-CLUSTER_FILE_HDFS_DIR="/user/digu/shopCluster"
+MODEL_HDFS_DIR="${RESULT_PATH_PREFIX}/user/digu/shopWord2VecModel"
+CLUSTER_FILE_HDFS_DIR="${RESULT_PATH_PREFIX}/user/digu/shopCluster"
 VECTOR_SIZE="50"
 MIN_COUNT="10"
 CLUSTER_NUM="500"

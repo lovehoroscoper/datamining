@@ -7,18 +7,18 @@ source ./bin/utils/conf.sh
 source ./bin/utils/constant.sh
 source ./bin/utils/functions.sh
 
-DATA_DIR="/user/digu/itemBigraphSim/resultUnionGroup"
+DATA_DIR="${RESULT_PATH_PREFIX}/user/digu/itemBigraphSim/resultUnionGroup"
 ITEM_BIGRAPH_SIM_PATH=`find_latest_file ${DATA_DIR} ${CUR_DATE} 10`
 echo "item bigraph sim path: ${ITEM_BIGRAPH_SIM_PATH}"
 
-DATA_DIR="/user/digu/itemSim"
+DATA_DIR="${RESULT_PATH_PREFIX}/user/digu/itemSim"
 ITEM_SIM_PATH=`find_latest_file ${DATA_DIR} ${CUR_DATE} 10`
 echo "item sim path: ${ITEM_SIM_PATH}"
 
-ITEM_SIM_MERGE_RESULT="/user/digu/itemSimMerge"
+ITEM_SIM_MERGE_RESULT="${RESULT_PATH_PREFIX}/user/digu/itemSimMerge"
 echo "item sim merge result: ${ITEM_SIM_MERGE_RESULT}"
 
-ITEM_SIM_SEARCH_DUMP_RESULT="/user/digu/itemSimSearchDump"
+ITEM_SIM_SEARCH_DUMP_RESULT="${RESULT_PATH_PREFIX}/user/digu/itemSimSearchDump"
 echo "item sim search dump result: ${ITEM_SIM_SEARCH_DUMP_RESULT}"
 remove_hdfs_file ${ITEM_SIM_SEARCH_DUMP_RESULT}
 
@@ -50,7 +50,7 @@ ${CURL} "http://dc.algo.service.mogujie.org/action/fieldUpdate/doUpdate?id=85"
 #	fi
 #done
 #
-#RESULT_DIR_CURRENT_USED="/user/digu/itemSimCurrentUsed"
+#RESULT_DIR_CURRENT_USED="${RESULT_PATH_PREFIX}/user/digu/itemSimCurrentUsed"
 #${HDFS} -test -e ${RESULT_DIR_CURRENT_USED}
 #if [ $? -eq 0 ] ;then
 #    echo "${RESULT_DIR_CURRENT_USED} exists"

@@ -14,16 +14,16 @@ END=${DAY_SUB2}
 echo "start_date:${START}"
 echo "end_date:${END}"
 
-ITEM_SIM_RESULT_HDFS_DIR="/user/digu/itemBigraphSim"
+ITEM_SIM_RESULT_HDFS_DIR="${RESULT_PATH_PREFIX}/user/digu/itemBigraphSim"
 echo "item sim result: ${ITEM_SIM_RESULT_HDFS_DIR}"
 
-ITEM_SIM_RESULT_HDFS_DIR_UNION="/user/digu/itemBigraphSim/resultUnion"
+ITEM_SIM_RESULT_HDFS_DIR_UNION="${RESULT_PATH_PREFIX}/user/digu/itemBigraphSim/resultUnion"
 echo "item sim result union: ${ITEM_SIM_RESULT_HDFS_DIR_UNION}"
 
-ITEM_SIM_RESULT_HDFS_DIR_UNION_GROUP="/user/digu/itemBigraphSim/resultUnionGroup"
+ITEM_SIM_RESULT_HDFS_DIR_UNION_GROUP="${RESULT_PATH_PREFIX}/user/digu/itemBigraphSim/resultUnionGroup"
 echo "item sim result union group: ${ITEM_SIM_RESULT_HDFS_DIR_UNION_GROUP}"
 
-ITEM_SIM_RESULT_HDFS_DIR_UNION_GROUP_GLOBAL_NORMALIZE="/user/digu/itemBigraphSim/resultUnionGroupGlobalNormalize"
+ITEM_SIM_RESULT_HDFS_DIR_UNION_GROUP_GLOBAL_NORMALIZE="${RESULT_PATH_PREFIX}/user/digu/itemBigraphSim/resultUnionGroupGlobalNormalize"
 echo "item sim result union group global normalize: ${ITEM_SIM_RESULT_HDFS_DIR_UNION_GROUP_GLOBAL_NORMALIZE}"
 
 N="7"
@@ -57,7 +57,7 @@ ${SUBMIT}														\
 	"${N}"			                                    		\
 	"${ITEM_SIM_RESULT_HDFS_DIR_UNION_GROUP_GLOBAL_NORMALIZE}"  \
 
-RESULT_DIR_CURRENT_USED="/user/digu/itemSimCurrentUsed"
+RESULT_DIR_CURRENT_USED="${RESULT_PATH_PREFIX}/user/digu/itemSimCurrentUsed"
 remove_hdfs_file ${RESULT_DIR_CURRENT_USED}
 echo "result dir current used: ${RESULT_DIR_CURRENT_USED}"
 

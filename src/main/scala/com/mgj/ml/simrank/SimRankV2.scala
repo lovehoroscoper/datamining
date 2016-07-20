@@ -82,9 +82,9 @@ object SimRankV2 {
 
     println("final:")
     //    graphSim.map(x => (x._1._1, x._1._2, x._2)).take(10).foreach(println)
-    graphSim.map(x => (x._1._1 + " " + x._1._2 + " " + x._2)).saveAsTextFile("/user/digu/temp2")
+    graphSim.map(x => (x._1._1 + " " + x._1._2 + " " + x._2)).saveAsTextFile("hdfs://mgjcluster/user/digu/temp2")
     //    graphSim.map(x => x._1+" "+x._2+" "+x._3)
-    //    sc.textFile("/user/digu/temp").map(x => (x.split(" ")(0), x.split(" ")(1), x.split(" ")(2).toDouble)).groupBy(x => x._1)
+    //    sc.textFile("hdfs://mgjcluster/user/digu/temp").map(x => (x.split(" ")(0), x.split(" ")(1), x.split(" ")(2).toDouble)).groupBy(x => x._1)
     //      .map(x => (x._1, x._2.toList.sortWith((a, b) => a._3 > b._3).map(x => x._2).take(30).mkString(" ")))
   }
 }

@@ -79,7 +79,6 @@ object ItemGraphSimSample {
       itemPair.toList
     }).filter(x => x.size > 0).flatMap(x => x)
 
-    //    sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
     val isSameCategory = udf { (vector: String) => if (Vectors.parse(vector).apply(6) == 1.0) true else false }
     val featureOriginal = sqlContext.sql("select * from s_dg_item_sim_feature")
     val feature = featureOriginal.filter(isSameCategory(featureOriginal("feature"))).map(x => (x(0).toString, x(1).toString, x(2).toString))

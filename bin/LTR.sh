@@ -5,16 +5,16 @@ CUR_DATE=`date  +%Y%m%d`
 DAY_SUB1=`date -d "${CUR_DATE} -1 day" +"%Y%m%d"`
 DAY_SUB2=`date -d "${CUR_DATE} -2 day" +"%Y%m%d"`
 
-HDFS_FILE_PATH="/user/wujia/ltr/bookorder/cvr/"${CUR_DATE}/${CUR_DATE}".train.app"
+HDFS_FILE_PATH="${RESULT_PATH_PREFIX}/user/wujia/ltr/bookorder/cvr/"${CUR_DATE}/${CUR_DATE}".train.app"
 echo "hdfs file path:${HDFS_FILE_PATH}"
 
-FEATURE_PATH="/user/digu/LTR_FEATURE/feature_predict"
+FEATURE_PATH="${RESULT_PATH_PREFIX}/user/digu/LTR_FEATURE/feature_predict"
 echo "feature path:${FEATURE_PATH}"
 
 PREDICTOR_PATH="/home/digu/workspace/datamining"
 echo "predictor path:${PREDICTOR_PATH}"
 
-RESUILT_HDFS_PATH="/user/digu/LTR_FEATURE/pair_predict"
+RESUILT_HDFS_PATH="${RESULT_PATH_PREFIX}/user/digu/LTR_FEATURE/pair_predict"
 echo "result hdfs path:${RESUILT_HDFS_PATH}"
 
 RESUILT_PATH="/home/digu/pair_predict"

@@ -10,23 +10,23 @@ source ./bin/utils/functions.sh
 CUR_TIME=`date +%s`
 CUR_DATE=`date  +%Y-%m-%d`
 
-DATA_DIR="/user/digu/itemBigraphSim/resultUnionGroupGlobalNormalize"
+DATA_DIR="${RESULT_PATH_PREFIX}/user/digu/itemBigraphSim/resultUnionGroupGlobalNormalize"
 ITEM_BIGRAPH_SIM_UNION_PATH=`find_latest_file ${DATA_DIR} ${CUR_DATE} 10`
 echo "item bigraph sim union path: ${ITEM_BIGRAPH_SIM_UNION_PATH}"
 
-DATA_DIR="/user/digu/wordSim"
+DATA_DIR="${RESULT_PATH_PREFIX}/user/digu/wordSim"
 WORD_SIM=`find_latest_file ${DATA_DIR} ${CUR_DATE} 10`
 echo "word sim path: ${WORD_SIM}"
 
-DATA_DIR="/user/digu/queryIdf"
+DATA_DIR="${RESULT_PATH_PREFIX}/user/digu/queryIdf"
 QUERY_IDF=`find_latest_file ${DATA_DIR} ${CUR_DATE} 10`
 echo "query idf path: ${QUERY_IDF}"
 
-DATA_DIR="/user/digu/wordTag"
+DATA_DIR="${RESULT_PATH_PREFIX}/user/digu/wordTag"
 WORD_TAG=`find_latest_file ${DATA_DIR} ${CUR_DATE} 10`
 echo "word tag path: ${WORD_TAG}"
 
-DATA_DIR="/user/digu/itemSimGlobalNormalize"
+DATA_DIR="${RESULT_PATH_PREFIX}/user/digu/itemSimGlobalNormalize"
 ITEM_SIM_PATH=`find_latest_file ${DATA_DIR} ${CUR_DATE} 10`
 echo "item sim path: ${ITEM_SIM_PATH}"
 
@@ -35,7 +35,7 @@ if [ -f "${DICT_PATH}" ]; then
     # rm ${DATA_PATH}
     echo "${DICT_PATH} exits"
 else
-    ${HDFS} -get /user/digu/dict ${DICT_PATH}
+    ${HDFS} -get ${RESULT_PATH_PREFIX}/user/digu/dict ${DICT_PATH}
     for line in `cat ${DICT_PATH}`
     do
         echo -e ${line}'\t1'
@@ -48,7 +48,7 @@ fi
 head ${DICT_PATH}
 echo "dict path: ${DICT_PATH}"
 
-ITEM_SIM_MERGE_RESULT="/user/digu/itemSimContentMerge"
+ITEM_SIM_MERGE_RESULT="${RESULT_PATH_PREFIX}/user/digu/itemSimContentMerge"
 echo "item sim merge result: ${ITEM_SIM_MERGE_RESULT}"
 
 ITEM_BIGRAPH_SIM_CONTENT_MERGE_PATH="${ITEM_SIM_MERGE_RESULT}/partA"

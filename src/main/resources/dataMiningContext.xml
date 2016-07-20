@@ -20,7 +20,7 @@
         <property name="featureName" value="user_category_prefer"/>
         <property name="userField" value="user_category_prefer"/>
         <property name="itemField" value="category_id"/>
-        <property name="userFieldPath" value="/user/digu/userGBPreferRecord"/>
+        <property name="userFieldPath" value="hdfs://mgjcluster/user/digu/userGBPreferRecord"/>
         <property name="itemFieldPath" value=""/>
         <property name="tableName" value="s_dg_user_category_prefer:user"/>
     </bean>
@@ -30,7 +30,7 @@
         <property name="featureName" value="user_category_prefer_order"/>
         <property name="userField" value="user_category_prefer_order"/>
         <property name="itemField" value="category_id"/>
-        <property name="userFieldPath" value="/user/digu/userGBPreferOrderRecord"/>
+        <property name="userFieldPath" value="hdfs://mgjcluster/user/digu/userGBPreferOrderRecord"/>
         <property name="itemFieldPath" value=""/>
         <property name="tableName" value="s_dg_user_category_prefer_order:user"/>
     </bean>
@@ -39,7 +39,7 @@
         <property name="featureName" value="user_shop_prefer"/>
         <property name="userField" value="user_shop_prefer"/>
         <property name="itemField" value="shop_id"/>
-        <property name="userFieldPath" value="/user/digu/userShopPreferRecord"/>
+        <property name="userFieldPath" value="hdfs://mgjcluster/user/digu/userShopPreferRecord"/>
         <property name="itemFieldPath" value=""/>
         <property name="tableName" value="s_dg_user_shop_prefer:user"/>
     </bean>
@@ -48,7 +48,7 @@
         <property name="featureName" value="user_shop_prefer_order"/>
         <property name="userField" value="user_shop_prefer_order"/>
         <property name="itemField" value="shop_id"/>
-        <property name="userFieldPath" value="/user/digu/userShopPreferOrderRecord"/>
+        <property name="userFieldPath" value="hdfs://mgjcluster/user/digu/userShopPreferOrderRecord"/>
         <property name="itemFieldPath" value=""/>
         <property name="tableName" value="s_dg_user_shop_prefer_order:user"/>
     </bean>
@@ -57,7 +57,7 @@
         <property name="featureName" value="user_real_item_prefer"/>
         <property name="userField" value="user_real_item_prefer"/>
         <property name="itemField" value="item_sim"/>
-        <property name="itemFieldPath" value="/user/digu/itemSimCurrentUsed"/>
+        <property name="itemFieldPath" value="hdfs://mgjcluster/user/digu/itemSimCurrentUsed"/>
         <property name="userFieldPath" value=""/>
         <property name="tableName" value="s_dg_item_sim:item"/>
     </bean>
@@ -66,7 +66,7 @@
         <property name="featureName" value="item_ctr"/>
         <property name="userField" value=""/>
         <property name="itemField" value="item_ctr"/>
-        <property name="itemFieldPath" value="/user/bizdata/ctrRecord"/>
+        <property name="itemFieldPath" value="hdfs://mgjcluster/user/bizdata/ctrRecord"/>
         <property name="userFieldPath" value=""/>
         <property name="tableName" value="s_dg_item_ctr:item"/>
     </bean>
@@ -75,7 +75,7 @@
         <property name="featureName" value="item_search_ctr"/>
         <property name="userField" value=""/>
         <property name="itemField" value="item_search_ctr"/>
-        <property name="itemFieldPath" value="/user/bizdata/searchCtrRecord"/>
+        <property name="itemFieldPath" value="hdfs://mgjcluster/user/bizdata/searchCtrRecord"/>
         <property name="userFieldPath" value=""/>
         <property name="tableName" value="s_dg_search_ctr:item"/>
     </bean>
@@ -84,8 +84,8 @@
         <property name="featureName" value="user_gene_prefer"/>
         <property name="userField" value="user_gene_prefer"/>
         <property name="itemField" value="gene_id"/>
-        <property name="userFieldPath" value="/user/digu/userGenePreferRecord"/>
-        <property name="itemFieldPath" value="/user/digu/itemGeneRecord"/>
+        <property name="userFieldPath" value="hdfs://mgjcluster/user/digu/userGenePreferRecord"/>
+        <property name="itemFieldPath" value="hdfs://mgjcluster/user/digu/itemGeneRecord"/>
         <property name="tableName" value="s_dg_user_gene_prefer:user,s_dg_gene_id:item"/>
     </bean>
 
@@ -93,8 +93,8 @@
         <property name="featureName" value="user_gene_prefer_order"/>
         <property name="userField" value="user_gene_prefer_order"/>
         <property name="itemField" value="gene_id"/>
-        <property name="userFieldPath" value="/user/digu/userGenePreferOrderRecord"/>
-        <property name="itemFieldPath" value="/user/digu/itemGeneRecord"/>
+        <property name="userFieldPath" value="hdfs://mgjcluster/user/digu/userGenePreferOrderRecord"/>
+        <property name="itemFieldPath" value="hdfs://mgjcluster/user/digu/itemGeneRecord"/>
         <property name="tableName" value="s_dg_user_gene_prefer_order:user,s_dg_gene_id:item"/>
     </bean>
 
@@ -102,7 +102,7 @@
         <property name="featureName" value="user_item_prefer"/>
         <property name="userField" value="user_item_prefer"/>
         <property name="itemField" value="item_id"/>
-        <property name="userFieldPath" value="/user/digu/userItemPreferRecord"/>
+        <property name="userFieldPath" value="hdfs://mgjcluster/user/digu/userItemPreferRecord"/>
         <property name="itemFieldPath" value=""/>
         <property name="tableName" value="s_dg_user_item_prefer:user"/>
     </bean>
@@ -111,8 +111,8 @@
         <property name="featureName" value="mf"/>
         <property name="userField" value="user_mf"/>
         <property name="itemField" value="item_mf"/>
-        <property name="userFieldPath" value="/user/digu/itemMF/user"/>
-        <property name="itemFieldPath" value="/user/digu/itemMF/product"/>
+        <property name="userFieldPath" value="hdfs://mgjcluster/user/digu/itemMF/user"/>
+        <property name="itemFieldPath" value="hdfs://mgjcluster/user/digu/itemMF/product"/>
         <property name="tableName" value=""/>
     </bean>
 

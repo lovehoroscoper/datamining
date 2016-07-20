@@ -180,7 +180,6 @@ object UserCategoryPrefer {
           :: Nil
       )
 
-    //    sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
     val sampleDF: DataFrame = sqlContext.createDataFrame(sampleFinal, schema)
     //    sampleDF.registerTempTable("s_dg_user_category_prefer_sample_temp")
     //    sqlContext.sql("drop table if exists s_dg_user_category_prefer_sample")

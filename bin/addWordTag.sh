@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-WORD_TAG_PATH="/user/digu/wordTagTrain"
+WORD_TAG_PATH="${RESULT_PATH_PREFIX}/user/digu/wordTagTrain"
 echo "word tag path:${WORD_TAG_PATH}"
 
 WORD_TAG_LOCAL="wordTagTrain"

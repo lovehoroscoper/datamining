@@ -22,7 +22,7 @@ object Analysis {
  		sqlContext.sql("set hive.exec.dynamic.partition.mode=nonstrict")
  		sqlContext.setConf("fs.defaultFS","hdfs://mgjcluster")
 
-    val userGenePrefer = sc.textFile("/user/digu/userGenePreferSub")
+    val userGenePrefer = sc.textFile("hdfs://mgjcluster/user/digu/userGenePreferSub")
     userGenePrefer.take(10)
 
     val clickUser = sqlContext.sql("select user_id from s_dg_user_base_log where pt = '2016-01-18' and action_type='click' and platform_type='app'")

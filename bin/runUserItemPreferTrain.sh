@@ -6,10 +6,10 @@ source ./bin/utils/conf.sh
 source ./bin/utils/constant.sh
 source ./bin/utils/functions.sh
 
-USER_ITEM_PREFER_MODEL_HDFS_DIR="/user/digu/userItemPreferModel"
+USER_ITEM_PREFER_MODEL_HDFS_DIR="${RESULT_PATH_PREFIX}/user/digu/userItemPreferModel"
 remove_hdfs_file ${USER_ITEM_PREFER_MODEL_HDFS_DIR}
 
-USER_ITEM_PREFER_ORDER_MODEL_HDFS_DIR="/user/digu/userItemPreferOrderModel"
+USER_ITEM_PREFER_ORDER_MODEL_HDFS_DIR="${RESULT_PATH_PREFIX}/user/digu/userItemPreferOrderModel"
 remove_hdfs_file ${USER_ITEM_PREFER_ORDER_MODEL_HDFS_DIR}
 
 ${SUBMIT}														\

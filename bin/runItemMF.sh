@@ -6,10 +6,10 @@ source ./bin/utils/conf.sh
 source ./bin/utils/constant.sh
 source ./bin/utils/functions.sh
 
-INPUT_PATH="/user/digu/userItemPrefer"
+INPUT_PATH="${RESULT_PATH_PREFIX}/user/digu/userItemPrefer"
 echo "input path ${INPUT_PATH}"
 
-OUTPUT_PATH="/user/digu/itemMF"
+OUTPUT_PATH="${RESULT_PATH_PREFIX}/user/digu/itemMF"
 remove_hdfs_file ${OUTPUT_PATH}
 echo "output path ${OUTPUT_PATH}"
 

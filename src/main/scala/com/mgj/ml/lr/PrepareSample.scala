@@ -68,7 +68,6 @@ object PrepareSample {
   //      .map(x => Row(x.toSeq.map(x => x.toString): _*)), StructType(dataDF.schema.map(x => StructField(x.name, StringType, true))))
   //
   //    dataDF.repartition(500).registerTempTable("s_dg_lr_sample_temp")
-  //    sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
   //    sqlContext.sql("drop table if exists s_dg_lr_sample")
   //    sqlContext.sql("create table s_dg_lr_sample as select " + schema + " from s_dg_lr_sample_temp")
   //    println("THE END")

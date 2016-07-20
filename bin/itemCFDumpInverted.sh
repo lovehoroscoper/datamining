@@ -7,7 +7,7 @@ source ./bin/utils/conf.sh
 source ./bin/utils/constant.sh
 source ./bin/utils/functions.sh
 
-ITEM_CF_INVERTED_HDFS_DIR="/user/digu/itemCFInverted"
+ITEM_CF_INVERTED_HDFS_DIR="${RESULT_PATH_PREFIX}/user/digu/itemCFInverted"
 remove_hdfs_file ${ITEM_CF_INVERTED_HDFS_DIR}
 
 # dump to redis

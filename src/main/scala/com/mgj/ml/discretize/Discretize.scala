@@ -44,7 +44,7 @@ object Discretize {
     //        "-1"
     //      }
     //    })
-    //    //        val geneMapDir = "/user/digu/itemGroup/data"
+    //    //        val geneMapDir = "hdfs://mgjcluster/user/digu/itemGroup/data"
     //    //        val bizdate = "2016-01-10"
     //    //        val bizdateSub = "2015-01-08"
     //    // User click log: user_id, item_id, visit_time.
@@ -79,9 +79,9 @@ object Discretize {
     //
     //    priceTag.take(10).foreach(println)
 
-    //    val feature = sqlContext.read.load("/user/fst/algo/ltr/search_train_parquet/20160311")
+    //    val feature = sqlContext.read.load("hdfs://mgjcluster/user/fst/algo/ltr/search_train_parquet/20160311")
 
-    val sample = sqlContext.read.load("/user/fst/algo/ltr/search_sample_parquet/20160324")
+    val sample = sqlContext.read.load("hdfs://mgjcluster/user/fst/algo/ltr/search_sample_parquet/20160324")
     val featureNames = Array(
       "dpv0d_log",
       "dpv1d_log",
@@ -149,7 +149,7 @@ object Discretize {
 
     //    val model = sc.objectFile[LogisticRegressionModel]("discrete/model").first()
     //    val splitMap = sc.objectFile[util.HashMap[String, List[Double]]]("discrete/splitMap").first()
-    val featureDF = sqlContext.read.load("/user/fst/algo/ltr/search_test_parquet/20160324")
+    val featureDF = sqlContext.read.load("hdfs://mgjcluster/user/fst/algo/ltr/search_test_parquet/20160324")
     val result = learner.predict(sqlContext, model, splitMap, featureDF, featureNames, "tradeitemid").map(x => (x.get(0), x.get(1).toDouble))
 
     result.sortBy(x => x._2, ascending = false).take(50).foreach(println)

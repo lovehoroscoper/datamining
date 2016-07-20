@@ -127,8 +127,8 @@ object PersonlizeAnalysisUtil {
     val bizdate = args(1)
     val userSet = getUserSet(sqlContext, bizdateSub, bizdate)
 
-    //    getRepeatAnalysis(sc, s"/user/digu/userShopPreferRecord/${bizdateSub}", s"/user/digu/userShopPreferRecord/${bizdate}", userSet)
-    //    getRepeatAnalysis(sc, s"/user/digu/userItemPreferRecord/${bizdateSub}", s"/user/digu/userItemPreferRecord/${bizdate}", userSet)
+    //    getRepeatAnalysis(sc, s"hdfs://mgjcluster/user/digu/userShopPreferRecord/${bizdateSub}", s"hdfs://mgjcluster/user/digu/userShopPreferRecord/${bizdate}", userSet)
+    //    getRepeatAnalysis(sc, s"hdfs://mgjcluster/user/digu/userItemPreferRecord/${bizdateSub}", s"hdfs://mgjcluster/user/digu/userItemPreferRecord/${bizdate}", userSet)
 
     //    getSceneAnalysis(sqlContext, bizdate, bizdateSub, "app_shoes_pop", userSet)
     //    getSceneAnalysis(sqlContext, bizdate, bizdateSub, "app_clothing_pop", userSet)

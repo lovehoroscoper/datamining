@@ -63,9 +63,5 @@ object Grouping {
     clusterFilter.map(x => x._1 + " " + x._2).saveAsTextFile(outputDir + "/data/" + sdf.format(calendar.getTime))
     clusterFilter.map(x => (x._2, x._1)).reduceByKey((x, y) => (x + " " + y)).map(x => x._1 + ":" + x._2).saveAsTextFile(outputDir + "/index/" + sdf.format(calendar.getTime))
     clusterFilter.map(x => (x._2, x._1)).reduceByKey((x, y) => (x + " " + y)).map(x => x._1 + ":" + x._2).take(10).foreach(println)
-
-    //    cluster.map(x => (x._2, 1)).reduceByKey((x, y) => x + y).filter(x => x._2 > 100).count
-    //    modularity.map(x => (x(1), 1)).reduceByKey((x, y) => x + y).filter(x => x._2 > 100).count
-    //    sc.textFile("/user/digu/itemGroupWithTitle/index").map(x => (x,x.split(":")(1).split(" ").size)).sortBy(x => x._2,false)
   }
 }

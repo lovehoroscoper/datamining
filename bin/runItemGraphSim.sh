@@ -16,11 +16,11 @@ echo "end_date:${END}"
 CTR_DIFF="0.2"
 echo "ctr different:${CTR_DIFF}"
 
-RESULT_DIR="/user/digu/itemGraphSim"
+RESULT_DIR="${RESULT_PATH_PREFIX}/user/digu/itemGraphSim"
 remove_hdfs_file ${RESULT_DIR}
 echo "result dir: ${RESULT_DIR}"
 
-RESULT_DIR_V2="/user/digu/itemGraphSimWithTitle"
+RESULT_DIR_V2="${RESULT_PATH_PREFIX}/user/digu/itemGraphSimWithTitle"
 remove_hdfs_file ${RESULT_DIR_V2}
 echo "result dir v2: ${RESULT_DIR_V2}"
 
@@ -28,7 +28,7 @@ DATA_PATH="/home/digu/workspace/data/new_words_v2.txt"
 if [ -f "${DATA_PATH}" ]; then
     rm ${DATA_PATH}
 fi
-${HDFS} -get /user/yichen/new_words.txt ${DATA_PATH}
+${HDFS} -get ${RESULT_PATH_PREFIX}/user/yichen/new_words.txt ${DATA_PATH}
 
 for line in `cat ${DATA_PATH}`
 do
@@ -40,7 +40,7 @@ rm ${DATA_PATH}_temp
 head ${DATA_PATH}
 echo "data path: ${DATA_PATH}"
 
-ITEM_CTR="/user/digu/LTR_FEATURE/old_ctr_score_sub"
+ITEM_CTR="${RESULT_PATH_PREFIX}/user/digu/LTR_FEATURE/old_ctr_score_sub"
 echo "item ctr: ${ITEM_CTR}"
 
 ${SUBMIT}														\

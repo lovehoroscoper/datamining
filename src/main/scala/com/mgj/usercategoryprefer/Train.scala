@@ -33,7 +33,6 @@ object Train {
     val userCategoryPreferFeatureTable = args(1)
 
     init()
-    //    sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
     sqlContext.udf.register("to_vector", (vector: String) => (Vectors.parse(vector)))
     sqlContext.udf.register("to_double", (label: String) => (label.toDouble))
     //    val sampleDF: DataFrame = sqlContext.sql("select to_vector(feature) as feature, to_double(label) as label from s_dg_user_Category_prefer_sample")
@@ -45,6 +44,6 @@ object Train {
     //    val sampleOrderDF: DataFrame = sqlContext.sql("select to_vector(feature) as feature, to_double(label) as label from s_dg_user_Category_prefer_order_sample")
     //    val modelOrder = learner.train(sc, sqlContext, sampleOrderDF)
     //
-    //    sc.parallelize(Seq(modelOrder), 1).saveAsObjectFile("/user/digu/userCategoryPreferOrderModel")
+    //    sc.parallelize(Seq(modelOrder), 1).saveAsObjectFile("hdfs://mgjcluster/user/digu/userCategoryPreferOrderModel")
   }
 }

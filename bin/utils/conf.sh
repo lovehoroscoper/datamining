@@ -15,5 +15,8 @@ echo "curl path: ${CURL}"
 JAVA_HOME="/usr/local/jdk-1.7.0_65"
 echo "java home: ${JAVA_HOME}"
 
+RESULT_PATH_PREFIX="hdfs://mgjcluster"
+echo "result path prefix: ${RESULT_PATH_PREFIX}"
+
 export JAVA_HOME
 echo "export java home"

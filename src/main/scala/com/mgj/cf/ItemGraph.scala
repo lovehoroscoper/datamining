@@ -57,7 +57,6 @@ object ItemGraph {
           StructField("sim_scoreE", StringType, true) ::
           Nil)
 
-    //    sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
     val featureDF = sqlContext.createDataFrame(rawFeatureMerge.map(x => Row(x._1, x._2, x._3.toString, x._4.toString, x._5.toString, x._6.toString, x._7.toString)), schema)
     rawFeatureMerge.unpersist(blocking = false)
     //    featureDF.registerTempTable("s_dg_item_sim_raw_feature_temp")

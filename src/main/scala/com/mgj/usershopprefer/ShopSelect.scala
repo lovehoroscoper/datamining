@@ -43,11 +43,6 @@ object ShopSelect {
     //    }
     //    val shopId = sc.textFile(FilePath).collect()
 
-    //            val bizdate = "2016-01-10"
-    //            val bizdateSub = "2016-01-09"
-    //            val simPath = "/user/digu/shopSimRank"
-    //            val FilePath = "/user/digu/shopPL"
-
     val clickLogSql = "select user_id, shop_id, time from s_dg_user_base_log where pt >= '" + bizdateSub + "' and pt <= '" + bizdate + "' and action_type = 'click' and platform_type = 'app'"
     val orderLogSql = "select user_id, shop_id, time, user_defined as price from s_dg_user_base_log where pt >= '" + bizdateSub + "' and pt <= '" + bizdate + "' and action_type = 'order'"
 

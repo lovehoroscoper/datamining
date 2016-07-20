@@ -6,17 +6,17 @@ source ./bin/utils/conf.sh
 source ./bin/utils/constant.sh
 source ./bin/utils/functions.sh
 
-WORD_TAG_TRAIN="/user/digu/wordTagTrain"
+WORD_TAG_TRAIN="${RESULT_PATH_PREFIX}/user/digu/wordTagTrain"
 echo "word tag train: ${WORD_TAG_TRAIN}"
 
-DATA_DIR="/user/digu/wordSim"
+DATA_DIR="${RESULT_PATH_PREFIX}/user/digu/wordSim"
 WORD_SIM=`find_latest_file ${DATA_DIR} ${CUR_DATE} 10`
 echo "word sim: ${WORD_SIM}"
 
 TAG_TYPE="产品类型-简单,产品类型-统称,产品类型-复合,产品类型修饰词,产品-品牌,产品-型号"
 echo "tag type:${TAG_TYPE}"
 
-OUTPUT_PATH="/user/digu/wordTag"
+OUTPUT_PATH="${RESULT_PATH_PREFIX}/user/digu/wordTag"
 echo "output path: ${OUTPUT_PATH}"
 
 ${SUBMIT}														\

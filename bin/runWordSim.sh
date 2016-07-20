@@ -6,13 +6,13 @@ source ./bin/utils/conf.sh
 source ./bin/utils/constant.sh
 source ./bin/utils/functions.sh
 
-INPUT_PATH="/user/digu/userWordPrefer"
+INPUT_PATH="${RESULT_PATH_PREFIX}/user/digu/userWordPrefer"
 echo "input path: ${INPUT_PATH}"
 
-OUTPUT_PATH="/user/digu/wordSim"
+OUTPUT_PATH="${RESULT_PATH_PREFIX}/user/digu/wordSim"
 echo "output path: ${OUTPUT_PATH}"
 
-OUTPUT_GROUP_PATH="/user/digu/wordSimGroup"
+OUTPUT_GROUP_PATH="${RESULT_PATH_PREFIX}/user/digu/wordSimGroup"
 echo "output group path: ${OUTPUT_PATH}"
 
 ${SUBMIT}														\

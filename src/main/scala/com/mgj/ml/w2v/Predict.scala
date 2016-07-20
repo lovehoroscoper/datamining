@@ -31,12 +31,6 @@ object Predict {
     val isScored = args(4).toBoolean
     val isSameCategory = args(5).toBoolean
 
-    //    val modelStr = "/user/digu/itemWord2VecModel"
-    //    val clusterStr = "/user/digu/itemCluster"
-    //    val resultStr = "/user/digu/temp"
-    //    val entityType = "item_id"
-    //    val isScored = false
-    //    val isSameCategory = false
     var schema = "tradeitemid"
     if (entityType.equals("shop_id")) {
       schema = "shopid"

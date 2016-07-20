@@ -42,7 +42,6 @@ object ShopAnalysis {
     })
 
     sqlContext.createDataFrame(shopOrder, schema).registerTempTable("s_dg_shop_analysis_temp")
-    //    sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
     //    sqlContext.sql("drop table if exists s_dg_shop_analysis")
     sqlContext.sql("insert overwrite table s_dg_shop_analysis select * from s_dg_shop_analysis_temp")
 

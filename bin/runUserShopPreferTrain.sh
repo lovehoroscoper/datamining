@@ -13,14 +13,14 @@ echo "user shop prefer model: ${USER_SHOP_PREFER_MODEL_HDFS_DIR}"
 USER_SHOP_PREFER_FEATURE_TABLE="${2}"
 echo "user shop prefer feature table: ${USER_SHOP_PREFER_FEATURE_TABLE}"
 
-#USER_SHOP_PREFER_MODEL_HDFS_DIR="/user/digu/userShopPreferModel"
+#USER_SHOP_PREFER_MODEL_HDFS_DIR="${RESULT_PATH_PREFIX}/user/digu/userShopPreferModel"
 #${HDFS} -test -e ${USER_SHOP_PREFER_MODEL_HDFS_DIR}
 #if [ $? -eq 0 ] ;then
 #    echo "${USER_SHOP_PREFER_MODEL_HDFS_DIR} exists"
 #    ${HDFS} -rm -r ${USER_SHOP_PREFER_MODEL_HDFS_DIR}
 #fi
 #
-#USER_SHOP_PREFER_ORDER_MODEL_HDFS_DIR="/user/digu/userShopPreferOrderModel"
+#USER_SHOP_PREFER_ORDER_MODEL_HDFS_DIR="${RESULT_PATH_PREFIX}/user/digu/userShopPreferOrderModel"
 #${HDFS} -test -e ${USER_SHOP_PREFER_ORDER_MODEL_HDFS_DIR}
 #if [ $? -eq 0 ] ;then
 #    echo "${USER_SHOP_PREFER_ORDER_MODEL_HDFS_DIR} exists"

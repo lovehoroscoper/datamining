@@ -10,7 +10,7 @@ DATA_PATH="/home/digu/workspace/data/dict"
 if [ -f "${DATA_PATH}" ]; then
     rm ${DATA_PATH}
 fi
-${HDFS} -get /user/bizdata/dict ${DATA_PATH}
+${HDFS} -get ${RESULT_PATH_PREFIX}/user/bizdata/dict ${DATA_PATH}
 
 for line in `cat ${DATA_PATH}`
 do
@@ -23,8 +23,8 @@ head ${DATA_PATH}
 
 echo "data path: ${DATA_PATH}"
 
-GENE_PATH="/user/digu/itemGroupWithTitle/data"
-RESULT_DIR="/user/digu/geneWordsWithTitle"
+GENE_PATH="${RESULT_PATH_PREFIX}/user/digu/itemGroupWithTitle/data"
+RESULT_DIR="${RESULT_PATH_PREFIX}/user/digu/geneWordsWithTitle"
 remove_hdfs_file ${RESULT_DIR}
 echo "result dir: ${RESULT_DIR}"
 echo "gene dir: ${GENE_PATH}"

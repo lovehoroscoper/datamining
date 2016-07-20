@@ -14,10 +14,10 @@ echo "bizdate: ${BIZDATE}"
 echo "bizdate_sub1: ${BIZDATE_SUB1}"
 echo "bizdate_sub30: ${BIZDATE_SUB30}"
 
-DATA_DIR="/user/digu/itemGroupWithTitle/data"
+DATA_DIR="${RESULT_PATH_PREFIX}/user/digu/itemGroupWithTitle/data"
 FILE_PATH=`find_latest_file ${DATA_DIR} ${CUR_DATE} 10`
 
-RESULT_DIR_CURRENT_USED="/user/digu/itemGroupCurrentUsed/data"
+RESULT_DIR_CURRENT_USED="${RESULT_PATH_PREFIX}/user/digu/itemGroupCurrentUsed/data"
 remove_hdfs_file ${RESULT_DIR_CURRENT_USED}
 echo "result dir current used: ${RESULT_DIR_CURRENT_USED}"
 ${HDFS} -cp ${FILE_PATH} ${RESULT_DIR_CURRENT_USED}

@@ -6,13 +6,13 @@ source ./bin/utils/conf.sh
 source ./bin/utils/constant.sh
 source ./bin/utils/functions.sh
 
-USER_GENE_PREFER_HDFS_DIR="/user/digu/userGenePrefer"
+USER_GENE_PREFER_HDFS_DIR="${RESULT_PATH_PREFIX}/user/digu/userGenePrefer"
 remove_hdfs_file ${USER_GENE_PREFER_HDFS_DIR}
 
-USER_GENE_PREFER_ORDER_HDFS_DIR="/user/digu/userGenePreferOrder"
+USER_GENE_PREFER_ORDER_HDFS_DIR="${RESULT_PATH_PREFIX}/user/digu/userGenePreferOrder"
 remove_hdfs_file ${USER_GENE_PREFER_ORDER_HDFS_DIR}
 
-GENE_DIR_SUB="/user/digu/itemGroupCurrentUsed/data"
+GENE_DIR_SUB="${RESULT_PATH_PREFIX}/user/digu/itemGroupCurrentUsed/data"
 echo "gene dir sub: ${GENE_DIR_SUB}"
 
 BIZDATE=${DAY_SUB1}
@@ -21,10 +21,10 @@ BIZDATE_SUB30=${DAY_SUB30}
 echo "bizdate:${BIZDATE}"
 echo "bizdate_sub30:${BIZDATE_SUB30}"
 
-USER_GENE_PREFER_MODEL_HDFS_DIR="/user/digu/userGenePreferModel"
+USER_GENE_PREFER_MODEL_HDFS_DIR="${RESULT_PATH_PREFIX}/user/digu/userGenePreferModel"
 echo "user gene prefer model path: ${USER_GENE_PREFER_MODEL_HDFS_DIR}"
 
-USER_GENE_PREFER_ORDER_MODEL_HDFS_DIR="/user/digu/userGenePreferOrderModel"
+USER_GENE_PREFER_ORDER_MODEL_HDFS_DIR="${RESULT_PATH_PREFIX}/user/digu/userGenePreferOrderModel"
 echo "user gene prefer order model path: ${USER_GENE_PREFER_ORDER_MODEL_HDFS_DIR}"
 
 SUCCESS_TAG="/home/digu/isSuccess"
@@ -91,7 +91,7 @@ if [ $? -eq 0 ];then
     echo "record sub path: ${RECORD_PATH}/${DAY_SUB20}"
 
     # put record
-    RECORD_PATH="/user/digu/itemGeneRecord"
+    RECORD_PATH="${RESULT_PATH_PREFIX}/user/digu/itemGeneRecord"
     put_record ${GENE_DIR_SUB} ${RECORD_PATH} ${CUR_DATE}
 
     # remove record

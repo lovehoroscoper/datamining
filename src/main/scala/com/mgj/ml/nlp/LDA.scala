@@ -31,7 +31,7 @@ object LDA {
  		sqlContext.setConf("fs.defaultFS","hdfs://mgjcluster")
 
     // Load and parse the data
-    val data = sc.textFile("/user/digu/geneWordsNew").map(x => (x.split(" ")(0), x.split(" ")(1).split(",").map(x => (x.split(":")(0), x.split(":")(1).toDouble))))
+    val data = sc.textFile("hdfs://mgjcluster/user/digu/geneWordsNew").map(x => (x.split(" ")(0), x.split(" ")(1).split(",").map(x => (x.split(":")(0), x.split(":")(1).toDouble))))
     val wordsSet = data.flatMap(x => x._2).map(x => (x._1, 1)).reduceByKey(_ + _).sortBy(x => x._2, ascending = false).collect
     wordsSet.take(10).foreach(println)
     val wordsMap = new util.HashMap[String, Int]()

@@ -6,11 +6,11 @@ source ./bin/utils/conf.sh
 source ./bin/utils/constant.sh
 source ./bin/utils/functions.sh
 
-RESULT_DIR="/user/digu/pageRankScore"
+RESULT_DIR="${RESULT_PATH_PREFIX}/user/digu/pageRankScore"
 remove_hdfs_file ${RESULT_DIR}
 echo "result dir: ${RESULT_DIR}"
 
-INPUT_DIR="/user/digu/itemGraphDiff"
+INPUT_DIR="${RESULT_PATH_PREFIX}/user/digu/itemGraphDiff"
 echo "input dir: ${INPUT_DIR}"
 
 ${SUBMIT}														\

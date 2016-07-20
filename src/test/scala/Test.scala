@@ -44,8 +44,8 @@ class Test extends FlatSpec with Matchers with LocalSparkContext {
     //    val ratioTrain = sampleTrain.map(x => (maxEntropy.predict(x.getFeature()), x.getLabel())).map(x => (if (x._1._1 == x._2) 1 else 0, 1)).reduce((a, b) => (a._1 + b._1, a._2 + b._2))
     //    println(1.0 * ratioTrain._1 / ratioTrain._2)
 
-    //    val catRelation = sc.textFile("/user/bizdata/categoryScore.in").map(x => (x.split("\t")(1), x.split("\t")(3), x.split("\t")(4)))
-    //    val query2category = sc.textFile("/user/bizdata/query2category").map(x => (x.split("\t")(0), x.split("\t")(1), "-1"))
+    //    val catRelation = sc.textFile("hdfs://mgjcluster/user/bizdata/categoryScore.in").map(x => (x.split("\t")(1), x.split("\t")(3), x.split("\t")(4)))
+    //    val query2category = sc.textFile("hdfs://mgjcluster/user/bizdata/query2category").map(x => (x.split("\t")(0), x.split("\t")(1), "-1"))
     //    val allRelation = catRelation.union(query2category)
     //    val result = allRelation.filter(x => !x._1.equals("keyword")).groupBy(x => x._1).map(x => {
     //      var maxScore = x._2.map(t => t._3.toLong).max
@@ -67,7 +67,7 @@ class Test extends FlatSpec with Matchers with LocalSparkContext {
     //      (list._1, list._2, score)
     //    })
 
-    //    sc.parallelize(catRelation.map(x => "type\t"+x._1+"\tid\t"+x._2+"\t"+x._3+"\tsort").take(1)).union(result.map(x => "0\t"+x._1+"\t0\t"+x._2+"\t"+x._3+"\t0")).saveAsTextFile("/user/bizdata/categoryRelation")
+    //    sc.parallelize(catRelation.map(x => "type\t"+x._1+"\tid\t"+x._2+"\t"+x._3+"\tsort").take(1)).union(result.map(x => "0\t"+x._1+"\t0\t"+x._2+"\t"+x._3+"\t0")).saveAsTextFile("hdfs://mgjcluster/user/bizdata/categoryRelation")
 
     //    val result = allRelation.filter(x => !x._1.equals("keyword")).groupBy(x => x._1).map(x => {
     //      val maxScore = x._2.map(t => t._3.toLong).max

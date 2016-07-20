@@ -6,10 +6,10 @@ source ./bin/utils/conf.sh
 source ./bin/utils/constant.sh
 source ./bin/utils/functions.sh
 
-RESULT_DIR="/user/digu/itemGroupWithTitle"
+RESULT_DIR="${RESULT_PATH_PREFIX}/user/digu/itemGroupWithTitle"
 echo "result dir: ${RESULT_DIR}"
 
-INPUT_DIR="/user/digu/modularityWithTitle"
+INPUT_DIR="${RESULT_PATH_PREFIX}/user/digu/modularityWithTitle"
 echo "input dir: ${INPUT_DIR}"
 
 ${SUBMIT}														\

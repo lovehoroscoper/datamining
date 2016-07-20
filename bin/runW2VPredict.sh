@@ -6,9 +6,9 @@ source ./bin/utils/conf.sh
 source ./bin/utils/constant.sh
 source ./bin/utils/functions.sh
 
-RESULT_HDFS_DIR="/user/digu/shopSimRank"
-MODEL_HDFS_DIR="/user/digu/shopWord2VecModel"
-CLUSTER_FILE_HDFS_DIR="/user/digu/shopCluster"
+RESULT_HDFS_DIR="${RESULT_PATH_PREFIX}/user/digu/shopSimRank"
+MODEL_HDFS_DIR="${RESULT_PATH_PREFIX}/user/digu/shopWord2VecModel"
+CLUSTER_FILE_HDFS_DIR="${RESULT_PATH_PREFIX}/user/digu/shopCluster"
 ENTITY_TYPE="shop_id"
 IS_SCORED="true"
 IS_SAME_CATEGORY="true"

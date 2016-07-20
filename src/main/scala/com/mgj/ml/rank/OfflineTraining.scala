@@ -69,7 +69,6 @@ object OfflineTraining {
         }
 
         //        allSampleDF.registerTempTable(s"${sampleTable}_temp")
-        //        sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
         //        sqlContext.sql(s"drop table if exists ${sampleTable}")
         //        sqlContext.sql(s"create table ${sampleTable} as select * from ${sampleTable}_temp")
         sqlContext.sql(s"drop table if exists ${sampleTable}")
@@ -107,7 +106,6 @@ object OfflineTraining {
         val schema = StructType(columns.split(",").map(x => StructField(x, DoubleType, true)))
         dataDF = sqlContext.createDataFrame(dataDFRDD, schema)
 
-        //        sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
         //        dataDF.registerTempTable(s"${featureTable}_temp")
         //        sqlContext.sql(s"drop table if exists ${featureTable}")
         //        sqlContext.sql(s"create table ${featureTable} as select * from ${featureTable}_temp")
@@ -117,7 +115,6 @@ object OfflineTraining {
       }
 
       if (stageSet.contains("train")) {
-        //        sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
         val dataDF = sqlContext.sql(s"select ${features},label from ${featureTable}").cache()
         val learner: LRLearnerV2 = new LRLearnerV2()
         val model = learner.run(sc, dataDF)

@@ -6,10 +6,16 @@ source ./bin/utils/conf.sh
 source ./bin/utils/constant.sh
 source ./bin/utils/functions.sh
 
-USER_SHOP_PREFER_HDFS_DIR="/user/digu/userShopPrefer"
+USER_SHOP_PREFER_MODEL_HDFS_DIR="${RESULT_PATH_PREFIX}/user/digu/userShopPreferModel"
+echo "user shop prefer model path: ${USER_SHOP_PREFER_MODEL_HDFS_DIR}"
+
+USER_SHOP_PREFER_ORDER_MODEL_HDFS_DIR="${RESULT_PATH_PREFIX}/user/digu/userShopPreferOrderModel"
+echo "user shop prefer order model path: ${USER_SHOP_PREFER_ORDER_MODEL_HDFS_DIR}"
+
+USER_SHOP_PREFER_HDFS_DIR="${RESULT_PATH_PREFIX}/user/digu/userShopPrefer"
 remove_hdfs_file ${USER_SHOP_PREFER_HDFS_DIR}
 
-USER_SHOP_PREFER_ORDER_HDFS_DIR="/user/digu/userShopPreferOrder"
+USER_SHOP_PREFER_ORDER_HDFS_DIR="${RESULT_PATH_PREFIX}/user/digu/userShopPreferOrder"
 remove_hdfs_file ${USER_SHOP_PREFER_ORDER_HDFS_DIR}
 
 BIZDATE=${DAY_SUB1}
@@ -31,6 +37,8 @@ ${SUBMIT}														\
 	"${BIZDATE_SUB30}"											\
 	"${USER_SHOP_PREFER_HDFS_DIR}"								\
 	"${USER_SHOP_PREFER_ORDER_HDFS_DIR}"						\
+	"${USER_SHOP_PREFER_MODEL_HDFS_DIR}"						\
+	"${USER_SHOP_PREFER_ORDER_MODEL_HDFS_DIR}"					\
 
 ${CURL} "http://10.15.17.31:10850/dumpData?featureName=userShopPrefer&method=local"
 ${CURL} "http://10.15.17.31:10850/dumpData?featureName=userShopPreferOrder&method=local"

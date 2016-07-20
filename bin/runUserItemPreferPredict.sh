@@ -6,10 +6,10 @@ source ./bin/utils/conf.sh
 source ./bin/utils/constant.sh
 source ./bin/utils/functions.sh
 
-USER_ITEM_PREFER_HDFS_DIR="/user/digu/userItemPrefer"
+USER_ITEM_PREFER_HDFS_DIR="${RESULT_PATH_PREFIX}/user/digu/userItemPrefer"
 remove_hdfs_file ${USER_ITEM_PREFER_HDFS_DIR}
 
-USER_ITEM_PREFER_ORDER_HDFS_DIR="/user/digu/userItemPreferOrder"
+USER_ITEM_PREFER_ORDER_HDFS_DIR="${RESULT_PATH_PREFIX}/user/digu/userItemPreferOrder"
 remove_hdfs_file ${USER_ITEM_PREFER_ORDER_HDFS_DIR}
 
 BIZDATE=${DAY_SUB1}
@@ -20,17 +20,17 @@ echo "bizdate: ${BIZDATE}"
 echo "bizdate_sub1: ${BIZDATE_SUB1}"
 echo "bizdate_sub7: ${BIZDATE_SUB7}"
 
-DATA_DIR="/user/digu/itemSimMerge"
+DATA_DIR="${RESULT_PATH_PREFIX}/user/digu/itemSimMerge"
 ITEM_SIM_PATH=`find_latest_file ${DATA_DIR} ${CUR_DATE} 10`
 echo "item sim path: ${ITEM_SIM_PATH}"
 
-USER_ITEM_PREFER_MODEL_HDFS_DIR="/user/digu/userItemPreferModel"
+USER_ITEM_PREFER_MODEL_HDFS_DIR="${RESULT_PATH_PREFIX}/user/digu/userItemPreferModel"
 echo "user item prefer model path: ${USER_ITEM_PREFER_MODEL_HDFS_DIR}"
 
-USER_ITEM_PREFER_ORDER_MODEL_HDFS_DIR="/user/digu/userItemPreferOrderModel"
+USER_ITEM_PREFER_ORDER_MODEL_HDFS_DIR="${RESULT_PATH_PREFIX}/user/digu/userItemPreferOrderModel"
 echo "user item prefer order model path: ${USER_ITEM_PREFER_ORDER_MODEL_HDFS_DIR}"
 
-ITEM_CTR_PATH="/user/bizdata/ctrRecord/${DAY_SUB1}"
+ITEM_CTR_PATH="${RESULT_PATH_PREFIX}/user/bizdata/ctrRecord/${DAY_SUB1}"
 echo "item ctr path: ${ITEM_CTR_PATH}"
 
 ${SUBMIT}														\

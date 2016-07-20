@@ -13,10 +13,10 @@ END=${DAY_SUB1}
 echo "start_date:${START}"
 echo "end_date:${END}"
 
-ITEM_SIM_RESULT_HDFS_DIR="/user/digu/itemSim"
+ITEM_SIM_RESULT_HDFS_DIR="${RESULT_PATH_PREFIX}/user/digu/itemSim"
 echo "item sim result: ${ITEM_SIM_RESULT_HDFS_DIR}"
 
-ITEM_SIM_GLOBAL_NORMALIZE_RESULT_HDFS_DIR="/user/digu/itemSimGlobalNormalize"
+ITEM_SIM_GLOBAL_NORMALIZE_RESULT_HDFS_DIR="${RESULT_PATH_PREFIX}/user/digu/itemSimGlobalNormalize"
 echo "item sim global normalize result: ${ITEM_SIM_GLOBAL_NORMALIZE_RESULT_HDFS_DIR}"
 
 ${SUBMIT}														\

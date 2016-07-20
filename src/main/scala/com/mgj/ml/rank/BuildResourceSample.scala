@@ -34,7 +34,6 @@ object BuildResourceSample {
     clickSampleDF.show()
 
     //    clickSampleDF.registerTempTable(table + "_temp")
-    //    sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
     //    sqlContext.sql("drop table if exists " + table)
     //    sqlContext.sql("create table " + table + " as select * from " + table + "_temp")
     sqlContext.sql("drop table if exists " + table)

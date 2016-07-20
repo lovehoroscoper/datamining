@@ -120,7 +120,6 @@ object BuildSample {
     //    orderSampleDF.registerTempTable("s_dg_order_sample_temp")
     //    allSampleDF.registerTempTable("s_dg_all_sample_temp")
     //
-    //    sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
     //    sqlContext.sql("drop table if exists s_dg_click_sample")
     //    sqlContext.sql("create table s_dg_click_sample as select * from s_dg_click_sample_temp")
     //

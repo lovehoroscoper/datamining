@@ -6,9 +6,9 @@ source ./bin/utils/conf.sh
 source ./bin/utils/constant.sh
 source ./bin/utils/functions.sh
 
-USER_HISTORY_ITEM_PREFER_HDFS_DIR="/user/digu/userHistoryItemPrefer"
+USER_HISTORY_ITEM_PREFER_HDFS_DIR="${RESULT_PATH_PREFIX}/user/digu/userHistoryItemPrefer"
 
-USER_HISTORY_ITEM_PREFER_GROUP_HDFS_DIR="/user/digu/userHistoryItemPreferGroup"
+USER_HISTORY_ITEM_PREFER_GROUP_HDFS_DIR="${RESULT_PATH_PREFIX}/user/digu/userHistoryItemPreferGroup"
 remove_hdfs_file ${USER_HISTORY_ITEM_PREFER_GROUP_HDFS_DIR}
 
 YESTERDAY=`date -d "${CUR_DATE} -1 day" +"%Y-%m-%d %H:%M:%S"`

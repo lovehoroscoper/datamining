@@ -23,7 +23,6 @@ object ItemCFDump {
  		sqlContext.sql("set hive.exec.dynamic.partition.mode=nonstrict")
  		sqlContext.setConf("fs.defaultFS","hdfs://mgjcluster")
 
-//    sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
     val cfSimDataFrame = sqlContext.sql("select * from s_dg_cf_sim_spark")
 
     def sort(x: Iterable[(Any, Any, Double)], N: Int): String = {
@@ -63,7 +62,7 @@ object ItemCFDump {
     println("Data to redis...")
     println("Data number:" + dataToRedis.count())
 
-    dataToRedis.map(x => (x._1.toString + " " + x._2)).saveAsTextFile("/user/digu/itemSim")
+    dataToRedis.map(x => (x._1.toString + " " + x._2)).saveAsTextFile("hdfs://mgjcluster/user/digu/itemSim")
     println("data save to hdfs")
 
     lazy val jedis = new Jedis("chenyang.cache.mogujie.org", 6379)

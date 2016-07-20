@@ -6,10 +6,16 @@ source ./bin/utils/conf.sh
 source ./bin/utils/constant.sh
 source ./bin/utils/functions.sh
 
-USER_CATEGORY_PREFER_HDFS_DIR="/user/digu/userGBPrefer"
+USER_CATEGORY_PREFER_MODEL_HDFS_DIR="${RESULT_PATH_PREFIX}/user/digu/userCategoryPreferModel"
+echo "user category prefer model path: ${USER_CATEGORY_PREFER_MODEL_HDFS_DIR}"
+
+USER_CATEGORY_PREFER_ORDER_MODEL_HDFS_DIR="${RESULT_PATH_PREFIX}/user/digu/userCategoryPreferOrderModel"
+echo "user category prefer order model path: ${USER_CATEGORY_PREFER_ORDER_MODEL_HDFS_DIR}"
+
+USER_CATEGORY_PREFER_HDFS_DIR="${RESULT_PATH_PREFIX}/user/digu/userGBPrefer"
 remove_hdfs_file ${USER_CATEGORY_PREFER_HDFS_DIR}
 
-USER_CATEGORY_PREFER_ORDER_HDFS_DIR="/user/digu/userGBPreferOrder"
+USER_CATEGORY_PREFER_ORDER_HDFS_DIR="${RESULT_PATH_PREFIX}/user/digu/userGBPreferOrder"
 remove_hdfs_file ${USER_CATEGORY_PREFER_ORDER_HDFS_DIR}
 
 BIZDATE=${DAY_SUB1}
@@ -31,6 +37,8 @@ ${SUBMIT}														\
 	"${BIZDATE_SUB30}"											\
 	"${USER_CATEGORY_PREFER_HDFS_DIR}"							\
 	"${USER_CATEGORY_PREFER_ORDER_HDFS_DIR}"					\
+	"${USER_CATEGORY_PREFER_MODEL_HDFS_DIR}"					\
+	"${USER_CATEGORY_PREFER_ORDER_MODEL_HDFS_DIR}"				\
 
 #${CURL} "http://10.15.17.31:10850/dumpData?featureName=userShopPrefer&method=local"
 #${CURL} "http://10.15.17.31:10850/dumpData?featureName=userShopPreferOrder&method=local"

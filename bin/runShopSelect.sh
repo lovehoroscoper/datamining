@@ -6,10 +6,10 @@ source ./bin/utils/conf.sh
 source ./bin/utils/constant.sh
 source ./bin/utils/functions.sh
 
-FILE_PATH="/user/digu/shopPL"
+FILE_PATH="${RESULT_PATH_PREFIX}/user/digu/shopPL"
 echo "file path: ${FILE_PATH}"
 
-SHOP_SIM_RANK="/user/digu/shopSimRank"
+SHOP_SIM_RANK="${RESULT_PATH_PREFIX}/user/digu/shopSimRank"
 echo "shop sim rank: ${SHOP_SIM_RANK}"
 
 WEIGHT="100"

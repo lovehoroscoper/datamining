@@ -8,15 +8,15 @@ source ./bin/utils/functions.sh
 
 YESTERDAY=`date -d "${CUR_DATE} -1 day" +"%Y-%m-%d %H:%M:%S"`
 
-RESULT_DIR="/user/digu/modularityWithTitle"
+RESULT_DIR="${RESULT_PATH_PREFIX}/user/digu/modularityWithTitle"
 remove_hdfs_file ${RESULT_DIR}
 echo "result dir: ${RESULT_DIR}"
 
-DATA_DIR="/user/digu/itemBigraphSim/resultUnionGroup"
+DATA_DIR="${RESULT_PATH_PREFIX}/user/digu/itemBigraphSim/resultUnionGroup"
 INPUT_DIR=`find_latest_file ${DATA_DIR} ${CUR_DATE} 10`
 echo "input dir: ${INPUT_DIR}"
 
-DATA_DIR="/user/digu/itemSim"
+DATA_DIR="${RESULT_PATH_PREFIX}/user/digu/itemSim"
 INPUT_DIR_SUPPLEMENT=`find_latest_file ${DATA_DIR} ${CUR_DATE} 10`
 echo "input dir supplement: ${INPUT_DIR_SUPPLEMENT}"
 

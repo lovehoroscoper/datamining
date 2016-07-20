@@ -74,7 +74,6 @@ object ItemGraphSimPredict {
           StructField("sim_score", StringType, true) ::
           Nil)
 
-    //    sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
     val resultDF = sqlContext.createDataFrame(result.map(x => (x(0), x(1), x(2).toString)).map(x => Row(x._1, x._2, x._3)), schema)
     result.unpersist(blocking = false)
     //    resultDF.registerTempTable("s_dg_item_sim_merge_temp")

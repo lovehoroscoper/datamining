@@ -11,7 +11,7 @@ if [ -f "${DATA_PATH}" ]; then
     # rm ${DATA_PATH}
     echo "${DATA_PATH} exits"
 else
-    ${HDFS} -get /user/digu/dict ${DATA_PATH}
+    ${HDFS} -get ${RESULT_PATH_PREFIX}/user/digu/dict ${DATA_PATH}
     for line in `cat ${DATA_PATH}`
     do
         echo -e ${line}'\t1'
@@ -25,11 +25,11 @@ head ${DATA_PATH}
 
 echo "data path: ${DATA_PATH}"
 
-RESULT_DIR="/user/digu/userWordPrefer"
+RESULT_DIR="${RESULT_PATH_PREFIX}/user/digu/userWordPrefer"
 remove_hdfs_file ${RESULT_DIR}
 echo "result dir: ${RESULT_DIR}"
 
-RESULT_IDF_DIR="/user/digu/queryIdf"
+RESULT_IDF_DIR="${RESULT_PATH_PREFIX}/user/digu/queryIdf"
 echo "result dir: ${RESULT_IDF_DIR}"
 
 BIZDATE=${DAY_SUB1}

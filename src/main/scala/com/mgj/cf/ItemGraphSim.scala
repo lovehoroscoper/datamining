@@ -136,7 +136,6 @@ object ItemGraphSim {
     //          StructField("sim_scoreC", DoubleType, true) ::
     //          StructField("sim_scoreD", DoubleType, true) :: Nil)
     //
-    //    sqlContext.sql("set hive.metastore.warehouse.dir=/user/digu/warehouse")
     //    sqlContext.createDataFrame(cfSim.map(x => Row(x._1.toString, x._2.toString, x._3, x._4, x._5, x._6, x._7, x._8)), schema).registerTempTable("s_dg_item_sim_graph_with_title_temp")
     //    cfSim.unpersist(blocking = false)
     //    sqlContext.sql("drop table if exists s_dg_item_sim_graph_with_title")
