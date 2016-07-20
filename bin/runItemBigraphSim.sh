@@ -65,11 +65,8 @@ FILE_PATH=`find_latest_file ${ITEM_SIM_RESULT_HDFS_DIR_UNION_GROUP} ${CUR_DATE} 
 echo "${FILE_PATH} exists"
 ${HDFS} -cp ${FILE_PATH} ${RESULT_DIR_CURRENT_USED}
 
-${CURL} "http://10.15.17.31:10850/dumpData?featureName=itemSim&method=local"
-#${CURL} "http://10.19.22.49:10850/dumpData?featureName=itemSim&method=local"
-#${CURL} "http://10.15.19.20:10850/dumpData?featureName=itemSim&method=local"
-#${CURL} "http://10.19.16.30:10850/dumpData?featureName=itemSim&method=local"
-${CURL} "http://10.15.18.40:10850/dumpData?featureName=itemSim&method=local" &
+#${CURL} "http://10.15.17.31:10850/dumpData?featureName=itemSim&method=local"
+#${CURL} "http://10.15.18.40:10850/dumpData?featureName=itemSim&method=local" &
 
 remove_hdfs_file ${ITEM_SIM_RESULT_HDFS_DIR} ${DAY_SUB20}
 remove_hdfs_file ${ITEM_SIM_RESULT_HDFS_DIR_UNION} ${DAY_SUB20}
