@@ -11,3 +11,8 @@ echo "hdfs path: ${HDFS}"
 
 CURL="/usr/local/bin/curl"
 echo "curl path: ${CURL}"
+
+JAVA_HOME="/usr/local/jdk-1.7.0_65"
+echo "java home: ${JAVA_HOME}"
+
+export JAVA_HOME
