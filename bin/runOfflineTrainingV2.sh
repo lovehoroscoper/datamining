@@ -8,7 +8,7 @@ source ./bin/utils/functions.sh
 
 YESTERDAY=`date -d "${CUR_DATE} -1 day" +"%Y-%m-%d %H:%M:%S"`
 
-BIZDATE=${DAY_SUB1}
+BIZDATE=${DAY_SUB2}
 echo "bizdate: ${BIZDATE}"
 
 CODE="app_tuan_book_pop"
@@ -27,7 +27,7 @@ FEATURE_TABLE="s_dg_feature_${CODE}"
 echo "feature table:${FEATURE_TABLE}"
 
 # build_sample,adapt_features,train
-STAGE="adapt_features,train"
+STAGE="build_sample,adapt_features,train"
 echo "stage:${STAGE}"
 
 N="20"
