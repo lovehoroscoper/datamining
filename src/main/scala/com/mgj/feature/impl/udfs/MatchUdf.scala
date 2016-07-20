@@ -15,6 +15,9 @@ class MatchUdf extends UdfTemplate {
         userFeature.split(",").foreach(x => {
           val kv = x.split(":")
           if (kv(0).equals(itemFeature)) {
+            if (kv.size < 2) {
+              throw new Exception(s"feature format error, userFeature ${userFeature}, itemFeature ${itemFeature}")
+            }
             return kv(1).toDouble / 100000d
           }
         })
