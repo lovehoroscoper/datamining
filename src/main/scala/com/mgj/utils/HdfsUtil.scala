@@ -10,6 +10,7 @@ import scala.util.matching.Regex
 object HdfsUtil {
   def isExists(sc: SparkContext, path: String): Boolean = {
     val conf = sc.hadoopConfiguration
+    conf.set("fs.default.name", "hdfs://mgjcluster")
     val fs = org.apache.hadoop.fs.FileSystem.get(conf)
     val exists = fs.exists(new org.apache.hadoop.fs.Path(path))
     return exists
