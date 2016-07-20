@@ -49,25 +49,25 @@ ${SUBMIT}														\
 	"${USER_ITEM_PREFER_HDFS_DIR}"								\
 	"${ITEM_CTR_PATH}"											\
 
-curl "http://10.15.17.31:10850/dumpData?featureName=userItemPrefer&method=local"
-curl "http://10.15.17.31:10850/dumpData?featureName=userItemPreferOrder&method=local"
+${CURL} "http://10.15.17.31:10850/dumpData?featureName=userItemPrefer&method=local"
+${CURL} "http://10.15.17.31:10850/dumpData?featureName=userItemPreferOrder&method=local"
 
-#curl "http://10.19.22.49:10850/dumpData?featureName=userItemPrefer&method=local"
-#curl "http://10.19.22.49:10850/dumpData?featureName=userItemPreferOrder&method=local"
+#${CURL} "http://10.19.22.49:10850/dumpData?featureName=userItemPrefer&method=local"
+#${CURL} "http://10.19.22.49:10850/dumpData?featureName=userItemPreferOrder&method=local"
 #
-#curl "http://10.15.19.20:10850/dumpData?featureName=userItemPrefer&method=local"
-#curl "http://10.15.19.20:10850/dumpData?featureName=userItemPreferOrder&method=local"
+#${CURL} "http://10.15.19.20:10850/dumpData?featureName=userItemPrefer&method=local"
+#${CURL} "http://10.15.19.20:10850/dumpData?featureName=userItemPreferOrder&method=local"
 #
-#curl "http://10.19.16.30:10850/dumpData?featureName=userItemPrefer&method=local"
-#curl "http://10.19.16.30:10850/dumpData?featureName=userItemPreferOrder&method=local"
+#${CURL} "http://10.19.16.30:10850/dumpData?featureName=userItemPrefer&method=local"
+#${CURL} "http://10.19.16.30:10850/dumpData?featureName=userItemPreferOrder&method=local"
 
-curl "http://10.15.18.40:10850/dumpData?featureName=userItemPrefer&method=local" &
-curl "http://10.15.18.40:10850/dumpData?featureName=userItemPreferOrder&method=local" &
+${CURL} "http://10.15.18.40:10850/dumpData?featureName=userItemPrefer&method=local" &
+${CURL} "http://10.15.18.40:10850/dumpData?featureName=userItemPreferOrder&method=local" &
 
-curl "10.15.2.114:12000/Offline?featureName=userItemPrefer" &
-curl "10.17.36.57:12000/Offline?featureName=userItemPrefer" &
-curl "10.17.36.58:12000/Offline?featureName=userItemPrefer" &
-curl "10.11.8.53:12000/Offline?featureName=userItemPrefer" &
+${CURL} "10.15.2.114:12000/Offline?featureName=userItemPrefer" &
+${CURL} "10.17.36.57:12000/Offline?featureName=userItemPrefer" &
+${CURL} "10.17.36.58:12000/Offline?featureName=userItemPrefer" &
+${CURL} "10.11.8.53:12000/Offline?featureName=userItemPrefer" &
 
 # put record
 RECORD_PATH="${USER_ITEM_PREFER_HDFS_DIR}Record"

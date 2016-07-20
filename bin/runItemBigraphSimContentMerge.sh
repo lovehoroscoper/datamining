@@ -113,7 +113,7 @@ ${SUBMIT}														\
 #${HDFS} -getmerge ${ITEM_SIM_MERGE_RESULT}/${DAY_SUB1} ${TEMP_LOCAL_FILE}
 #${HDFS} -put ${TEMP_LOCAL_FILE} ${REC_HDFS_PATH}
 #rm ${TEMP_LOCAL_FILE}
-#curl "10.11.6.179:10849/sendAlgo?type=algoWithOutMap&date=${TODAY}&algoName=graph_digu_rec_v2"
+#${CURL} "10.11.6.179:10849/sendAlgo?type=algoWithOutMap&date=${TODAY}&algoName=graph_digu_rec_v2"
 #echo "success"
 
 # dump to rank sys
@@ -125,11 +125,11 @@ remove_hdfs_file ${RESULT_DIR_CURRENT_USED}
 echo "result dir current used: ${RESULT_DIR_CURRENT_USED}"
 ${HDFS} -cp ${FILE_PATH} ${RESULT_DIR_CURRENT_USED}
 
-curl "http://10.15.17.31:10850/dumpData?featureName=itemSimV2&method=local"
-#curl "http://10.19.22.49:10850/dumpData?featureName=itemSimV2&method=local"
-#curl "http://10.15.19.20:10850/dumpData?featureName=itemSimV2&method=local"
-#curl "http://10.19.16.30:10850/dumpData?featureName=itemSimV2&method=local"
-curl "http://10.15.18.40:10850/dumpData?featureName=itemSimV2&method=local" &
+${CURL} "http://10.15.17.31:10850/dumpData?featureName=itemSimV2&method=local"
+#${CURL} "http://10.19.22.49:10850/dumpData?featureName=itemSimV2&method=local"
+#${CURL} "http://10.15.19.20:10850/dumpData?featureName=itemSimV2&method=local"
+#${CURL} "http://10.19.16.30:10850/dumpData?featureName=itemSimV2&method=local"
+${CURL} "http://10.15.18.40:10850/dumpData?featureName=itemSimV2&method=local" &
 
 remove_hdfs_file ${ITEM_SIM_MERGE_RESULT} ${DAY_SUB20}
 remove_hdfs_file ${ITEM_SIM_MERGE_ORIGIN_RESULT} ${DAY_SUB20}

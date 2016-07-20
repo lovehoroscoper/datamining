@@ -8,3 +8,6 @@ echo "jar path: ${JAR_PATH}"
 
 HDFS="/opt/hadoop/bin/hdfs dfs"
 echo "hdfs path: ${HDFS}"
+
+CURL="/usr/local/bin/curl"
+echo "curl path: ${CURL}"

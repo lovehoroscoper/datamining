@@ -36,7 +36,7 @@ ${SUBMIT}														\
 	"${ITEM_SIM_MERGE_RESULT}"						    	    \
 	"${ITEM_SIM_SEARCH_DUMP_RESULT}"						    \
 
-curl "http://dc.algo.service.mogujie.org/action/fieldUpdate/doUpdate?id=85"
+${CURL} "http://dc.algo.service.mogujie.org/action/fieldUpdate/doUpdate?id=85"
 
 #DATA_DIR=${ITEM_SIM_MERGE_RESULT}
 #for k in $( seq 1 10 )
@@ -59,10 +59,10 @@ curl "http://dc.algo.service.mogujie.org/action/fieldUpdate/doUpdate?id=85"
 #echo "result dir current used: ${RESULT_DIR_CURRENT_USED}"
 #${HDFS} -cp ${FILE_PATH} ${RESULT_DIR_CURRENT_USED}
 #
-#curl "http://10.15.17.31:10850/dumpData?featureName=itemSim&method=local"
-#curl "http://10.19.22.49:10850/dumpData?featureName=itemSim&method=local"
-#curl "http://10.15.19.20:10850/dumpData?featureName=itemSim&method=local"
-#curl "http://10.19.16.30:10850/dumpData?featureName=itemSim&method=local"
-#curl "http://10.15.18.40:10850/dumpData?featureName=itemSim&method=local" &
+#${CURL} "http://10.15.17.31:10850/dumpData?featureName=itemSim&method=local"
+#${CURL} "http://10.19.22.49:10850/dumpData?featureName=itemSim&method=local"
+#${CURL} "http://10.15.19.20:10850/dumpData?featureName=itemSim&method=local"
+#${CURL} "http://10.19.16.30:10850/dumpData?featureName=itemSim&method=local"
+#${CURL} "http://10.15.18.40:10850/dumpData?featureName=itemSim&method=local" &
 
 remove_hdfs_file ${ITEM_SIM_MERGE_RESULT} ${DAY_SUB20}

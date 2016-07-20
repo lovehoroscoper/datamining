@@ -32,36 +32,36 @@ ${SUBMIT}														\
 	"${USER_CATEGORY_PREFER_HDFS_DIR}"							\
 	"${USER_CATEGORY_PREFER_ORDER_HDFS_DIR}"					\
 
-#curl "http://10.15.17.31:10850/dumpData?featureName=userShopPrefer&method=local"
-#curl "http://10.15.17.31:10850/dumpData?featureName=userShopPreferOrder&method=local"
+#${CURL} "http://10.15.17.31:10850/dumpData?featureName=userShopPrefer&method=local"
+#${CURL} "http://10.15.17.31:10850/dumpData?featureName=userShopPreferOrder&method=local"
 #
-#curl "http://10.19.22.49:10850/dumpData?featureName=userShopPrefer&method=local"
-#curl "http://10.19.22.49:10850/dumpData?featureName=userShopPreferOrder&method=local"
+#${CURL} "http://10.19.22.49:10850/dumpData?featureName=userShopPrefer&method=local"
+#${CURL} "http://10.19.22.49:10850/dumpData?featureName=userShopPreferOrder&method=local"
 #
-#curl "http://10.15.19.20:10850/dumpData?featureName=userShopPrefer&method=local"
-#curl "http://10.15.19.20:10850/dumpData?featureName=userShopPreferOrder&method=local"
+#${CURL} "http://10.15.19.20:10850/dumpData?featureName=userShopPrefer&method=local"
+#${CURL} "http://10.15.19.20:10850/dumpData?featureName=userShopPreferOrder&method=local"
 #
-#curl "http://10.19.16.30:10850/dumpData?featureName=userShopPrefer&method=local"
-#curl "http://10.19.16.30:10850/dumpData?featureName=userShopPreferOrder&method=local"
+#${CURL} "http://10.19.16.30:10850/dumpData?featureName=userShopPrefer&method=local"
+#${CURL} "http://10.19.16.30:10850/dumpData?featureName=userShopPreferOrder&method=local"
 #
-#curl "http://10.15.18.40:10850/dumpData?featureName=userShopPrefer&method=local" &
-#curl "http://10.15.18.40:10850/dumpData?featureName=userShopPreferOrder&method=local" &
+#${CURL} "http://10.15.18.40:10850/dumpData?featureName=userShopPrefer&method=local" &
+#${CURL} "http://10.15.18.40:10850/dumpData?featureName=userShopPreferOrder&method=local" &
 #
-#curl "http://10.17.109.31:10850/dumpData?featureName=userShopPrefer&method=local" &
-#curl "http://10.17.109.31:10850/dumpData?featureName=userShopPreferOrder&method=local" &
+#${CURL} "http://10.17.109.31:10850/dumpData?featureName=userShopPrefer&method=local" &
+#${CURL} "http://10.17.109.31:10850/dumpData?featureName=userShopPreferOrder&method=local" &
 #
-#curl "http://10.17.109.32:10850/dumpData?featureName=userShopPrefer&method=local" &
-#curl "http://10.17.109.32:10850/dumpData?featureName=userShopPreferOrder&method=local" &
+#${CURL} "http://10.17.109.32:10850/dumpData?featureName=userShopPrefer&method=local" &
+#${CURL} "http://10.17.109.32:10850/dumpData?featureName=userShopPreferOrder&method=local" &
 
-curl "10.15.2.114:12000/Offline?featureName=userGBPrefer" &
-curl "10.17.36.57:12000/Offline?featureName=userGBPrefer" &
-curl "10.17.36.58:12000/Offline?featureName=userGBPrefer" &
-curl "10.11.8.53:12000/Offline?featureName=userGBPrefer"
+${CURL} "10.15.2.114:12000/Offline?featureName=userGBPrefer" &
+${CURL} "10.17.36.57:12000/Offline?featureName=userGBPrefer" &
+${CURL} "10.17.36.58:12000/Offline?featureName=userGBPrefer" &
+${CURL} "10.11.8.53:12000/Offline?featureName=userGBPrefer"
 
-curl "10.15.2.114:12000/Offline?featureName=userGBPreferOrder" &
-curl "10.17.36.57:12000/Offline?featureName=userGBPreferOrder" &
-curl "10.17.36.58:12000/Offline?featureName=userGBPreferOrder" &
-curl "10.11.8.53:12000/Offline?featureName=userGBPreferOrder" &
+${CURL} "10.15.2.114:12000/Offline?featureName=userGBPreferOrder" &
+${CURL} "10.17.36.57:12000/Offline?featureName=userGBPreferOrder" &
+${CURL} "10.17.36.58:12000/Offline?featureName=userGBPreferOrder" &
+${CURL} "10.11.8.53:12000/Offline?featureName=userGBPreferOrder" &
 
 # put record
 RECORD_PATH="${USER_CATEGORY_PREFER_HDFS_DIR}Record"
