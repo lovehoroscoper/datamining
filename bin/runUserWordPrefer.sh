@@ -11,7 +11,7 @@ if [ -f "${DATA_PATH}" ]; then
     # rm ${DATA_PATH}
     echo "${DATA_PATH} exits"
 else
-    hdfs dfs -get /user/digu/dict ${DATA_PATH}
+    ${HDFS} -get /user/digu/dict ${DATA_PATH}
     for line in `cat ${DATA_PATH}`
     do
         echo -e ${line}'\t1'

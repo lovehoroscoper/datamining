@@ -34,7 +34,7 @@ if [ -f "${DICT_PATH}" ]; then
     # rm ${DATA_PATH}
     echo "${DICT_PATH} exits"
 else
-    hdfs dfs -get /user/digu/dict ${DICT_PATH}
+    ${HDFS} -get /user/digu/dict ${DICT_PATH}
     for line in `cat ${DICT_PATH}`
     do
         echo -e ${line}'\t1'
@@ -110,8 +110,8 @@ ${SUBMIT}														\
 #DAY_SUB1=`date -d "${CUR_DATE} -1 day" +"%Y-%m-%d"`
 #echo "day sub:${DAY_SUB1}"
 #TEMP_LOCAL_FILE="temp_local_file"
-#hdfs dfs -getmerge ${ITEM_SIM_MERGE_RESULT}/${DAY_SUB1} ${TEMP_LOCAL_FILE}
-#hdfs dfs -put ${TEMP_LOCAL_FILE} ${REC_HDFS_PATH}
+#${HDFS} -getmerge ${ITEM_SIM_MERGE_RESULT}/${DAY_SUB1} ${TEMP_LOCAL_FILE}
+#${HDFS} -put ${TEMP_LOCAL_FILE} ${REC_HDFS_PATH}
 #rm ${TEMP_LOCAL_FILE}
 #curl "10.11.6.179:10849/sendAlgo?type=algoWithOutMap&date=${TODAY}&algoName=graph_digu_rec_v2"
 #echo "success"
@@ -123,7 +123,7 @@ echo "${FILE_PATH} exists"
 RESULT_DIR_CURRENT_USED="/user/digu/itemSimCurrentUsedV2"
 remove_hdfs_file ${RESULT_DIR_CURRENT_USED}
 echo "result dir current used: ${RESULT_DIR_CURRENT_USED}"
-hdfs dfs -cp ${FILE_PATH} ${RESULT_DIR_CURRENT_USED}
+${HDFS} -cp ${FILE_PATH} ${RESULT_DIR_CURRENT_USED}
 
 curl "http://10.15.17.31:10850/dumpData?featureName=itemSimV2&method=local"
 #curl "http://10.19.22.49:10850/dumpData?featureName=itemSimV2&method=local"

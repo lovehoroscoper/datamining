@@ -14,17 +14,17 @@ USER_GENE_PREFER_FEATURE_TABLE="${2}"
 echo "user gene prefer feature table: ${USER_GENE_PREFER_FEATURE_TABLE}"
 
 #USER_GENE_PREFER_MODEL_HDFS_DIR="/user/digu/userGenePreferModel"
-#hdfs dfs -test -e ${USER_GENE_PREFER_MODEL_HDFS_DIR}
+#${HDFS} -test -e ${USER_GENE_PREFER_MODEL_HDFS_DIR}
 #if [ $? -eq 0 ] ;then
 #    echo "${USER_GENE_PREFER_MODEL_HDFS_DIR} exists"
-#    hdfs dfs -rm -r ${USER_GENE_PREFER_MODEL_HDFS_DIR}
+#    ${HDFS} -rm -r ${USER_GENE_PREFER_MODEL_HDFS_DIR}
 #fi
 #
 #USER_GENE_PREFER_ORDER_MODEL_HDFS_DIR="/user/digu/userGenePreferOrderModel"
-#hdfs dfs -test -e ${USER_GENE_PREFER_ORDER_MODEL_HDFS_DIR}
+#${HDFS} -test -e ${USER_GENE_PREFER_ORDER_MODEL_HDFS_DIR}
 #if [ $? -eq 0 ] ;then
 #    echo "${USER_GENE_PREFER_ORDER_MODEL_HDFS_DIR} exists"
-#    hdfs dfs -rm -r ${USER_GENE_PREFER_ORDER_MODEL_HDFS_DIR}
+#    ${HDFS} -rm -r ${USER_GENE_PREFER_ORDER_MODEL_HDFS_DIR}
 #fi
 
 ${SUBMIT}														\

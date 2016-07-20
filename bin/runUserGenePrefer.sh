@@ -20,7 +20,7 @@ FILE_PATH=`find_latest_file ${DATA_DIR} ${CUR_DATE} 10`
 RESULT_DIR_CURRENT_USED="/user/digu/itemGroupCurrentUsed/data"
 remove_hdfs_file ${RESULT_DIR_CURRENT_USED}
 echo "result dir current used: ${RESULT_DIR_CURRENT_USED}"
-hdfs dfs -cp ${FILE_PATH} ${RESULT_DIR_CURRENT_USED}
+${HDFS} -cp ${FILE_PATH} ${RESULT_DIR_CURRENT_USED}
 
 GENE_DIR_SUB=${RESULT_DIR_CURRENT_USED}
 echo "gene dir: ${GENE_DIR_SUB}"

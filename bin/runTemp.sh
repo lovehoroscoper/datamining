@@ -35,7 +35,7 @@ if [ -f "${DICT_PATH}" ]; then
     # rm ${DATA_PATH}
     echo "${DICT_PATH} exits"
 else
-    hdfs dfs -get /user/digu/dict ${DICT_PATH}
+    ${HDFS} -get /user/digu/dict ${DICT_PATH}
     for line in `cat ${DICT_PATH}`
     do
         echo -e ${line}'\t1'

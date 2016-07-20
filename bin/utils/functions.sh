@@ -8,10 +8,10 @@ function remove_hdfs_file_base(){
 
     local FILE_NAME="${1}"
 
-    hdfs dfs -test -e ${FILE_NAME}
+    ${HDFS} -test -e ${FILE_NAME}
     if [ $? -eq 0 ] ;then
         echo "${FILE_NAME} exists"
-        hdfs dfs -rm -r ${FILE_NAME}
+        ${HDFS} -rm -r ${FILE_NAME}
     fi
 
     return $?
@@ -62,7 +62,7 @@ function find_latest_file(){
     do
         DAY_SUB=`date -d "${CUR_DATE} -${k} day" +"%Y-%m-%d"`
         FILE_PATH=${DATA_DIR}/${DAY_SUB}
-        hdfs dfs -test -e ${FILE_PATH}/"_SUCCESS"
+        ${HDFS} -test -e ${FILE_PATH}/"_SUCCESS"
         if [ $? -eq 0 ] ;then
             echo ${FILE_PATH}
             return 0
@@ -84,12 +84,12 @@ function put_record(){
 
     echo "current dir path: ${CURRENT_DIR}"
     echo "target dir path: ${TARGET_DIR}"
-    hdfs dfs -test -e ${TARGET_DIR}
+    ${HDFS} -test -e ${TARGET_DIR}
     if [ $? -eq 0 ] ;then
         echo "${TARGET_DIR} exists"
     else
-        hdfs dfs -mkdir ${TARGET_DIR}
+        ${HDFS} -mkdir ${TARGET_DIR}
     fi
-    hdfs dfs -cp ${CURRENT_DIR} ${TARGET_DIR}/${CUR_DATE} &
+    ${HDFS} -cp ${CURRENT_DIR} ${TARGET_DIR}/${CUR_DATE} &
     return $?
 }

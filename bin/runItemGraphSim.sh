@@ -28,7 +28,7 @@ DATA_PATH="/home/digu/workspace/data/new_words_v2.txt"
 if [ -f "${DATA_PATH}" ]; then
     rm ${DATA_PATH}
 fi
-hdfs dfs -get /user/yichen/new_words.txt ${DATA_PATH}
+${HDFS} -get /user/yichen/new_words.txt ${DATA_PATH}
 
 for line in `cat ${DATA_PATH}`
 do

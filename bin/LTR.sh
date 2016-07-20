@@ -31,20 +31,20 @@ if [ $? -eq 0 ];then
     echo "predict has been locked"
 else
     touch ${LOCK_FILE}
-    hdfs dfs -test -e ${HDFS_FILE_PATH}
+    ${HDFS} -test -e ${HDFS_FILE_PATH}
     if [ $? -eq 0 ];then
-        hdfs dfs -rm -r ${FEATURE_PATH}
+        ${HDFS} -rm -r ${FEATURE_PATH}
         echo "cp to local"
-        hdfs dfs -cp ${HDFS_FILE_PATH} ${FEATURE_PATH}
+        ${HDFS} -cp ${HDFS_FILE_PATH} ${FEATURE_PATH}
         cd ${PREDICTOR_PATH}
         echo "rm predict result"
-        hdfs dfs -rm -r ${RESUILT_HDFS_PATH}
+        ${HDFS} -rm -r ${RESUILT_HDFS_PATH}
         echo "run predict"
         sh bin/runBuildPairSample.sh 2>&1 | tee ${LOG_FILE}
         echo "rm local result"
         rm -rf ${RESUILT_PATH}
         echo "cp result to local"
-        hdfs dfs -getmerge ${RESUILT_HDFS_PATH} ${RESUILT_PATH}
+        ${HDFS} -getmerge ${RESUILT_HDFS_PATH} ${RESUILT_PATH}
         echo "scp to 105"
         scp -P 10022 ${RESUILT_PATH} 10.15.2.105:/var/data/ltr_2_rank/${CUR_DATE}
         echo "DONE"

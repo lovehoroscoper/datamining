@@ -14,17 +14,17 @@ USER_CATEGORY_PREFER_FEATURE_TABLE="${2}"
 echo "user category prefer feature table: ${USER_CATEGORY_PREFER_FEATURE_TABLE}"
 
 #USER_SHOP_PREFER_MODEL_HDFS_DIR="/user/digu/userShopPreferModel"
-#hdfs dfs -test -e ${USER_SHOP_PREFER_MODEL_HDFS_DIR}
+#${HDFS} -test -e ${USER_SHOP_PREFER_MODEL_HDFS_DIR}
 #if [ $? -eq 0 ] ;then
 #    echo "${USER_SHOP_PREFER_MODEL_HDFS_DIR} exists"
-#    hdfs dfs -rm -r ${USER_SHOP_PREFER_MODEL_HDFS_DIR}
+#    ${HDFS} -rm -r ${USER_SHOP_PREFER_MODEL_HDFS_DIR}
 #fi
 #
 #USER_SHOP_PREFER_ORDER_MODEL_HDFS_DIR="/user/digu/userShopPreferOrderModel"
-#hdfs dfs -test -e ${USER_SHOP_PREFER_ORDER_MODEL_HDFS_DIR}
+#${HDFS} -test -e ${USER_SHOP_PREFER_ORDER_MODEL_HDFS_DIR}
 #if [ $? -eq 0 ] ;then
 #    echo "${USER_SHOP_PREFER_ORDER_MODEL_HDFS_DIR} exists"
-#    hdfs dfs -rm -r ${USER_SHOP_PREFER_ORDER_MODEL_HDFS_DIR}
+#    ${HDFS} -rm -r ${USER_SHOP_PREFER_ORDER_MODEL_HDFS_DIR}
 #fi
 
 ${SUBMIT}														\

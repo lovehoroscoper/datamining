@@ -5,3 +5,6 @@ echo "submit path: ${SUBMIT}"
 
 JAR_PATH="`pwd`/target/data-mining-1.0-SNAPSHOT-jar-with-dependencies.jar"
 echo "jar path: ${JAR_PATH}"
+
+HDFS="/opt/hadoop/bin/hdfs dfs"
+echo "hdfs path: ${HDFS}"

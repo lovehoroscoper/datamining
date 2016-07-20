@@ -63,7 +63,7 @@ echo "result dir current used: ${RESULT_DIR_CURRENT_USED}"
 
 FILE_PATH=`find_latest_file ${ITEM_SIM_RESULT_HDFS_DIR_UNION_GROUP} ${CUR_DATE} 10`
 echo "${FILE_PATH} exists"
-hdfs dfs -cp ${FILE_PATH} ${RESULT_DIR_CURRENT_USED}
+${HDFS} -cp ${FILE_PATH} ${RESULT_DIR_CURRENT_USED}
 
 curl "http://10.15.17.31:10850/dumpData?featureName=itemSim&method=local"
 #curl "http://10.19.22.49:10850/dumpData?featureName=itemSim&method=local"

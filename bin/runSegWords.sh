@@ -10,7 +10,7 @@ DATA_PATH="/home/digu/workspace/data/dict"
 if [ -f "${DATA_PATH}" ]; then
     rm ${DATA_PATH}
 fi
-hdfs dfs -get /user/bizdata/dict ${DATA_PATH}
+${HDFS} -get /user/bizdata/dict ${DATA_PATH}
 
 for line in `cat ${DATA_PATH}`
 do
