@@ -21,3 +21,4 @@ DAY_SUB16=`date -d "${CUR_DATE} -16 day" +"%Y-%m-%d"`
 
 DAY_SUB30=`date -d "${CUR_DATE} -30 day" +"%Y-%m-%d"`
 DAY_SUB31=`date -d "${CUR_DATE} -31 day" +"%Y-%m-%d"`
+DAY_SUB32=`date -d "${CUR_DATE} -31 day" +"%Y-%m-%d"`
