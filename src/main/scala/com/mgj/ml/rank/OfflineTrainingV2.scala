@@ -75,10 +75,10 @@ object OfflineTrainingV2 {
 
       if (stageSet.contains("adapt_features")) {
         var dataDF: DataFrame = sqlContext.sql("select * from " + sampleTable).cache()
-        dataDF.show()
         FeatureConstructor.init(sqlContext, udfFactory)
         dataDF = FeatureConstructor.construct(sc, sqlContext, dataDF, featureCalculatorFactory, bizdate, features.split(","): _*)
-//        sqlContext.sql(s"drop table if exists ${featureTable}")
+        dataDF.show()
+        //        sqlContext.sql(s"drop table if exists ${featureTable}")
         dataDF.write.saveAsTable(s"${featureTable}")
       }
 
