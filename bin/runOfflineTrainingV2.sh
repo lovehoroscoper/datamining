@@ -11,23 +11,23 @@ YESTERDAY=`date -d "${CUR_DATE} -1 day" +"%Y-%m-%d %H:%M:%S"`
 BIZDATE=${DAY_SUB2}
 echo "bizdate: ${BIZDATE}"
 
-CODE="app_tuan_book_pop"
+CODE="app_quality_pop"
 echo "code:${CODE}"
 
 # user_category_prefer,user_category_prefer_order,user_item_prefer,user_real_item_prefer,item_ctr,user_shop_prefer,user_shop_prefer_order,user_gene_prefer,user_gene_prefer_order,pos
 #FEATURES="user_category_prefer,user_category_prefer_order,user_item_prefer,user_real_item_prefer,item_ctr,user_shop_prefer,user_shop_prefer_order,user_gene_prefer,user_gene_prefer_order,pos"
 #FEATURES="user_category_prefer,user_category_prefer_order,user_item_prefer,user_real_item_prefer,item_search_ctr,user_shop_prefer,user_shop_prefer_order,user_gene_prefer,user_gene_prefer_order,pos"
-FEATURES="user_category_prefer,user_category_prefer_order,user_item_prefer,user_real_item_prefer,item_search_ctr,item_ctr,user_shop_prefer,user_shop_prefer_order,user_gene_prefer,user_gene_prefer_order,pos"
+FEATURES="user_category_prefer,user_category_prefer_order,user_item_prefer,user_real_item_prefer,item_search_ctr,item_ctr,user_shop_prefer,user_shop_prefer_order,user_gene_prefer,user_gene_prefer_order,pos,label"
 echo "features:${FEATURES}"
 
-SAMPLE_TABLE="s_dg_sample_${CODE}"
+SAMPLE_TABLE="s_dg_sample_${CODE}_${BIZDATE}"
 echo "sample table:${SAMPLE_TABLE}"
 
-FEATURE_TABLE="s_dg_feature_${CODE}"
+FEATURE_TABLE="s_dg_feature_${CODE}_${BIZDATE}"
 echo "feature table:${FEATURE_TABLE}"
 
 # build_sample,adapt_features,train
-STAGE="adapt_features,train"
+STAGE="build_sample,adapt_features,train"
 echo "stage:${STAGE}"
 
 N="20"

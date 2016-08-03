@@ -77,15 +77,15 @@ object OfflineTrainingV2 {
 
       if (stageSet.contains("adapt_features")) {
         var dataDF: DataFrame = sqlContext.sql("select * from " + sampleTable).cache()
-        dataDF.show()
         FeatureConstructor.init(sqlContext, udfFactory)
         dataDF = FeatureConstructor.construct(sc, sqlContext, dataDF, featureCalculatorFactory, bizdate, features.split(","): _*)
+        dataDF.show()
         sqlContext.sql(s"drop table if exists ${featureTable}")
         dataDF.write.saveAsTable(s"${featureTable}")
       }
 
       if (stageSet.contains("train")) {
-        val dataDF = sqlContext.sql(s"select ${features},label from ${featureTable}").cache()
+        val dataDF = sqlContext.sql(s"select ${features} from ${featureTable}").cache()
         val learner: LRLearnerV2 = new LRLearnerV2()
         val model = learner.run(sc, dataDF)
 
