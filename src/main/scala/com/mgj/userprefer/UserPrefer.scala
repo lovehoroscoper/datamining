@@ -2,9 +2,7 @@ package com.mgj.userprefer
 
 import com.mgj.utils.{HdfsUtil, PartitionUtil}
 import org.apache.commons.lang3.Validate
-import org.apache.spark.sql.{DataFrame, Row}
 import org.apache.spark.sql.hive.HiveContext
-import org.apache.spark.sql.types.{DoubleType, StringType, StructField, StructType}
 import org.apache.spark.{SparkContext, SparkConf}
 
 /**
@@ -36,12 +34,12 @@ object UserPrefer {
     println(s"bizdate:${bizdate}")
     println(s"bizdateSubA:${bizdateSubA}")
     println(s"bizdateSubB:${bizdateSubB}")
-    println(s"featureTypeList:${featureTypeList}")
-    println(s"sampleTypeList:${sampleTypeList}")
+    println(s"featureTypeList:${featureTypeList.toList}")
+    println(s"sampleTypeList:${sampleTypeList.toList}")
     println(s"entity:${entity}")
     println(s"entityMapPath:${entityMapPath}")
     println(s"entitySimPath:${entitySimPath}")
-    println(s"sampleList:${sampleList}")
+    println(s"sampleList:${sampleList.toList}")
 
     PartitionUtil.checkAppLog(sqlContext, bizdate, "click")
     PartitionUtil.checkAppLog(sqlContext, bizdate, "order")

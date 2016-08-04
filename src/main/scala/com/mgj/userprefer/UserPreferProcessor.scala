@@ -16,7 +16,7 @@ import scala.reflect.ClassTag
 /**
   * Created by xiaonuo on 8/3/16.
   */
-class UserPreferProcessor {
+class UserPreferProcessor extends java.io.Serializable {
 
   val USER_ID = "user_id"
   val ENTITY_ID = "entity_id"
@@ -46,7 +46,8 @@ class UserPreferProcessor {
   private def getFeature(sc: SparkContext, sqlContext: HiveContext, bizdateSubA: String, bizdateSubB: String, entity: String, logType: String): RDD[((String, String), Array[Double])] = {
     val logDF = getFeatureLog(sc, sqlContext, bizdateSubA, bizdateSubB, entity, logType)
     import sqlContext.implicits._
-    val logDS = logDF.as[(String, String, String)].filter(x => x._1 != null && x._2 != null && x._3 != null)
+    val logDS = logDF.as[(String, String, String)]
+      .filter(x => x._1 != null && x._2 != null && x._3 != null && !x._2.equals("-1"))
 
     val totalCount = logDS.count()
     val entityProb = logDS.groupBy(x => x._2).count().map(x => (x._1, 1.0 * x._2 / totalCount))
