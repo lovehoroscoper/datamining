@@ -1,10 +1,18 @@
 package com.mgj.userprefer
 
-import com.mgj.utils.{LRLearner, HdfsUtil, PartitionUtil}
+import java.io.{File, PrintWriter}
+import java.text.SimpleDateFormat
+import java.util.Calendar
+
+import com.mgj.feature.FeatureType
+import com.mgj.utils.{HiveUtil, LRLearner, HdfsUtil, PartitionUtil}
 import org.apache.commons.lang3.Validate
+import org.apache.spark.ml.classification.LogisticRegressionModel
 import org.apache.spark.mllib.linalg.Vectors
+import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.hive.HiveContext
+import org.apache.spark.sql.types.{StringType, StructField, StructType}
 import org.apache.spark.{SparkContext, SparkConf}
 
 /**
@@ -31,7 +39,13 @@ object UserPrefer {
     val sampleList = args(8).split(",")
     val modelList = args(9).split(",")
 
-    Validate.isTrue(args.size == 10, "input param error, param size must be 9.")
+    val predictBizdate = args(10)
+    val predictBizdateSub = args(11)
+    val predictResultList = args(12).split(",")
+    val predictTableList = args(13).split(",")
+    val successTag = args(14)
+
+    Validate.isTrue(args.size == 15, "input param error, param size must be 9.")
     Validate.isTrue(sampleList.size == sampleTypeList.size, "sample list size and sample type size must be the same.")
     Validate.isTrue(sampleList.size == modelList.size, "sample list size and model list size must be the same.")
 
@@ -45,6 +59,11 @@ object UserPrefer {
     println(s"entitySimPath:${entitySimPath}")
     println(s"sampleList:${sampleList.toList}")
     println(s"modelList:${modelList.toList}")
+    println(s"predictBizdate:${predictBizdate}")
+    println(s"predictBizdateSub:${predictBizdateSub}")
+    println(s"predictResultList:${predictResultList.toList}")
+    println(s"predictTableList:${predictTableList.toList}")
+    println(s"successTag:${successTag}")
 
     PartitionUtil.checkAppLog(sqlContext, bizdate, "click")
     PartitionUtil.checkAppLog(sqlContext, bizdate, "order")
@@ -78,5 +97,47 @@ object UserPrefer {
       i += 1
     }
     feature.unpersist(blocking = false)
+
+//    val featurePredict = userPreferProcessor.buildFeature(sc, sqlContext, predictBizdateSub, predictBizdate, entity, featureTypeList: _*)
+//
+//    i = 0
+//    for (path <- predictResultList) {
+//      val model = sc.objectFile[LogisticRegressionModel](modelList.apply(i)).first()
+//      println(model)
+//      println(model.coefficients)
+//
+//      val schema =
+//        StructType(
+//          StructField("user_id", StringType, true)
+//            :: StructField("entity_id", StringType, true)
+//            :: StructField("feature", StringType, true)
+//            :: Nil
+//        )
+//
+//      val predictDF: DataFrame = sqlContext.createDataFrame(featurePredict, schema)
+//      predictDF.registerTempTable("s_dg_user_gene_prefer_feature_spark")
+//      val featureDF = sqlContext.sql("select to_vector(feature) as feature, user_id, gene_id from s_dg_user_gene_prefer_feature_spark")
+//      val learner = new LRLearner()
+//      val result = learner.predict(model, predictDF.select(toVector(predictDF("feature")).as("feature"), predictDF("user_id").as("user_id"), predictDF("gene_id").as("gene_id"))
+//        , "user_id", "gene_id")
+//
+//      def sort(x: Iterable[(String, String, Double)], N: Int): String = {
+//        val list = x.toList.sortWith((a, b) => a._3.compareTo(b._3) > 0).take(N).map(x => x._2 + ":" + Math.round(x._3 * 100000)).mkString(",")
+//        return list
+//      }
+//
+//      result.map(x => (x(0), x(1), x(2).toDouble)).groupBy(_._1).filter(x => x._2.size > 0 && x._1.toLong > 0).map(x => x._1 + " " + sort(x._2, 50)).saveAsTextFile(userGenePreferPath)
+//      resultOrder.map(x => (x(0), x(1), x(2).toDouble)).groupBy(_._1).filter(x => x._2.size > 0 && x._1.toLong > 0).map(x => x._1 + " " + sort(x._2, 50)).saveAsTextFile(userGenePreferOrderPath)
+//
+//      val writer = new PrintWriter(new File(isSuccessFile))
+//      writer.write("DONE!")
+//      writer.close()
+//
+//      val sdf = new SimpleDateFormat("yyyyMMdd")
+//      val calendar = Calendar.getInstance()
+//      HiveUtil.featureHdfsToHive(sc, sqlContext, "user_gene_prefer", userGenePreferPath, sdf.format(calendar.getTime), "s_dg_user_gene_prefer", FeatureType.USER)
+//      HiveUtil.featureHdfsToHive(sc, sqlContext, "user_gene_prefer_order", userGenePreferOrderPath, sdf.format(calendar.getTime), "s_dg_user_gene_prefer_order", FeatureType.USER)
+//      HiveUtil.featureHdfsToHive(sc, sqlContext, "gene_id", geneMapDir, sdf.format(calendar.getTime), "s_dg_gene_id", FeatureType.ITEM)
+    }
   }
 }

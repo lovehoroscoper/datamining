@@ -7,11 +7,12 @@ source ./bin/utils/constant.sh
 source ./bin/utils/functions.sh
 
 BIZDATE=${DAY_SUB1}
-BIZDATE_SUB1=${DAY_SUB2}
-BIZDATE_SUB30=${DAY_SUB4}
-
 echo "bizdate: ${BIZDATE}"
+
+BIZDATE_SUB1=${DAY_SUB2}
 echo "bizdate_sub1: ${BIZDATE_SUB1}"
+
+BIZDATE_SUB30=${DAY_SUB31}
 echo "bizdate_sub30: ${BIZDATE_SUB30}"
 
 #DATA_DIR="/user/digu/itemGroupWithTitle/data"
@@ -41,11 +42,26 @@ echo "entity map path: ${ENTITY_MAP_PATH}"
 ENTITY_SIM_PATH=""
 echo "entity sim path: ${ENTITY_SIM_PATH}"
 
-SAMPLE_LIST="s_dg_user_prefer_test_v2"
+SAMPLE_LIST="s_dg_user_prefer_test"
 echo "sample list path: ${SAMPLE_LIST}"
 
 MODEL_LIST="/user/test/testModel"
 echo "model list path: ${MODEL_LIST}"
+
+PREDICT_BIZDATE=${DAY_SUB1}
+echo "predict bizdate: ${PREDICT_BIZDATE}"
+
+BIZDATE_SUB=${DAY_SUB3}
+echo "predict bizdate_sub: ${BIZDATE_SUB}"
+
+PREDICT_RESULT_LIST="/user/test/testResult"
+echo "predict result list: ${PREDICT_RESULT_LIST}"
+
+PREDICT_TABLE_LIST="s_dg_test_result"
+echo "predict result list: ${PREDICT_RESULT_LIST}"
+
+SUCCESS_TAG="/home/digu/isTestSuccess"
+echo "success tag: ${SUCCESS_TAG}"
 
 ${SUBMIT}														\
 	--master yarn												\
