@@ -81,7 +81,7 @@ class UserPreferProcessor extends java.io.Serializable {
     def featureExtract(iterable: Iterable[(String, String, String)]): Array[Double] = {
       val entityId = iterable.head._2
       val dateCurrent = sdfConvert.parse(bizdateSubB)
-      val feature: HashMap[Integer, Double] = new HashMap[Integer, Double]()
+      val feature: HashMap[Int, Double] = new HashMap[Int, Double]()
 
       for (log <- iterable) {
         val date = sdf.parse(log._3)
@@ -107,8 +107,6 @@ class UserPreferProcessor extends java.io.Serializable {
     val feature = logDS.rdd
       .groupBy(x => (x._1, x._2))
       .map(x => (x._1, featureExtract(x._2)))
-
-    feature.take(10).foreach(println)
 
     return feature
   }
