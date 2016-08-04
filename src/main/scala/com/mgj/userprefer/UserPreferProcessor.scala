@@ -49,42 +49,56 @@ class UserPreferProcessor extends java.io.Serializable {
     val logDS = logDF.as[(String, String, String)]
       .filter(x => x._1 != null && x._2 != null && x._3 != null && !x._2.equals("-1"))
 
-    val totalCount = logDS.count()
-    val entityProb = logDS.groupBy(x => x._2).count().map(x => (x._1, 1.0 * x._2 / totalCount))
+    val sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
+    val sdfConvert = new SimpleDateFormat("yyyy-MM-dd")
 
-    val entityCount = entityProb.count()
-    val smoothNum = entityProb.rdd.map(_.swap).sortByKey().map(_.swap).zipWithIndex()
-      .filter(x => x._2 == Math.round(entityCount * 0.618))
-      .map(x => if (x._1._2 == 0) 0.5 else x._1._2).collect().apply(0)
+    def getDiff(x: String): Int = {
+      val dateCurrent = sdfConvert.parse(bizdateSubB)
+      val date = sdf.parse(x)
+      val diff = Math.ceil(1.0 * (dateCurrent.getTime - date.getTime) / (60 * 60 * 1000 * 24)).toInt
+      return diff
+    }
 
-    println(s"totalCount:${totalCount}")
-    println(s"entityCount:${entityCount}")
-    println(s"smoothNum:${smoothNum}")
+    val totalCount = logDS.groupBy(x => getDiff(x._3)).count().collect().toMap
+    val entityProb = logDS.groupBy(x => (x._2, getDiff(x._3))).count().map(x => (x._1, 1.0 * x._2 / totalCount.get(x._1._2).get)).cache()
+
+    val entityCount = entityProb.groupBy(x => x._1._1).count().collect().toMap
+    val smoothNum = entityProb.rdd.groupBy(x => x._1._2).map(x => {
+      val list = x._2.toList.sortWith((a, b) => a._2 > b._2)
+      val index = Math.floor(list.size * 0.618).toInt
+      (x._1, list.apply(index)._2)
+    }).collect().toMap
 
     val entityProbMap = entityProb.collect().toMap
-    println(s"entityProbMap:${entityProbMap}")
+    entityProb.unpersist(blocking = false)
+
+    println(s"totalCount:${totalCount}")
+    totalCount.toList.sortBy(x => x._2).take(10).foreach(println)
+    println("entityCount")
+    entityCount.toList.sortBy(x => x._2).take(10).foreach(println)
+    println("entityProbMap")
+    entityProbMap.toList.sortBy(x => x._2).take(10).foreach(println)
+    println("smoothNum")
+    smoothNum.toList.sortBy(x => x._2).take(10).foreach(println)
 
     def featureExtract(iterable: Iterable[(String, String, String)]): Array[Double] = {
       val entityId = iterable.head._2
-
-      val df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
-      val dateCurrent = new SimpleDateFormat("yyyy-MM-dd").parse(bizdateSubB)
-
+      val dateCurrent = sdfConvert.parse(bizdateSubB)
       val feature: HashMap[Integer, Double] = new HashMap[Integer, Double]()
 
       for (log <- iterable) {
-        val date = df.parse(log._3)
-        val diff: Double = Math.ceil(1.0 * (dateCurrent.getTime - date.getTime) / (60 * 60 * 1000 * 24))
-        if (!feature.containsKey(diff.toInt)) {
-          feature.put(diff.toInt, 0d)
+        val date = sdf.parse(log._3)
+        val diff = Math.ceil(1.0 * (dateCurrent.getTime - date.getTime) / (60 * 60 * 1000 * 24)).toInt
+        if (!feature.containsKey(diff)) {
+          feature.put(diff, 0d)
         }
-        feature.put(diff.toInt, feature.get(diff.toInt) + 1d)
+        feature.put(diff, feature.get(diff) + 1d)
       }
 
       val featureArray: Array[Double] = new Array[Double](N)
       for (i <- 0 to N - 1) {
         if (feature.containsKey(i)) {
-          featureArray(i) = feature.get(i) / iterable.size / (entityProbMap.get(entityId).getOrElse(0d) + smoothNum)
+          featureArray(i) = feature.get(i) / iterable.size / (entityProbMap.get((entityId, i)).getOrElse(0d) + smoothNum.get(i).get)
         } else {
           featureArray(i) = 0
         }
@@ -95,6 +109,8 @@ class UserPreferProcessor extends java.io.Serializable {
     val feature = logDS.rdd
       .groupBy(x => (x._1, x._2))
       .map(x => (x._1, featureExtract(x._2)))
+
+    feature.take(10).foreach(println)
 
     return feature
   }
