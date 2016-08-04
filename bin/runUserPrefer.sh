@@ -33,16 +33,17 @@ echo "feature type list: ${FEATURE_TYPE_LIST}"
 SAMPLE_TYPE_LIST="click"
 echo "sample type list: ${SAMPLE_TYPE_LIST}"
 
-ENTITY="to_entity(item_id)"
+ENTITY="shop_id"
 echo "entity: ${ENTITY}"
 
-ENTITY_FEATURE_NAME="gene_id"
+ENTITY_FEATURE_NAME=""
 echo "ENTITY_FEATURE_NAME: ${ENTITY_FEATURE_NAME}"
 
-ENTITY_TABLE_NAME="s_dg_gene_id"
+ENTITY_TABLE_NAME=""
 echo "ENTITY_TABLE_NAME: ${ENTITY_TABLE_NAME}"
 
-ENTITY_MAP_PATH=${RESULT_DIR_CURRENT_USED}
+ENTITY_MAP_PATH=""
+#ENTITY_MAP_PATH=${RESULT_DIR_CURRENT_USED}
 echo "entity map path: ${ENTITY_MAP_PATH}"
 
 ENTITY_SIM_PATH=""
