@@ -5,7 +5,6 @@ import java.util
 import java.util.HashMap
 
 import org.apache.spark.ml.classification.LogisticRegressionModel
-import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types.{DoubleType, StringType, StructField, StructType}
 import org.apache.spark.{HashPartitioner, SparkContext}
 import org.apache.spark.mllib.linalg.{Vectors, Vector}
@@ -100,7 +99,7 @@ class UserPreferProcessor extends java.io.Serializable {
       for (i <- 0 to N - 1) {
         if (feature.containsKey(i)) {
           //          featureArray(i) = feature.get(i) / (sum * (entityProbMap.get((entityId, i)).get + smoothNum.get(i).get))
-          featureArray(i) = feature.get(i)
+          featureArray(i) = feature.get(i) / sum
         } else {
           featureArray(i) = 0
         }
