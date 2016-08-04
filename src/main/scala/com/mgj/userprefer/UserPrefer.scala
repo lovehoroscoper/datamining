@@ -28,7 +28,7 @@ object UserPrefer {
     val sc: SparkContext = new SparkContext(conf)
     val sqlContext: HiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
 
-    Validate.isTrue(args.size == 15, "input param error, param size must be 9.")
+    Validate.isTrue(args.size == 18, "input param error, param size must be 9.")
 
     val bizdate = args(0)
     val bizdateSubA = args(1)
@@ -36,16 +36,18 @@ object UserPrefer {
     val featureTypeList = args(3).split(",")
     val sampleTypeList = args(4).split(",")
     val entity = args(5)
-    val entityMapPath = args(6)
-    val entitySimPath = args(7)
-    val sampleList = args(8).split(",")
-    val modelList = args(9).split(",")
-
-    val predictBizdate = args(10)
-    val predictBizdateSub = args(11)
-    val predictResultList = args(12).split(",")
-    val predictTableList = args(13).split(",")
-    val successTag = args(14)
+    val entityFeatureName = args(6)
+    val entityTableName = args(7)
+    val entityMapPath = args(8)
+    val entitySimPath = args(9)
+    val sampleList = args(10).split(",")
+    val modelList = args(11).split(",")
+    val predictBizdate = args(12)
+    val predictBizdateSub = args(13)
+    val predictResultList = args(14).split(",")
+    val predictTableList = args(15).split(",")
+    val featureNameList = args(16).split(",")
+    val successTag = args(17)
 
     Validate.isTrue(sampleList.size == sampleTypeList.size, "sample list size and sample type size must be the same.")
     Validate.isTrue(sampleList.size == modelList.size, "sample list size and model list size must be the same.")
@@ -56,6 +58,8 @@ object UserPrefer {
     println(s"featureTypeList:${featureTypeList.toList}")
     println(s"sampleTypeList:${sampleTypeList.toList}")
     println(s"entity:${entity}")
+    println(s"entityFeatureName:${entityFeatureName}")
+    println(s"entityTableName:${entityTableName}")
     println(s"entityMapPath:${entityMapPath}")
     println(s"entitySimPath:${entitySimPath}")
     println(s"sampleList:${sampleList.toList}")
@@ -64,6 +68,7 @@ object UserPrefer {
     println(s"predictBizdateSub:${predictBizdateSub}")
     println(s"predictResultList:${predictResultList.toList}")
     println(s"predictTableList:${predictTableList.toList}")
+    println(s"featureNameList:${featureNameList.toList}")
     println(s"successTag:${successTag}")
 
     PartitionUtil.checkAppLog(sqlContext, bizdate, "click")
@@ -139,7 +144,7 @@ object UserPrefer {
     //      HiveUtil.featureHdfsToHive(sc, sqlContext, "user_gene_prefer", userGenePreferPath, sdf.format(calendar.getTime), "s_dg_user_gene_prefer", FeatureType.USER)
     //      HiveUtil.featureHdfsToHive(sc, sqlContext, "user_gene_prefer_order", userGenePreferOrderPath, sdf.format(calendar.getTime), "s_dg_user_gene_prefer_order", FeatureType.USER)
     //      HiveUtil.featureHdfsToHive(sc, sqlContext, "gene_id", geneMapDir, sdf.format(calendar.getTime), "s_dg_gene_id", FeatureType.ITEM)
+    //  }
   }
-}
 
 }

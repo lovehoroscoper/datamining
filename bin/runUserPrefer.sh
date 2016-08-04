@@ -36,6 +36,12 @@ echo "sample type list: ${SAMPLE_TYPE_LIST}"
 ENTITY="to_entity(item_id)"
 echo "entity: ${ENTITY}"
 
+ENTITY_FEATURE_NAME="gene_id"
+echo "ENTITY_FEATURE_NAME: ${ENTITY_FEATURE_NAME}"
+
+ENTITY_TABLE_NAME="s_dg_gene_id"
+echo "ENTITY_TABLE_NAME: ${ENTITY_TABLE_NAME}"
+
 ENTITY_MAP_PATH=${RESULT_DIR_CURRENT_USED}
 echo "entity map path: ${ENTITY_MAP_PATH}"
 
@@ -60,6 +66,9 @@ echo "predict result list: ${PREDICT_RESULT_LIST}"
 PREDICT_TABLE_LIST="s_dg_test_result"
 echo "predict result list: ${PREDICT_RESULT_LIST}"
 
+FEATURE_NAME_LIST="s_dg_test_feature"
+echo "feature name list: ${FEATURE_NAME_LIST}"
+
 SUCCESS_TAG="/home/digu/isTestSuccess"
 echo "success tag: ${SUCCESS_TAG}"
 
@@ -78,6 +87,8 @@ ${SUBMIT}														\
 	"${FEATURE_TYPE_LIST}"										\
 	"${SAMPLE_TYPE_LIST}"										\
 	"${ENTITY}"											        \
+	"${ENTITY_FEATURE_NAME}"								    \
+	"${ENTITY_TABLE_NAME}"									    \
 	"${ENTITY_MAP_PATH}"										\
 	"${ENTITY_SIM_PATH}"										\
 	"${SAMPLE_LIST}"											\
@@ -86,6 +97,7 @@ ${SUBMIT}														\
 	"${PREDICT_BIZDATE_SUB}"								    \
 	"${PREDICT_RESULT_LIST}"									\
 	"${PREDICT_TABLE_LIST}"										\
+	"${FEATURE_NAME_LIST}"										\
 	"${SUCCESS_TAG}"				    						\
 
 
