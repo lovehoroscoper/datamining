@@ -1,7 +1,10 @@
 package com.mgj.userprefer
 
-import com.mgj.utils.{HdfsUtil, PartitionUtil}
+import com.mgj.utils.{LRLearner, HdfsUtil, PartitionUtil}
 import org.apache.commons.lang3.Validate
+import org.apache.spark.mllib.linalg.{Vector, Vectors}
+import org.apache.spark.sql.DataFrame
+import org.apache.spark.sql.functions._
 import org.apache.spark.sql.hive.HiveContext
 import org.apache.spark.{SparkContext, SparkConf}
 
@@ -27,9 +30,11 @@ object UserPrefer {
     val entityMapPath = args(6)
     val entitySimPath = args(7)
     val sampleList = args(8).split(",")
+    val modelList = args(9).split(",")
 
-    Validate.isTrue(args.size == 9, "input param error, param size must be 9.")
+    Validate.isTrue(args.size == 10, "input param error, param size must be 9.")
     Validate.isTrue(sampleList.size == sampleTypeList.size, "sample list size and sample type size must be the same.")
+    Validate.isTrue(sampleList.size == modelList.size, "sample list size and model list size must be the same.")
 
     println(s"bizdate:${bizdate}")
     println(s"bizdateSubA:${bizdateSubA}")
@@ -40,6 +45,7 @@ object UserPrefer {
     println(s"entityMapPath:${entityMapPath}")
     println(s"entitySimPath:${entitySimPath}")
     println(s"sampleList:${sampleList.toList}")
+    println(s"modelList:${modelList.toList}")
 
     PartitionUtil.checkAppLog(sqlContext, bizdate, "click")
     PartitionUtil.checkAppLog(sqlContext, bizdate, "order")
@@ -54,8 +60,12 @@ object UserPrefer {
         }
       )
     }
+    sqlContext.udf.register("to_vector", (vector: String) => (Vectors.parse(vector)))
+    sqlContext.udf.register("to_double", (label: String) => (label.toDouble))
+    val toVector = udf { (vector: String) => (Vectors.parse(vector)) }
 
     val userPreferProcessor = new UserPreferProcessor()
+    val learner = new LRLearner()
     val feature = userPreferProcessor.buildFeature(sc, sqlContext, bizdateSubA, bizdateSubB, entity, featureTypeList: _*)
 
     var i = 0
@@ -63,7 +73,11 @@ object UserPrefer {
       val sample = userPreferProcessor.buildSample(sc, sqlContext, feature, bizdate, entity, sampleType)
       sqlContext.sql(s"drop table if exists ${sampleList.apply(i)}")
       sample.write.saveAsTable(sampleList.apply(i))
+      val model = learner.train(sc, sqlContext, sample.select(toVector(sample("feature")).as("feature"), sample("label").as("label")))
+      sample.unpersist(blocking = false)
+      sc.parallelize(Seq(model), 1).saveAsObjectFile(modelList.apply(i))
       i += 1
     }
+    feature.unpersist(blocking = false)
   }
 }

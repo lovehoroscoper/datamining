@@ -8,7 +8,7 @@ source ./bin/utils/functions.sh
 
 BIZDATE=${DAY_SUB1}
 BIZDATE_SUB1=${DAY_SUB2}
-BIZDATE_SUB30=${DAY_SUB31}
+BIZDATE_SUB30=${DAY_SUB4}
 
 echo "bizdate: ${BIZDATE}"
 echo "bizdate_sub1: ${BIZDATE_SUB1}"
@@ -41,8 +41,11 @@ echo "entity map path: ${ENTITY_MAP_PATH}"
 ENTITY_SIM_PATH=""
 echo "entity sim path: ${ENTITY_SIM_PATH}"
 
-SAMPLE_LIST="s_dg_user_prefer_test"
+SAMPLE_LIST="s_dg_user_prefer_test_v2"
 echo "sample list path: ${SAMPLE_LIST}"
+
+MODEL_LIST="/user/test/testModel"
+echo "model list path: ${MODEL_LIST}"
 
 ${SUBMIT}														\
 	--master yarn												\
@@ -62,5 +65,6 @@ ${SUBMIT}														\
 	"${ENTITY_MAP_PATH}"										\
 	"${ENTITY_SIM_PATH}"										\
 	"${SAMPLE_LIST}"											\
+	"${MODEL_LIST}"										    	\
 
 

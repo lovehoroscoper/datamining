@@ -48,6 +48,7 @@ class UserPreferProcessor extends java.io.Serializable {
     import sqlContext.implicits._
     val logDS = logDF.as[(String, String, String)]
       .filter(x => x._1 != null && x._2 != null && x._3 != null && !x._2.equals("-1"))
+    logDF.unpersist(blocking = false)
 
     val sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
     val sdfConvert = new SimpleDateFormat("yyyy-MM-dd")
@@ -108,6 +109,8 @@ class UserPreferProcessor extends java.io.Serializable {
       .groupBy(x => (x._1, x._2))
       .map(x => (x._1, featureExtract(x._2)))
 
+    logDS.unpersist(blocking = false)
+
     return feature
   }
 
@@ -145,6 +148,9 @@ class UserPreferProcessor extends java.io.Serializable {
       featureList.add(getFeature(sc, sqlContext, bizdateSubA, bizdateSubB, entity, logType))
     }
     val feature = joinFeature(featureList)
+    for (e <- featureList) {
+      e.unpersist(blocking = false)
+    }
     return feature
   }
 
@@ -157,6 +163,7 @@ class UserPreferProcessor extends java.io.Serializable {
         (x._2._1, 1d)
       }
     })
+    sampleLog.unpersist(blocking = false)
 
     val ratioCount = sample.map(x => (x._2.toDouble, 1d)).reduce((x, y) => (x._1 + y._1, x._2 + y._2))
     val ratio = ratioCount._1 / ratioCount._2
@@ -170,6 +177,8 @@ class UserPreferProcessor extends java.io.Serializable {
     val negSample = sample.filter(x => x._2 < 0.5).sample(false, ratio)
 
     val sampleFinal = posSample.union(negSample).map(x => Row(x._1.toString, x._2))
+    posSample.unpersist(blocking = false)
+    negSample.unpersist(blocking = false)
 
     val schema =
       StructType(
@@ -178,6 +187,7 @@ class UserPreferProcessor extends java.io.Serializable {
           :: Nil)
 
     val sampleDF: DataFrame = sqlContext.createDataFrame(sampleFinal, schema)
+    sampleFinal.unpersist(blocking = false)
     return sampleDF
   }
 }
