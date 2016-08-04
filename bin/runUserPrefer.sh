@@ -8,7 +8,7 @@ source ./bin/utils/functions.sh
 
 BIZDATE=${DAY_SUB1}
 BIZDATE_SUB1=${DAY_SUB2}
-BIZDATE_SUB30=${DAY_SUB4}
+BIZDATE_SUB30=${DAY_SUB31}
 
 echo "bizdate: ${BIZDATE}"
 echo "bizdate_sub1: ${BIZDATE_SUB1}"
