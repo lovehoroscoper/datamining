@@ -51,7 +51,7 @@ ${SUBMIT}														\
 	--num-executors	32											\
 	--executor-cores 2											\
 	--executor-memory 7373m										\
-	--class com.mgj.userperfer.UserPrefer				        \
+	--class com.mgj.userprefer.UserPrefer				        \
 	"${JAR_PATH}"												\
 	"${BIZDATE}"												\
 	"${BIZDATE_SUB30}"											\
