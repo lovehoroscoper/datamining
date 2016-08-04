@@ -51,8 +51,8 @@ echo "model list path: ${MODEL_LIST}"
 PREDICT_BIZDATE=${DAY_SUB1}
 echo "predict bizdate: ${PREDICT_BIZDATE}"
 
-BIZDATE_SUB=${DAY_SUB3}
-echo "predict bizdate_sub: ${BIZDATE_SUB}"
+PREDICT_BIZDATE_SUB=${DAY_SUB3}
+echo "predict bizdate_sub: ${PREDICT_BIZDATE_SUB}"
 
 PREDICT_RESULT_LIST="/user/test/testResult"
 echo "predict result list: ${PREDICT_RESULT_LIST}"
@@ -82,5 +82,10 @@ ${SUBMIT}														\
 	"${ENTITY_SIM_PATH}"										\
 	"${SAMPLE_LIST}"											\
 	"${MODEL_LIST}"										    	\
+	"${PREDICT_BIZDATE}"										\
+	"${PREDICT_BIZDATE_SUB}"								    \
+	"${PREDICT_RESULT_LIST}"									\
+	"${PREDICT_TABLE_LIST}"										\
+	"${SUCCESS_TAG}"				    						\
 
 
