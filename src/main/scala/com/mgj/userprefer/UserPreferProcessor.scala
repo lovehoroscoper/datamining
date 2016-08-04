@@ -62,7 +62,6 @@ class UserPreferProcessor extends java.io.Serializable {
     val totalCount = logDS.groupBy(x => getDiff(x._3)).count().collect().toMap
     val entityProb = logDS.groupBy(x => (x._2, getDiff(x._3))).count().map(x => (x._1, 1.0 * x._2 / totalCount.get(x._1._2).get)).cache()
 
-    val entityCount = entityProb.groupBy(x => x._1._1).count().collect().toMap
     val smoothNum = entityProb.rdd.groupBy(x => x._1._2).map(x => {
       val list = x._2.toList.sortWith((a, b) => a._2 > b._2)
       val index = Math.floor(list.size * 0.618).toInt
@@ -73,13 +72,11 @@ class UserPreferProcessor extends java.io.Serializable {
     entityProb.unpersist(blocking = false)
 
     println(s"totalCount:${totalCount}")
-    totalCount.toList.sortBy(x => x._2).take(10).foreach(println)
-    println("entityCount")
-    entityCount.toList.sortBy(x => x._2).take(10).foreach(println)
+    totalCount.toList.sortWith((a, b) => a._2 > b._2).take(10).foreach(println)
     println("entityProbMap")
-    entityProbMap.toList.sortBy(x => x._2).take(10).foreach(println)
+    entityProbMap.toList.sortWith((a, b) => a._2 > b._2).take(10).foreach(println)
     println("smoothNum")
-    smoothNum.toList.sortBy(x => x._2).take(10).foreach(println)
+    smoothNum.toList.sortWith((a, b) => a._2 > b._2).take(10).foreach(println)
 
     def featureExtract(iterable: Iterable[(String, String, String)]): Array[Double] = {
       val entityId = iterable.head._2
