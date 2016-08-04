@@ -138,6 +138,6 @@ object UserPrefer {
 //      HiveUtil.featureHdfsToHive(sc, sqlContext, "user_gene_prefer", userGenePreferPath, sdf.format(calendar.getTime), "s_dg_user_gene_prefer", FeatureType.USER)
 //      HiveUtil.featureHdfsToHive(sc, sqlContext, "user_gene_prefer_order", userGenePreferOrderPath, sdf.format(calendar.getTime), "s_dg_user_gene_prefer_order", FeatureType.USER)
 //      HiveUtil.featureHdfsToHive(sc, sqlContext, "gene_id", geneMapDir, sdf.format(calendar.getTime), "s_dg_gene_id", FeatureType.ITEM)
-    }
+//    }
   }
 }
