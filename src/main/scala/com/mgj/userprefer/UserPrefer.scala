@@ -2,8 +2,7 @@ package com.mgj.userprefer
 
 import com.mgj.utils.{LRLearner, HdfsUtil, PartitionUtil}
 import org.apache.commons.lang3.Validate
-import org.apache.spark.mllib.linalg.{Vector, Vectors}
-import org.apache.spark.sql.DataFrame
+import org.apache.spark.mllib.linalg.Vectors
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.hive.HiveContext
 import org.apache.spark.{SparkContext, SparkConf}
