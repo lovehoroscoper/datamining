@@ -11,6 +11,9 @@ object HdfsUtil {
   def isExists(sc: SparkContext, path: String): Boolean = {
     val conf = sc.hadoopConfiguration
     val fs = org.apache.hadoop.fs.FileSystem.get(conf)
+    if (path.isEmpty) {
+      return false
+    }
     val exists = fs.exists(new org.apache.hadoop.fs.Path(path))
     return exists
   }
