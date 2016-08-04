@@ -71,7 +71,7 @@ class UserPreferProcessor extends java.io.Serializable {
     val entityProbMap = entityProb.collect().toMap
     entityProb.unpersist(blocking = false)
 
-    println(s"totalCount:${totalCount}")
+    println(s"totalCount")
     totalCount.toList.sortWith((a, b) => a._2 > b._2).take(10).foreach(println)
     println("entityProbMap")
     entityProbMap.toList.sortWith((a, b) => a._2 > b._2).take(10).foreach(println)
