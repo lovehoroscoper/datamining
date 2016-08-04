@@ -93,9 +93,10 @@ class UserPreferProcessor extends java.io.Serializable {
       }
 
       val featureArray: Array[Double] = new Array[Double](N)
+      val sum = feature.map(x => x._2).sum
       for (i <- 0 to N - 1) {
         if (feature.containsKey(i)) {
-          featureArray(i) = feature.get(i) / iterable.size / (entityProbMap.get((entityId, i)).getOrElse(0d) + smoothNum.get(i).get)
+          featureArray(i) = feature.get(i) / (sum * (entityProbMap.get((entityId, i)).get + smoothNum.get(i).get))
         } else {
           featureArray(i) = 0
         }
