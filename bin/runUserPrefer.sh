@@ -64,9 +64,9 @@ PREDICT_RESULT_LIST="/user/test/testResult"
 echo "predict result list: ${PREDICT_RESULT_LIST}"
 
 PREDICT_TABLE_LIST="s_dg_test_result"
-echo "predict result list: ${PREDICT_RESULT_LIST}"
+echo "predict result list: ${PREDICT_TABLE_LIST}"
 
-FEATURE_NAME_LIST="s_dg_test_feature"
+FEATURE_NAME_LIST="test_feature"
 echo "feature name list: ${FEATURE_NAME_LIST}"
 
 SUCCESS_TAG="/home/digu/isTestSuccess"
@@ -100,4 +100,44 @@ ${SUBMIT}														\
 	"${FEATURE_NAME_LIST}"										\
 	"${SUCCESS_TAG}"				    						\
 
+test -e ${SUCCESS_TAG}
+if [ $? -eq 0 ];then
+	echo "predict success"
+#	${CURL} "http://10.15.17.31:10850/dumpData?featureName=item_gene,userGenePrefer,userGenePreferOrder&method=localList"
+#
+#	${CURL} "http://10.15.18.40:10850/dumpData?featureName=item_gene&method=local" &
+#	${CURL} "http://10.15.18.40:10850/dumpData?featureName=userGenePrefer&method=local" &
+#	${CURL} "http://10.15.18.40:10850/dumpData?featureName=userGenePreferOrder&method=local" &
 
+    # put record
+#	RECORD_PATH="${USER_GENE_PREFER_HDFS_DIR}Record"
+#	put_record ${USER_GENE_PREFER_HDFS_DIR} ${RECORD_PATH} ${CUR_DATE}
+#    echo "record path: ${RECORD_PATH}"
+
+    # remove record
+#    remove_hdfs_file ${RECORD_PATH} ${DAY_SUB20}
+#    echo "record sub path: ${RECORD_PATH}/${DAY_SUB20}"
+
+    # put record
+#    RECORD_PATH="${USER_GENE_PREFER_ORDER_HDFS_DIR}Record"
+#    put_record ${USER_GENE_PREFER_ORDER_HDFS_DIR} ${RECORD_PATH} ${CUR_DATE}
+#    echo "record path: ${RECORD_PATH}"
+
+    # remove record
+#    remove_hdfs_file ${RECORD_PATH} ${DAY_SUB20}
+#    echo "record sub path: ${RECORD_PATH}/${DAY_SUB20}"
+
+    # put record
+#    RECORD_PATH="/user/digu/itemGeneRecord"
+#    put_record ${GENE_DIR_SUB} ${RECORD_PATH} ${CUR_DATE}
+
+    # remove record
+#    remove_hdfs_file ${RECORD_PATH} ${DAY_SUB20}
+#    echo "record sub path: ${RECORD_PATH}/${DAY_SUB20}"
+fi
+
+echo "remove success tag"
+test -e ${SUCCESS_TAG}
+if [ $? -eq 0 ];then
+	rm ${SUCCESS_TAG}
+fi

@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat
 import java.util
 import java.util.HashMap
 
+import org.apache.spark.ml.classification.LogisticRegressionModel
+import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types.{DoubleType, StringType, StructField, StructType}
 import org.apache.spark.{HashPartitioner, SparkContext}
 import org.apache.spark.mllib.linalg.{Vectors, Vector}
@@ -97,7 +99,8 @@ class UserPreferProcessor extends java.io.Serializable {
       val sum = feature.map(x => x._2).sum
       for (i <- 0 to N - 1) {
         if (feature.containsKey(i)) {
-          featureArray(i) = feature.get(i) / (sum * (entityProbMap.get((entityId, i)).get + smoothNum.get(i).get))
+          //          featureArray(i) = feature.get(i) / (sum * (entityProbMap.get((entityId, i)).get + smoothNum.get(i).get))
+          featureArray(i) = feature.get(i)
         } else {
           featureArray(i) = 0
         }
@@ -142,6 +145,26 @@ class UserPreferProcessor extends java.io.Serializable {
     return cg
   }
 
+  def getReason(vector: String, model: LogisticRegressionModel, size: Int) = {
+    def getReasonScore(feature: Array[Double], weight: Array[Double], start: Int, end: Int): Double = {
+      var sum = 0d
+      for (i <- start to end) {
+        sum += feature.apply(i) * weight.apply(i)
+      }
+      return sum
+    }
+    val featureVector = Vectors.parse(vector).toArray
+    val weightClick = model.coefficients.toArray
+
+    val reasonScoreList: util.ArrayList[Double] = new util.ArrayList[Double]()
+    for (i <- 0 to size) {
+      reasonScoreList.add(getReasonScore(featureVector, weightClick, i * N, (i + 1) * N - 1))
+    }
+    val max = reasonScoreList.max
+    val index = reasonScoreList.indexOf(max)
+    index.toString
+  }
+
   def buildFeature(sc: SparkContext, sqlContext: HiveContext, bizdateSubA: String, bizdateSubB: String, entity: String, logTypeList: String*): RDD[(String, String, Vector)] = {
     val featureList = new util.ArrayList[RDD[((String, String), Array[Double])]]()
     for (logType <- logTypeList) {
@@ -168,10 +191,18 @@ class UserPreferProcessor extends java.io.Serializable {
     val ratioCount = sample.map(x => (x._2.toDouble, 1d)).reduce((x, y) => (x._1 + y._1, x._2 + y._2))
     val ratio = ratioCount._1 / ratioCount._2
 
-    println(s"sample type:${sampleType}")
-    println(s"total sample count:${ratioCount._2}")
-    println(s"total positive sample count:${ratioCount._1}")
-    println(s"positive negtive sample ratio:${ratio}")
+    println(s"sample type:${
+      sampleType
+    }")
+    println(s"total sample count:${
+      ratioCount._2
+    }")
+    println(s"total positive sample count:${
+      ratioCount._1
+    }")
+    println(s"positive negtive sample ratio:${
+      ratio
+    }")
 
     val posSample = sample.filter(x => x._2 > 0.5)
     val negSample = sample.filter(x => x._2 < 0.5).sample(false, ratio)
