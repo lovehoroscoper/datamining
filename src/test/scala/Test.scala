@@ -95,6 +95,34 @@ class Test extends FlatSpec with Matchers with LocalSparkContext {
     //    } else {
     //      print("error")
     //    }
-    println("ok")
+
+
+    case class User()
+
+    trait Repository {
+      def save(user: User)
+    }
+
+    trait DefaultRepository extends Repository {
+      def save(user: User) = {
+        println("save user")
+      }
+    }
+
+    trait NewRepository extends Repository {
+      def save(user: User) = {
+        println("save new user")
+      }
+    }
+
+    trait UserService {
+      self: Repository =>
+      def create(user: User): Unit = {
+        save(user)
+      }
+    }
+
+    (new UserService with NewRepository).create(new User)
+
   }
 }
