@@ -23,5 +23,5 @@ ${SUBMIT}														\
 	"${JAR_PATH}"												\
 	"${OUTPUT_PATH}"											\
 
-#${CURL} "http://10.15.17.31:10850/dumpData?featureName=did2uid&method=local"
-#${CURL} "http://10.15.18.40:10850/dumpData?featureName=did2uid&method=local" &
+${CURL} "http://10.15.17.31:10850/dumpData?featureName=did2uid&method=local"
+${CURL} "http://10.15.18.40:10850/dumpData?featureName=did2uid&method=local" &

@@ -40,15 +40,15 @@ ${SUBMIT}														\
 	"${USER_CATEGORY_PREFER_MODEL_HDFS_DIR}"					\
 	"${USER_CATEGORY_PREFER_ORDER_MODEL_HDFS_DIR}"				\
 
-#${CURL} "10.15.2.114:12000/Offline?featureName=userGBPrefer" &
-#${CURL} "10.17.36.57:12000/Offline?featureName=userGBPrefer" &
-#${CURL} "10.17.36.58:12000/Offline?featureName=userGBPrefer" &
-#${CURL} "10.11.8.53:12000/Offline?featureName=userGBPrefer"
+${CURL} "10.15.2.114:12000/Offline?featureName=userGBPrefer" &
+${CURL} "10.17.36.57:12000/Offline?featureName=userGBPrefer" &
+${CURL} "10.17.36.58:12000/Offline?featureName=userGBPrefer" &
+${CURL} "10.11.8.53:12000/Offline?featureName=userGBPrefer"
 
-#${CURL} "10.15.2.114:12000/Offline?featureName=userGBPreferOrder" &
-#${CURL} "10.17.36.57:12000/Offline?featureName=userGBPreferOrder" &
-#${CURL} "10.17.36.58:12000/Offline?featureName=userGBPreferOrder" &
-#${CURL} "10.11.8.53:12000/Offline?featureName=userGBPreferOrder" &
+${CURL} "10.15.2.114:12000/Offline?featureName=userGBPreferOrder" &
+${CURL} "10.17.36.57:12000/Offline?featureName=userGBPreferOrder" &
+${CURL} "10.17.36.58:12000/Offline?featureName=userGBPreferOrder" &
+${CURL} "10.11.8.53:12000/Offline?featureName=userGBPreferOrder" &
 
 # put record
 RECORD_PATH="${USER_CATEGORY_PREFER_HDFS_DIR}Record"
