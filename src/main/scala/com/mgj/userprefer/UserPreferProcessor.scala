@@ -190,21 +190,14 @@ class UserPreferProcessor extends java.io.Serializable {
     val ratioCount = sample.map(x => (x._2.toDouble, 1d)).reduce((x, y) => (x._1 + y._1, x._2 + y._2))
     val ratio = ratioCount._1 / ratioCount._2
 
-    println(s"sample type:${
-      sampleType
-    }")
-    println(s"total sample count:${
-      ratioCount._2
-    }")
-    println(s"total positive sample count:${
-      ratioCount._1
-    }")
-    println(s"positive negtive sample ratio:${
-      ratio
-    }")
+    println(s"sample type:${sampleType}")
+    println(s"total sample count:${ratioCount._2}")
+    println(s"total positive sample count:${ratioCount._1}")
+    println(s"positive negtive sample ratio:${ratio}")
 
     val posSample = sample.filter(x => x._2 > 0.5)
     val negSample = sample.filter(x => x._2 < 0.5).sample(false, ratio)
+    sample.unpersist(blocking = false)
 
     val sampleFinal = posSample.union(negSample).map(x => Row(x._1.toString, x._2))
     posSample.unpersist(blocking = false)
