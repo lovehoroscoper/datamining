@@ -36,7 +36,7 @@ ${SUBMIT}														\
 	"${ITEM_SIM_MERGE_RESULT}"						    	    \
 	"${ITEM_SIM_SEARCH_DUMP_RESULT}"						    \
 
-${CURL} "http://dc.algo.service.mogujie.org/action/fieldUpdate/doUpdate?id=85"
+#${CURL} "http://dc.algo.service.mogujie.org/action/fieldUpdate/doUpdate?id=85"
 
 #DATA_DIR=${ITEM_SIM_MERGE_RESULT}
 #for k in $( seq 1 10 )

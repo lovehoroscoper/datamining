@@ -33,10 +33,10 @@ ${SUBMIT}														\
 	"${USER_HISTORY_ITEM_PREFER_HDFS_DIR}"						\
 	"${USER_HISTORY_ITEM_PREFER_GROUP_HDFS_DIR}"				\
 
-${CURL} "10.15.2.114:12000/Offline?featureName=userHistoryClickPrefer" &
-${CURL} "10.17.36.57:12000/Offline?featureName=userHistoryClickPrefer" &
-${CURL} "10.17.36.58:12000/Offline?featureName=userHistoryClickPrefer" &
-${CURL} "10.11.8.53:12000/Offline?featureName=userHistoryClickPrefer" &
+#${CURL} "10.15.2.114:12000/Offline?featureName=userHistoryClickPrefer" &
+#${CURL} "10.17.36.57:12000/Offline?featureName=userHistoryClickPrefer" &
+#${CURL} "10.17.36.58:12000/Offline?featureName=userHistoryClickPrefer" &
+#${CURL} "10.11.8.53:12000/Offline?featureName=userHistoryClickPrefer" &
 
 # remove record
 remove_hdfs_file ${USER_HISTORY_ITEM_PREFER_HDFS_DIR} ${DAY_SUB20}

@@ -125,11 +125,8 @@ remove_hdfs_file ${RESULT_DIR_CURRENT_USED}
 echo "result dir current used: ${RESULT_DIR_CURRENT_USED}"
 ${HDFS} -cp ${FILE_PATH} ${RESULT_DIR_CURRENT_USED}
 
-${CURL} "http://10.15.17.31:10850/dumpData?featureName=itemSimV2&method=local"
-#${CURL} "http://10.19.22.49:10850/dumpData?featureName=itemSimV2&method=local"
-#${CURL} "http://10.15.19.20:10850/dumpData?featureName=itemSimV2&method=local"
-#${CURL} "http://10.19.16.30:10850/dumpData?featureName=itemSimV2&method=local"
-${CURL} "http://10.15.18.40:10850/dumpData?featureName=itemSimV2&method=local" &
+#${CURL} "http://10.15.17.31:10850/dumpData?featureName=itemSimV2&method=local"
+#${CURL} "http://10.15.18.40:10850/dumpData?featureName=itemSimV2&method=local" &
 
 remove_hdfs_file ${ITEM_SIM_MERGE_RESULT} ${DAY_SUB20}
 remove_hdfs_file ${ITEM_SIM_MERGE_ORIGIN_RESULT} ${DAY_SUB20}
