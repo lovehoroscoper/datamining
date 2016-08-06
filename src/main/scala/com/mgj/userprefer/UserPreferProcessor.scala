@@ -61,33 +61,31 @@ class UserPreferProcessor extends java.io.Serializable {
       return diff
     }
 
-    val totalCount = logDS.groupBy(x => getDiff(x._3)).count().collect().toMap
-    val entityProb = logDS.groupBy(x => (x._2, getDiff(x._3))).count().map(x => (x._1, 1.0 * x._2 / totalCount.get(x._1._2).get)).cache()
-
-    val smoothNum = entityProb.rdd.groupBy(x => x._1._2).map(x => {
-      val list = x._2.toList.sortWith((a, b) => a._2 > b._2)
-      val index = Math.floor(list.size * 0.618).toInt
-      (x._1, list.apply(index)._2)
-    }).collect().toMap
-
-//    val entityProbMap = entityProb.collect().toMap
-//    entityProb.unpersist(blocking = false)
-//
-//    println("totalCount")
-//    totalCount.toList.sortWith((a, b) => a._2 > b._2).take(10).foreach(println)
-//    println("entityProbMap")
-//    entityProbMap.toList.sortWith((a, b) => a._2 > b._2).take(10).foreach(println)
-//    println("smoothNum")
-//    smoothNum.toList.sortWith((a, b) => a._2 > b._2).take(10).foreach(println)
+    //    val totalCount = logDS.groupBy(x => getDiff(x._3)).count().collect().toMap
+    //    val entityProb = logDS.groupBy(x => (x._2, getDiff(x._3))).count().map(x => (x._1, 1.0 * x._2 / totalCount.get(x._1._2).get)).cache()
+    //
+    //    val smoothNum = entityProb.rdd.groupBy(x => x._1._2).map(x => {
+    //      val list = x._2.toList.sortWith((a, b) => a._2 > b._2)
+    //      val index = Math.floor(list.size * 0.618).toInt
+    //      (x._1, list.apply(index)._2)
+    //    }).collect().toMap
+    //
+    //    val entityProbMap = entityProb.collect().toMap
+    //    entityProb.unpersist(blocking = false)
+    //
+    //    println("totalCount")
+    //    totalCount.toList.sortWith((a, b) => a._2 > b._2).take(10).foreach(println)
+    //    println("entityProbMap")
+    //    entityProbMap.toList.sortWith((a, b) => a._2 > b._2).take(10).foreach(println)
+    //    println("smoothNum")
+    //    smoothNum.toList.sortWith((a, b) => a._2 > b._2).take(10).foreach(println)
 
     def featureExtract(iterable: Iterable[(String, String, String)]): Array[Double] = {
       val entityId = iterable.head._2
-      val dateCurrent = sdfConvert.parse(bizdateSubB)
       val feature: HashMap[Int, Double] = new HashMap[Int, Double]()
 
       for (log <- iterable) {
-        val date = sdf.parse(log._3)
-        val diff = Math.ceil(1.0 * (dateCurrent.getTime - date.getTime) / (60 * 60 * 1000 * 24)).toInt
+        val diff = getDiff(log._3)
         if (!feature.containsKey(diff)) {
           feature.put(diff, 0d)
         }
