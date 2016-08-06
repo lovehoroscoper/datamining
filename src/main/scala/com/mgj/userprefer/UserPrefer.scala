@@ -99,6 +99,7 @@ object UserPrefer {
     val userPreferProcessor = new UserPreferProcessor()
     val learner = new LRLearner()
     val feature = userPreferProcessor.buildFeature(sc, sqlContext, bizdateSubA, bizdateSubB, entity, featureTypeList: _*)
+    println(s"feature count:${feature.count()}")
 
     var i = 0
     for (sampleType <- sampleTypeList) {
@@ -112,35 +113,35 @@ object UserPrefer {
     }
     feature.unpersist(blocking = false)
 
-//    val featurePredict = userPreferProcessor.buildFeature(sc, sqlContext, predictBizdateSub, predictBizdate, entity, featureTypeList: _*)
-//      .map(x => Row(x._1.toString, x._2.toString, x._3.toString))
-//
-//    i = 0
-//    for (path <- predictResultList) {
-//      val model = sc.objectFile[LogisticRegressionModel](modelList.apply(i)).first()
-//      println(model)
-//      println(model.coefficients)
-//
-//      val schema =
-//        StructType(
-//          StructField("user_id", StringType, true)
-//            :: StructField(entityFeatureName, StringType, true)
-//            :: StructField("feature", StringType, true)
-//            :: Nil
-//        )
-//
-//      val getReason = udf { (vector: String) => (userPreferProcessor.getReason(vector, model, featureTypeList.size)) }
-//      val featureDF: DataFrame = sqlContext.createDataFrame(featurePredict, schema)
-//      val result = learner.predict(model, featureDF.select(toVector(featureDF("feature")).as("feature"), featureDF("user_id").as("user_id"), featureDF(entityFeatureName).as(entityFeatureName), getReason(featureDF("feature")).as("reason_id")), "user_id", entityFeatureName, "reason_id")
-//
-//      def sort(x: Iterable[(String, String, String, Double)], N: Int): String = {
-//        val list = x.toList.sortWith((a, b) => a._4.compareTo(b._4) > 0).take(N).map(x => x._2 + ":" + Math.round(x._4 * 100000) + ":" + x._3).mkString(",")
-//        return list
-//      }
-//
-//      result.map(x => (x(0), x(1), x(2), x(3).toDouble)).groupBy(_._1).filter(x => x._2.size > 0 && x._1.toLong > 0).map(x => x._1 + " " + sort(x._2, 50)).saveAsTextFile(predictResultList.apply(i))
-//      HiveUtil.featureHdfsToHive(sc, sqlContext, featureNameList.apply(i), predictResultList.apply(i), sdf.format(calendar.getTime), predictTableList.apply(i), FeatureType.USER)
-//    }
+    //    val featurePredict = userPreferProcessor.buildFeature(sc, sqlContext, predictBizdateSub, predictBizdate, entity, featureTypeList: _*)
+    //      .map(x => Row(x._1.toString, x._2.toString, x._3.toString))
+    //
+    //    i = 0
+    //    for (path <- predictResultList) {
+    //      val model = sc.objectFile[LogisticRegressionModel](modelList.apply(i)).first()
+    //      println(model)
+    //      println(model.coefficients)
+    //
+    //      val schema =
+    //        StructType(
+    //          StructField("user_id", StringType, true)
+    //            :: StructField(entityFeatureName, StringType, true)
+    //            :: StructField("feature", StringType, true)
+    //            :: Nil
+    //        )
+    //
+    //      val getReason = udf { (vector: String) => (userPreferProcessor.getReason(vector, model, featureTypeList.size)) }
+    //      val featureDF: DataFrame = sqlContext.createDataFrame(featurePredict, schema)
+    //      val result = learner.predict(model, featureDF.select(toVector(featureDF("feature")).as("feature"), featureDF("user_id").as("user_id"), featureDF(entityFeatureName).as(entityFeatureName), getReason(featureDF("feature")).as("reason_id")), "user_id", entityFeatureName, "reason_id")
+    //
+    //      def sort(x: Iterable[(String, String, String, Double)], N: Int): String = {
+    //        val list = x.toList.sortWith((a, b) => a._4.compareTo(b._4) > 0).take(N).map(x => x._2 + ":" + Math.round(x._4 * 100000) + ":" + x._3).mkString(",")
+    //        return list
+    //      }
+    //
+    //      result.map(x => (x(0), x(1), x(2), x(3).toDouble)).groupBy(_._1).filter(x => x._2.size > 0 && x._1.toLong > 0).map(x => x._1 + " " + sort(x._2, 50)).saveAsTextFile(predictResultList.apply(i))
+    //      HiveUtil.featureHdfsToHive(sc, sqlContext, featureNameList.apply(i), predictResultList.apply(i), sdf.format(calendar.getTime), predictTableList.apply(i), FeatureType.USER)
+    //    }
 
     val writer = new PrintWriter(new File(successTag))
     writer.write("DONE!")
