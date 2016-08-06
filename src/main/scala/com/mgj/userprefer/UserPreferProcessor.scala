@@ -53,9 +53,9 @@ class UserPreferProcessor extends java.io.Serializable {
 
     val sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
     val sdfConvert = new SimpleDateFormat("yyyy-MM-dd")
+    val dateCurrent = sdfConvert.parse(bizdateSubB)
 
     def getDiff(x: String): Int = {
-      val dateCurrent = sdfConvert.parse(bizdateSubB)
       val date = sdf.parse(x)
       val diff = Math.ceil(1.0 * (dateCurrent.getTime - date.getTime) / (60 * 60 * 1000 * 24)).toInt
       return diff
