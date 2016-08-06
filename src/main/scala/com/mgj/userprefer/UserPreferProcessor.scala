@@ -170,9 +170,7 @@ class UserPreferProcessor extends java.io.Serializable {
       featureList.add(getFeature(sc, sqlContext, bizdateSubA, bizdateSubB, entity, logType))
     }
     val feature = joinFeature(featureList)
-    for (e <- featureList) {
-      e.unpersist(blocking = false)
-    }
+    featureList.map(x => x.unpersist(blocking = false))
     return feature
   }
 
