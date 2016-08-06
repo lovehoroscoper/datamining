@@ -70,15 +70,15 @@ class UserPreferProcessor extends java.io.Serializable {
       (x._1, list.apply(index)._2)
     }).collect().toMap
 
-    val entityProbMap = entityProb.collect().toMap
-    entityProb.unpersist(blocking = false)
-
-    println("totalCount")
-    totalCount.toList.sortWith((a, b) => a._2 > b._2).take(10).foreach(println)
-    println("entityProbMap")
-    entityProbMap.toList.sortWith((a, b) => a._2 > b._2).take(10).foreach(println)
-    println("smoothNum")
-    smoothNum.toList.sortWith((a, b) => a._2 > b._2).take(10).foreach(println)
+//    val entityProbMap = entityProb.collect().toMap
+//    entityProb.unpersist(blocking = false)
+//
+//    println("totalCount")
+//    totalCount.toList.sortWith((a, b) => a._2 > b._2).take(10).foreach(println)
+//    println("entityProbMap")
+//    entityProbMap.toList.sortWith((a, b) => a._2 > b._2).take(10).foreach(println)
+//    println("smoothNum")
+//    smoothNum.toList.sortWith((a, b) => a._2 > b._2).take(10).foreach(println)
 
     def featureExtract(iterable: Iterable[(String, String, String)]): Array[Double] = {
       val entityId = iterable.head._2
