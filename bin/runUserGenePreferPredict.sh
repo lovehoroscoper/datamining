@@ -52,7 +52,9 @@ test -e ${SUCCESS_TAG}
 if [ $? -eq 0 ];then
 	echo "predict success"
 	${CURL} "http://10.15.17.31:10850/dumpData?featureName=item_gene,userGenePrefer,userGenePreferOrder&method=localList"
-    ${CURL} "http://10.15.18.40:10850/dumpData?featureName=item_gene,userGenePrefer,userGenePreferOrder&method=localList"
+    ${CURL} "http://10.15.18.40:10850/dumpData?featureName=item_gene&method=local" &
+    ${CURL} "http://10.15.18.40:10850/dumpData?featureName=userGenePrefer&method=local" &
+    ${CURL} "http://10.15.18.40:10850/dumpData?featureName=userGenePreferOrder&method=local" &
 
     # put record
 	RECORD_PATH="${USER_GENE_PREFER_HDFS_DIR}Record"
