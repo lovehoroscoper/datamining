@@ -167,9 +167,9 @@ class UserPreferProcessor extends java.io.Serializable {
   def buildFeature(sc: SparkContext, sqlContext: HiveContext, bizdateSubA: String, bizdateSubB: String, entity: String, logTypeList: String*): RDD[(String, String, Vector)] = {
     val featureList = new util.ArrayList[RDD[((String, String), Array[Double])]]()
     for (logType <- logTypeList) {
-      featureList.add(getFeature(sc, sqlContext, bizdateSubA, bizdateSubB, entity, logType))
+      featureList.add(getFeature(sc, sqlContext, bizdateSubA, bizdateSubB, entity, logType).cache())
     }
-    val feature = joinFeature(featureList)
+    val feature = joinFeature(featureList).cache()
     featureList.map(x => x.unpersist(blocking = false))
     return feature
   }
