@@ -77,8 +77,8 @@ ${SUBMIT}														\
 	--master yarn												\
 	--queue root.algorithm										\
 	--driver-memory	8g											\
-	--num-executors	32											\
-	--executor-cores 2											\
+	--num-executors	64											\
+	--executor-cores 1											\
 	--executor-memory 7373m										\
 	--class com.mgj.userprefer.UserPrefer				        \
 	"${JAR_PATH}"												\
