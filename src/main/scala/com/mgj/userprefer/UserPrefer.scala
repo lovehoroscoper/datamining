@@ -29,6 +29,8 @@ object UserPrefer {
 
     val sc: SparkContext = new SparkContext(conf)
     val sqlContext: HiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
+    sqlContext.sql("set hive.exec.dynamic.partition.mode=nonstrict")
+    sqlContext.setConf("fs.defaultFS","hdfs://mgjcluster")
 
     Validate.isTrue(args.size == 18, "input param error, param size must be 18.")
 
