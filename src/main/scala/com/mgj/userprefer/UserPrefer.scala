@@ -30,7 +30,7 @@ object UserPrefer {
     val sc: SparkContext = new SparkContext(conf)
     val sqlContext: HiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
     sqlContext.sql("set hive.exec.dynamic.partition.mode=nonstrict")
-    sqlContext.setConf("fs.defaultFS","hdfs://mgjcluster")
+    sqlContext.setConf("fs.defaultFS", "hdfs://mgjcluster")
 
     Validate.isTrue(args.size == 18, "input param error, param size must be 18.")
 
@@ -105,8 +105,8 @@ object UserPrefer {
     var i = 0
     for (sampleType <- sampleTypeList) {
       val sample = userPreferProcessor.buildSample(sc, sqlContext, feature, bizdate, entity, sampleType)
-//      sqlContext.sql(s"drop table if exists ${sampleList.apply(i)}")
-//      sample.write.saveAsTable(sampleList.apply(i))
+      //      sqlContext.sql(s"drop table if exists ${sampleList.apply(i)}")
+      //      sample.write.saveAsTable(sampleList.apply(i))
       val model = learner.train(sc, sqlContext, sample.select(toVector(sample("feature")).as("feature"), sample("label").as("label")))
       sample.unpersist(blocking = false)
       sc.parallelize(Seq(model), 1).saveAsObjectFile(modelList.apply(i))
