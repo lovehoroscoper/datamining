@@ -105,7 +105,7 @@ class UserPreferProcessor extends java.io.Serializable {
         for (i <- 0 to N - 1) {
           val key = (entityId, i)
           if (feature.containsKey(key)) {
-            featureArray.get(entityId)(i) = 1.0 * feature.get(key) / (sum.get(i).get * (entityProbMap.get((entityId, i)).get + smoothNum.get(i).get))
+            featureArray.get(entityId)(i) = 1.0 * feature.get(key) / (sum.get(i).get * (entityProbMap.get(key).get + smoothNum.get(i).get))
             //            featureArray.get(entityId)(i) = feature.get(key) / sum.get(i).get
           }
         }
