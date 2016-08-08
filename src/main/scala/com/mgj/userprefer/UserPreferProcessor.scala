@@ -23,6 +23,7 @@ class UserPreferProcessor extends java.io.Serializable {
   val ENTITY_ID = "entity_id"
   val TIME = "time"
   val N = 30
+  val M = 2 * N
 
   private def getFeatureLog(sc: SparkContext, sqlContext: HiveContext, bizdateSubA: String, bizdateSubB: String, entity: String, logType: String): DataFrame = {
     val log = logType match {
@@ -97,7 +98,7 @@ class UserPreferProcessor extends java.io.Serializable {
       val featureArray: HashMap[String, Array[Double]] = new HashMap[String, Array[Double]]()
       val entitySet = iterable.map(x => x._2).toSet
       for (entityId <- entitySet) {
-        featureArray.put(entityId, new Array[Double](N))
+        featureArray.put(entityId, new Array[Double](N * 2))
       }
       val sum = feature.map(x => (x._1._2, x._2)).groupBy(x => x._1).map(x => (x._1, x._2.map(x => x._2).sum))
 
@@ -109,6 +110,13 @@ class UserPreferProcessor extends java.io.Serializable {
             //            featureArray.get(entityId)(i) = 1.0 * feature.get(key) / (sum.get(i).get * (entityProbMap.get(key).get + smoothNum.get(i).get))
             //            featureArray.get(entityId)(i) = feature.get(key) / sum.get(i).get
             //            featureArray.get(entityId)(i) = feature.get(key)
+          }
+        }
+
+        for (i <- 0 to N - 1) {
+          val key = (entityId, i)
+          if (feature.containsKey(key)) {
+            featureArray.get(entityId)(i) = entityProbMap.get(key).get
           }
         }
       }
@@ -128,17 +136,17 @@ class UserPreferProcessor extends java.io.Serializable {
 
   private def joinFeature(featureList: util.ArrayList[RDD[((String, String), Array[Double])]]): RDD[(String, String, Vector)] = {
     val feature = joiner(featureList.toSeq).map(x => {
-      val result = new Array[Double](N * x._2.length)
+      val result = new Array[Double](2 * N * x._2.length)
 
       for (i <- 0 to x._2.length - 1) {
         val list = if (x._2(i).size > 0) {
           x._2(i).toList.apply(0).asInstanceOf[Array[Double]]
         } else {
-          new Array[Double](N)
+          new Array[Double](2 * N)
         }
 
         for (j <- 0 to list.length - 1) {
-          result.update(i * N + j, list.apply(j))
+          result.update(i * 2 * N + j, list.apply(j))
         }
 
       }
@@ -167,7 +175,7 @@ class UserPreferProcessor extends java.io.Serializable {
 
     val reasonScoreList: util.ArrayList[Double] = new util.ArrayList[Double]()
     for (i <- 0 to size) {
-      reasonScoreList.add(getReasonScore(featureVector, weightClick, i * N, (i + 1) * N - 1))
+      reasonScoreList.add(getReasonScore(featureVector, weightClick, i * 2 * N, (i + 1) * 2 * N - 1))
     }
     val max = reasonScoreList.max
     val index = reasonScoreList.indexOf(max)
