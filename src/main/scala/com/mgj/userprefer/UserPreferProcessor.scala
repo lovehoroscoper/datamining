@@ -99,13 +99,14 @@ class UserPreferProcessor extends java.io.Serializable {
       for (entityId <- entitySet) {
         featureArray.put(entityId, new Array[Double](N))
       }
+      val sum = feature.map(x => (x._1._2, x._2)).groupBy(x => x._1).map(x => (x._1, x._2.map(x => x._2).sum))
 
       for (entityId <- entitySet) {
         for (i <- 0 to N - 1) {
           val key = (entityId, i)
           if (feature.containsKey(key)) {
             //          featureArray(i) = feature.get(i) / (sum * (entityProbMap.get((entityId, i)).get + smoothNum.get(i).get))
-            featureArray.get(entityId)(i) = feature.get(key)
+            featureArray.get(entityId)(i) = feature.get(key) / sum.get(i).get
           }
         }
       }
