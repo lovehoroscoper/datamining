@@ -61,10 +61,10 @@ class UserPreferProcessor extends java.io.Serializable {
       return diff
     }
 
-    val totalCount = logDS.groupBy(x => getDiff(x._3)).count().collect().toMap
-    val entityProb = logDS.groupBy(x => (x._2, getDiff(x._3))).count().map(x => (x._1, 1.0 * x._2 / totalCount.get(x._1._2).get)).cache()
+    val totalCount = logDS.rdd.groupBy(x => getDiff(x._3)).map(x => (x._1, x._2.size)).collect().toMap
+    val entityProb = logDS.rdd.groupBy(x => (x._2, getDiff(x._3))).map(x => (x._1, 1.0 * x._2.size / totalCount.get(x._1._2).get)).cache()
 
-    val smoothNum = entityProb.rdd.groupBy(x => x._1._2).map(x => {
+    val smoothNum = entityProb.groupBy(x => x._1._2).map(x => {
       val list = x._2.toList.sortWith((a, b) => a._2 > b._2)
       val index = Math.floor(list.size * 0.618).toInt
       (x._1, list.apply(index)._2)
