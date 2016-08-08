@@ -73,12 +73,12 @@ class UserPreferProcessor extends java.io.Serializable {
     val entityProbMap = entityProb.collect().toMap
     entityProb.unpersist(blocking = false)
 
-    //    println("totalCount")
-    //    totalCount.toList.sortWith((a, b) => a._2 > b._2).take(10).foreach(println)
-    //    println("entityProbMap")
-    //    entityProbMap.toList.sortWith((a, b) => a._2 > b._2).take(10).foreach(println)
-    //    println("smoothNum")
-    //    smoothNum.toList.sortWith((a, b) => a._2 > b._2).take(10).foreach(println)
+    println("totalCount")
+    totalCount.toList.sortWith((a, b) => a._2 > b._2).take(10).foreach(println)
+    println("entityProbMap")
+    entityProbMap.toList.sortWith((a, b) => a._2 > b._2).take(10).foreach(println)
+    println("smoothNum")
+    smoothNum.toList.sortWith((a, b) => a._2 > b._2).take(10).foreach(println)
 
     def featureExtract(iterable: Iterable[(String, String, String)]): List[((String, String), Array[Double])] = {
 
@@ -105,7 +105,7 @@ class UserPreferProcessor extends java.io.Serializable {
         for (i <- 0 to N - 1) {
           val key = (entityId, i)
           if (feature.containsKey(key)) {
-            featureArray.get(entityId)(i) = feature.get(i) / (sum.get(i).get * (entityProbMap.get((entityId, i)).get + smoothNum.get(i).get))
+            featureArray.get(entityId)(i) = 1.0 * feature.get(i) / (sum.get(i).get * (entityProbMap.get((entityId, i)).get + smoothNum.get(i).get))
             //            featureArray.get(entityId)(i) = feature.get(key) / sum.get(i).get
           }
         }
