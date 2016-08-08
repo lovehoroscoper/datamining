@@ -61,53 +61,62 @@ class UserPreferProcessor extends java.io.Serializable {
       return diff
     }
 
-    //    val totalCount = logDS.groupBy(x => getDiff(x._3)).count().collect().toMap
-    //    val entityProb = logDS.groupBy(x => (x._2, getDiff(x._3))).count().map(x => (x._1, 1.0 * x._2 / totalCount.get(x._1._2).get)).cache()
-    //
-    //    val smoothNum = entityProb.rdd.groupBy(x => x._1._2).map(x => {
-    //      val list = x._2.toList.sortWith((a, b) => a._2 > b._2)
-    //      val index = Math.floor(list.size * 0.618).toInt
-    //      (x._1, list.apply(index)._2)
-    //    }).collect().toMap
-    //
-    //    val entityProbMap = entityProb.collect().toMap
-    //    entityProb.unpersist(blocking = false)
-    //
-    //    println("totalCount")
-    //    totalCount.toList.sortWith((a, b) => a._2 > b._2).take(10).foreach(println)
-    //    println("entityProbMap")
-    //    entityProbMap.toList.sortWith((a, b) => a._2 > b._2).take(10).foreach(println)
-    //    println("smoothNum")
-    //    smoothNum.toList.sortWith((a, b) => a._2 > b._2).take(10).foreach(println)
+    val totalCount = logDS.groupBy(x => getDiff(x._3)).count().collect().toMap
+    val entityProb = logDS.groupBy(x => (x._2, getDiff(x._3))).count().map(x => (x._1, 1.0 * x._2 / totalCount.get(x._1._2).get)).cache()
 
-    def featureExtract(iterable: Iterable[(String, String, String)]): Array[Double] = {
-      val entityId = iterable.head._2
-      val feature: HashMap[Int, Double] = new HashMap[Int, Double]()
+    val smoothNum = entityProb.rdd.groupBy(x => x._1._2).map(x => {
+      val list = x._2.toList.sortWith((a, b) => a._2 > b._2)
+      val index = Math.floor(list.size * 0.618).toInt
+      (x._1, list.apply(index)._2)
+    }).collect().toMap
+
+    val entityProbMap = entityProb.collect().toMap
+    entityProb.unpersist(blocking = false)
+
+    println("totalCount")
+    totalCount.toList.sortWith((a, b) => a._2 > b._2).take(10).foreach(println)
+    println("entityProbMap")
+    entityProbMap.toList.sortWith((a, b) => a._2 > b._2).take(10).foreach(println)
+    println("smoothNum")
+    smoothNum.toList.sortWith((a, b) => a._2 > b._2).take(10).foreach(println)
+
+    def featureExtract(iterable: Iterable[(String, String, String)]): List[((String, String), Array[Double])] = {
+
+      val userId = iterable.head._1
+      val feature: HashMap[(String, Int), Double] = new HashMap[(String, Int), Double]()
 
       for (log <- iterable) {
         val diff = getDiff(log._3)
-        if (!feature.containsKey(diff)) {
-          feature.put(diff, 0d)
+        val key = (log._2, diff)
+        if (!feature.containsKey(key)) {
+          feature.put(key, 0d)
         }
-        feature.put(diff, feature.get(diff) + 1d)
+        feature.put(key, feature.get(key) + 1d)
       }
 
-      val featureArray: Array[Double] = new Array[Double](N)
-      val sum = feature.map(x => x._2).sum
-      for (i <- 0 to N - 1) {
-        if (feature.containsKey(i)) {
-          //          featureArray(i) = feature.get(i) / (sum * (entityProbMap.get((entityId, i)).get + smoothNum.get(i).get))
-          featureArray(i) = feature.get(i)
-        } else {
-          featureArray(i) = 0
+      val featureArray: HashMap[String, Array[Double]] = new HashMap[String, Array[Double]]()
+      val entitySet = iterable.map(x => x._2).toSet
+      for (entityId <- entitySet) {
+        featureArray.put(entityId, new Array[Double](N))
+      }
+
+      for (entityId <- entitySet) {
+        for (i <- 0 to N - 1) {
+          val key = (entityId, i)
+          if (feature.containsKey(key)) {
+            //          featureArray(i) = feature.get(i) / (sum * (entityProbMap.get((entityId, i)).get + smoothNum.get(i).get))
+            featureArray.get(entityId)(i) = feature.get(key)
+          }
         }
       }
-      return featureArray
+      val result = featureArray.map(x => ((userId, x._1), x._2)).toList
+      return result
     }
 
     val feature = logDS.rdd
-      .groupBy(x => (x._1, x._2))
-      .map(x => (x._1, featureExtract(x._2)))
+      .groupBy(x => x._1)
+      .map(x => featureExtract(x._2))
+      .flatMap(x => x)
 
     logDS.unpersist(blocking = false)
 
