@@ -105,8 +105,8 @@ object UserPrefer {
     var i = 0
     for (sampleType <- sampleTypeList) {
       val sample = userPreferProcessor.buildSample(sc, sqlContext, feature, bizdate, entity, sampleType)
-      sqlContext.sql(s"drop table if exists ${sampleList.apply(i)}")
-      sample.write.saveAsTable(sampleList.apply(i))
+//      sqlContext.sql(s"drop table if exists ${sampleList.apply(i)}")
+//      sample.write.saveAsTable(sampleList.apply(i))
       val model = learner.train(sc, sqlContext, sample.select(toVector(sample("feature")).as("feature"), sample("label").as("label")))
       sample.unpersist(blocking = false)
       sc.parallelize(Seq(model), 1).saveAsObjectFile(modelList.apply(i))
