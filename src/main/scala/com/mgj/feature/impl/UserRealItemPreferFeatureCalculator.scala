@@ -109,7 +109,7 @@ class UserRealItemPreferFeatureCalculator extends FeatureCalculator {
 
     val clickSql = "select user_id, item_id, time from s_dg_user_base_log where pt = '" + bizDate + "' and action_type = 'click' and platform_type = 'app'"
     val userClickItem = sqlContext.sql(clickSql).rdd.filter(x => x.anyNull == false).map(x => (x(0).toString, x(1).toString, x(2).toString)).map(x => (x._1, x)).groupByKey().map(x => {
-      val clickList = x._2.filter(t => itemSim.contains(t._2)).map(t => (itemSim.get(t._2).get + "#" + t._3)).mkString(",")
+      val clickList = x._2.filter(t => itemSim.contains(t._2)).map(t => (itemSim.get(t._2).get + "#" + t._3)).mkString(";")
       Row(x._1, clickList)
     })
     val schemaUser = StructType(StructField(FeatureConstant.USER_KEY, StringType, true) :: StructField(userField, StringType, true) :: Nil)
