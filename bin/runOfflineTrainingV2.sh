@@ -11,7 +11,7 @@ YESTERDAY=`date -d "${CUR_DATE} -1 day" +"%Y-%m-%d %H:%M:%S"`
 BIZDATE=${DAY_SUB2}
 echo "bizdate: ${BIZDATE}"
 
-CODE="app_quality_pop"
+CODE="app_tuan_book_pop"
 echo "code:${CODE}"
 
 # user_category_prefer,user_category_prefer_order,user_item_prefer,user_real_item_prefer,item_ctr,user_shop_prefer,user_shop_prefer_order,user_gene_prefer,user_gene_prefer_order,pos
@@ -27,7 +27,7 @@ FEATURE_TABLE="s_dg_feature_${CODE}"
 echo "feature table:${FEATURE_TABLE}"
 
 # build_sample,adapt_features,train
-STAGE="adapt_features,train"
+STAGE="build_sample,adapt_features,train"
 echo "stage:${STAGE}"
 
 N="20"

@@ -116,6 +116,24 @@
         <property name="tableName" value=""/>
     </bean>
 
+    <bean id="itemCommentScoreFeatureCalculator" class="com.mgj.feature.impl.ItemFeatureCalculator">
+        <property name="featureName" value="comment_score"/>
+        <property name="userField" value=""/>
+        <property name="itemField" value="comment_score"/>
+        <property name="itemFieldPath" value="hdfs://mgjcluster/user/guyu/rank-offline-training/results_comment_score"/>
+        <property name="userFieldPath" value=""/>
+        <property name="tableName" value="s_gy_comment_score:item"/>
+    </bean>
+
+    <bean id="itemEEScoreFeatureCalculator" class="com.mgj.feature.impl.EEFeatureCalculator">
+        <property name="featureName" value="ee_score"/>
+        <property name="userField" value=""/>
+        <property name="itemField" value="ee_score"/>
+        <property name="itemFieldPath" value=""/>
+        <property name="userFieldPath" value=""/>
+        <property name="tableName" value="s_ck_ee_score:item"/>
+    </bean>
+
     <!-- feature config -->
     <bean id="featureCalculatorFactory" class="com.mgj.feature.FeatureCalculatorFactory">
         <property name="calculators">
@@ -146,6 +164,8 @@
                 <entry key="user_real_item_prefer" value="realSim(user_real_item_prefer,item_id,time)"/>
                 <entry key="item_ctr" value="simple(item_ctr,1000000)"/>
                 <entry key="item_search_ctr" value="simple(item_search_ctr,10000000)"/>
+                <entry key="comment_score" value="simple(comment_score,1000000)"/>
+                <entry key="ee_score" value="simple(ee_score,1)"/>
                 <entry key="pos" value="simple(pos,1)"/>
                 <entry key="label" value="simple(label,1)"/>
             </map>
