@@ -23,6 +23,7 @@ object OfflineTrainingV2 {
       .setAppName("offline training")
       .set("spark.sql.parquet.binaryAsString", "true")
       .set("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
+      .set("spark.driver.maxResultSize", "2g")
 
     conf.registerKryoClasses(Array(classOf[Tuple2[String, List[String]]]))
 
@@ -31,8 +32,8 @@ object OfflineTrainingV2 {
 
     // Hive context.
     val sqlContext: HiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
- 		sqlContext.sql("set hive.exec.dynamic.partition.mode=nonstrict")
- 		sqlContext.setConf("fs.defaultFS","hdfs://mgjcluster")
+    sqlContext.sql("set hive.exec.dynamic.partition.mode=nonstrict")
+    sqlContext.setConf("fs.defaultFS", "hdfs://mgjcluster")
 
     val code = args(0)
     val sampleTable = args(1)

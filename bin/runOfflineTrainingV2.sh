@@ -40,9 +40,9 @@ echo "model name:${MODEL_NAME}"
 ${SUBMIT}														\
 	--master yarn												\
 	--queue root.pool   										\
-	--driver-memory	8g											\
-	--num-executors	32											\
-	--executor-cores 2											\
+	--driver-memory	16g											\
+	--num-executors	16											\
+	--executor-cores 4											\
 	--executor-memory 7373m										\
 	--class com.mgj.ml.rank.OfflineTrainingV2 		    		\
 	"${JAR_PATH}"												\
