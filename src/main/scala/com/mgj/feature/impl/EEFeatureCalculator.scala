@@ -29,7 +29,7 @@ class EEFeatureCalculator extends FeatureCalculator {
   override def getFeatureDF(sampleDF: DataFrame, sc: SparkContext, sqlContext: HiveContext): DataFrame = ???
 
   override def getFeatureRDD(sc: SparkContext, sqlContext: HiveContext): Seq[(RDD[(String, List[String])], List[String], String)] = {
-    val itemEEFeatureDF = sqlContext.sql(s"select cast(tid as string) as ${FeatureConstant.ITEM_KEY}, '0.2' as ${itemField} from online_ee_daily_selection where dt = '${bizDate}'status = 2 and tid is not null")
+    val itemEEFeatureDF = sqlContext.sql(s"select cast(tid as string) as ${FeatureConstant.ITEM_KEY}, '0.2' as ${itemField} from online_ee_daily_selection where dt = '${bizDate}' and status = 2 and tid is not null")
     val result = new util.ArrayList[(RDD[(String, List[String])], List[String], String)]()
     result.add(getFeature(sqlContext, itemEEFeatureDF, FeatureType.ITEM))
     return result.toList.toSeq
