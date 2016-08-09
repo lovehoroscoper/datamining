@@ -50,7 +50,7 @@ class RealSimUdf extends UdfTemplate {
 //  }
 
     override def register(sqlContext: HiveContext, name: String): Unit = {
-      val N = 50
+      val N = 25
       def udf(userFeature: String, itemFeature: String, time: String): Double = {
         if (userFeature == null
           || itemFeature == null
