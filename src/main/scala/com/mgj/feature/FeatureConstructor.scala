@@ -87,7 +87,6 @@ object FeatureConstructor {
     val featureDF = sqlContext.sql(s"select ${sql} from ${tableName}").cache()
     rawFeatureDF.unpersist(blocking = false)
     featureDF.show()
-    featureDF.where("cast(user_real_item_prefer as string) != '0.0'").show()
     return featureDF
   }
 
