@@ -66,6 +66,8 @@ object FeatureConstructor {
       e.unpersist(blocking = false)
     }
 
+    userFeatureDF.where("user_real_item_prefer != '0.0'").show()
+
     var rawFeatureDF = sampleDF
     if (userFlag) {
       rawFeatureDF = rawFeatureDF.join(userFeatureDF, sampleDF(FeatureConstant.USER_KEY) === userFeatureDF(userKeyAlias), "left_outer").drop(userKeyAlias).coalesce(1000).cache()
