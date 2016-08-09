@@ -81,6 +81,7 @@ object FeatureConstructor {
     }
     rawFeatureDF.registerTempTable(tableName)
     rawFeatureDF.show
+    rawFeatureDF.rdd.take(10).foreach(println)
 
     val sql = buildSql(featureCalculatorFactory, features: _*)
     println(s"sql:select ${sql} from ${tableName}")
