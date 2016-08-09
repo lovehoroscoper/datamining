@@ -21,10 +21,10 @@ echo "code:${CODE}"
 FEATURES="user_real_item_prefer,comment_score,ee_score,pos,label"
 echo "features:${FEATURES}"
 
-SAMPLE_TABLE="s_dg_sample_${CODE}_${BIZDATE//-/''}"
+SAMPLE_TABLE="s_dg_sample_${CODE}_${BIZDATE//-/}"
 echo "sample table:${SAMPLE_TABLE}"
 
-FEATURE_TABLE="s_dg_feature_${CODE}_${BIZDATE//-/''}"
+FEATURE_TABLE="s_dg_feature_${CODE}_${BIZDATE//-/}"
 echo "feature table:${FEATURE_TABLE}"
 
 # build_sample,adapt_features,train
