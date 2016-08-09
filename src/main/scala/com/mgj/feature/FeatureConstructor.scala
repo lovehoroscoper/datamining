@@ -70,11 +70,15 @@ object FeatureConstructor {
     if (userFlag) {
       rawFeatureDF = rawFeatureDF.join(userFeatureDF, sampleDF(FeatureConstant.USER_KEY) === userFeatureDF(userKeyAlias), "left_outer").drop(userKeyAlias).coalesce(1000).cache()
     }
-    userFeatureDF.unpersist(blocking = false)
+    if (userFeatureDF != null) {
+      userFeatureDF.unpersist(blocking = false)
+    }
     if (itemFlag) {
       rawFeatureDF = rawFeatureDF.join(itemFeatureDF, sampleDF(FeatureConstant.ITEM_KEY) === itemFeatureDF(itemKeyAlias), "left_outer").drop(itemKeyAlias).coalesce(1000).cache()
     }
-    itemFeatureDF.unpersist(blocking = false)
+    if (itemFeatureDF != null) {
+      itemFeatureDF.unpersist(blocking = false)
+    }
     rawFeatureDF.registerTempTable(tableName)
     rawFeatureDF.show
 
