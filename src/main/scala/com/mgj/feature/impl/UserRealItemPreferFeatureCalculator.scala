@@ -114,11 +114,13 @@ class UserRealItemPreferFeatureCalculator extends FeatureCalculator {
     })
     val schemaUser = StructType(StructField(FeatureConstant.USER_KEY, StringType, true) :: StructField(userField, StringType, true) :: Nil)
     val userClickItemDF = sqlContext.createDataFrame(userClickItem, schemaUser)
+    userClickItem.unpersist(blocking = false)
     println(userField + " DataFrame")
     userClickItemDF.show
 
     val result = new util.ArrayList[(RDD[(String, List[String])], List[String], String)]()
     result.add(getFeature(sqlContext, userClickItemDF, FeatureType.USER))
+    userClickItemDF.unpersist(blocking = false)
     return result.toList.toSeq
   }
 
