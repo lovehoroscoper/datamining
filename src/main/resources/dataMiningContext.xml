@@ -148,6 +148,8 @@
                 <entry key="item_ctr" value-ref="itemCtrFeatureCalculator"/>
                 <entry key="item_search_ctr" value-ref="itemSearchCtrFeatureCalculator"/>
                 <entry key="user_item_prefer" value-ref="userItemPreferFeatureCalculator"/>
+                <entry key="ee_score" value-ref="itemEEScoreFeatureCalculator"/>
+                <entry key="comment_score" value-ref="itemCommentScoreFeatureCalculator"/>
                 <entry key="mf" value-ref="mfFeatureCalculator"/>
             </map>
         </property>
