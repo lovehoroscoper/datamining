@@ -16,7 +16,7 @@ import scala.collection.JavaConversions._
   * Created by xiaonuo on 12/5/15.
   */
 class UserRealItemPreferFeatureCalculator extends FeatureCalculator {
-  val N = 50
+  val N = 25
 
   override def compute(sampleDF: DataFrame, sc: SparkContext, sqlContext: HiveContext): DataFrame = {
 
