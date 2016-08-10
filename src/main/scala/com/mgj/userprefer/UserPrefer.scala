@@ -101,7 +101,6 @@ object UserPrefer {
     val userPreferProcessor = new UserPreferProcessor()
     val learner = new LRLearner()
     val feature = userPreferProcessor.buildFeature(sc, sqlContext, bizdateSubA, bizdateSubB, entity, featureTypeList: _*)
-    println(s"feature count:${feature.count()}")
 
     var i = 0
     for (sampleType <- sampleTypeList) {
