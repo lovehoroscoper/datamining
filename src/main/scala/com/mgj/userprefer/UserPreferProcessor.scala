@@ -215,8 +215,8 @@ class UserPreferProcessor extends java.io.Serializable {
 
     val sampleLabel = sample.select(sample("user_id"), sample("entity_id"), sample("feature"), getLabel(sample("entity_id_alias")).as("label"))
     sampleLabel.show()
-    val ratioCount = sampleLabel.groupBy("label").count().rdd.map(x => (x(0).toString, x(1).toString.toDouble)).collect().toMap
-    val ratio = ratioCount.get("1").get / (ratioCount.get("1").get + ratioCount.get("0").get)
+    val ratioCount = sampleLabel.groupBy("label").count().rdd.map(x => (x(0).toString.toInt, x(1).toString.toDouble)).collect().toMap
+    val ratio = ratioCount.get(1).get / (ratioCount.get(1).get + ratioCount.get(0).get)
 
     val posSample = sample.where(sample("label") > 0.5)
     val negSample = sample.where(sample("label") < 0.5).sample(false, ratio)
