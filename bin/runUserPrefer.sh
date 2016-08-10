@@ -12,7 +12,7 @@ echo "bizdate: ${BIZDATE}"
 BIZDATE_SUB1=${DAY_SUB2}
 echo "bizdate_sub1: ${BIZDATE_SUB1}"
 
-BIZDATE_SUB30=${DAY_SUB31}
+BIZDATE_SUB30=${DAY_SUB4}
 echo "bizdate_sub30: ${BIZDATE_SUB30}"
 
 #DATA_DIR="/user/digu/itemGroupWithTitle/data"

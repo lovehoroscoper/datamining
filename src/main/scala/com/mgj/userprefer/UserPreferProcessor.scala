@@ -4,7 +4,9 @@ import java.text.SimpleDateFormat
 import java.util
 import java.util.HashMap
 
+import com.mgj.feature.FeatureConstant
 import org.apache.spark.ml.classification.LogisticRegressionModel
+import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types.{DoubleType, StringType, StructField, StructType}
 import org.apache.spark.{HashPartitioner, SparkContext}
 import org.apache.spark.mllib.linalg.{Vectors, Vector}
@@ -190,6 +192,40 @@ class UserPreferProcessor extends java.io.Serializable {
     val feature = joinFeature(featureList).cache()
     featureList.map(x => x.unpersist(blocking = false))
     return feature
+  }
+
+  def buildSampleV2(sc: SparkContext, sqlContext: HiveContext, feature: RDD[(String, String, Vector)], bizdate: String, entity: String, sampleType: String): DataFrame = {
+    val sampleLogRaw = getSampleLog(sc, sqlContext, bizdate, entity, sampleType)
+      .where("user_id is not null and entity_id is not null and time is not null")
+    val sampleLog = sampleLogRaw
+      .select(sampleLogRaw("user_id").as("user_id_alias"), sampleLogRaw("entity_id").as("entity_id_alias"), sampleLogRaw("time").as("time"))
+
+    val schema = StructType(
+      StructField("user_id", StringType, true)
+        :: StructField("entity_id", StringType, true)
+        :: StructField("feature", StringType, true)
+        :: Nil)
+
+    val featureRow = feature.map(x => Row(x._1, x._2, x._3.toString))
+    val featureDF = sqlContext.createDataFrame(featureRow, schema)
+
+    val getLabel = udf { (label: String) => if (label == None || label == null) 0d else 1d }
+    val sample = featureDF.join(sampleLog, featureDF("user_id") === sampleLog("user_id_alias") && featureDF("entity_id") === sampleLog("entity_id_alias"), "left_outer")
+      .drop("user_id_alias")
+
+    val sampleLabel = sample.select(sample("user_id"), sample("entity_id"), sample("feature"), getLabel(sample("entity_id_alias")).as("label"))
+    val ratioCount = sampleLabel.groupBy("label").count().rdd.map(x => (x(0).toString, x(1).toString.toDouble)).collect().toMap
+    val ratio = ratioCount.get("1").get / (ratioCount.get("1").get + ratioCount.get("0").get)
+
+    val posSample = sample.where(sample("label") > 0.5)
+    val negSample = sample.where(sample("label") < 0.5).sample(false, ratio)
+    sample.unpersist(blocking = false)
+
+    val sampleDF = posSample.unionAll(negSample)
+    posSample.unpersist(blocking = false)
+    negSample.unpersist(blocking = false)
+
+    return sampleDF
   }
 
   def buildSample(sc: SparkContext, sqlContext: HiveContext, feature: RDD[(String, String, Vector)], bizdate: String, entity: String, sampleType: String): DataFrame = {
