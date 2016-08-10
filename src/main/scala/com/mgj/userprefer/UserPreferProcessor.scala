@@ -222,8 +222,8 @@ class UserPreferProcessor extends java.io.Serializable {
     println(s"total positive sample count:${ratioCount.get("1.0").get}")
     println(s"positive negtive sample ratio:${ratio}")
 
-    val posSample = sampleLabel.where(sample("label") > 0.5)
-    val negSample = sampleLabel.where(sample("label") < 0.5).sample(false, ratio)
+    val posSample = sampleLabel.where(sampleLabel("label") > 0.5)
+    val negSample = sampleLabel.where(sampleLabel("label") < 0.5).sample(false, ratio)
     sample.unpersist(blocking = false)
 
     val sampleDF = posSample.unionAll(negSample)
