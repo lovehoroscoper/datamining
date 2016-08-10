@@ -208,10 +208,12 @@ class UserPreferProcessor extends java.io.Serializable {
 
     val featureRow = feature.map(x => Row(x._1, x._2, x._3.toString))
     val featureDF = sqlContext.createDataFrame(featureRow, schema)
+    featureRow.unpersist(blocking = false)
 
     val getLabel = udf { (label: String) => if (label == None || label == null) 0d else 1d }
     val sample = featureDF.join(sampleLog, featureDF("user_id") === sampleLog("user_id_alias") && featureDF("entity_id") === sampleLog("entity_id_alias"), "left_outer")
       .drop("user_id_alias")
+    featureDF.unpersist(blocking = false)
 
     val sampleLabel = sample.select(sample("user_id"), sample("entity_id"), sample("feature"), getLabel(sample("entity_id_alias")).as("label"))
     val ratioCount = sampleLabel.groupBy("label").count().rdd.map(x => (x(0).toString, x(1).toString.toDouble)).collect().toMap
