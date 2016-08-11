@@ -54,6 +54,7 @@ echo "sample list path: ${SAMPLE_LIST}"
 
 MODEL_LIST="/user/test/testModel"
 echo "model list path: ${MODEL_LIST}"
+remove_hdfs_file ${MODEL_LIST}
 
 PREDICT_BIZDATE=${DAY_SUB1}
 echo "predict bizdate: ${PREDICT_BIZDATE}"
@@ -63,6 +64,7 @@ echo "predict bizdate_sub: ${PREDICT_BIZDATE_SUB}"
 
 PREDICT_RESULT_LIST="/user/test/testResult"
 echo "predict result list: ${PREDICT_RESULT_LIST}"
+remove_hdfs_file ${PREDICT_RESULT_LIST}
 
 PREDICT_TABLE_LIST="s_dg_test_result"
 echo "predict result list: ${PREDICT_TABLE_LIST}"
@@ -81,6 +83,62 @@ ${SUBMIT}														\
 	--executor-cores 1											\
 	--executor-memory 7373m										\
 	--class com.mgj.userprefer.UserPrefer				        \
+	"${JAR_PATH}"												\
+	"${BIZDATE}"												\
+	"${BIZDATE_SUB30}"											\
+	"${BIZDATE_SUB1}"											\
+	"${FEATURE_TYPE_LIST}"										\
+	"${SAMPLE_TYPE_LIST}"										\
+	"${ENTITY}"											        \
+	"${ENTITY_FEATURE_NAME}"								    \
+	"${ENTITY_TABLE_NAME}"									    \
+	"${ENTITY_MAP_PATH}"										\
+	"${ENTITY_SIM_PATH}"										\
+	"${SAMPLE_LIST}"											\
+	"${MODEL_LIST}"										    	\
+	"${PREDICT_BIZDATE}"										\
+	"${PREDICT_BIZDATE_SUB}"								    \
+	"${PREDICT_RESULT_LIST}"									\
+	"${PREDICT_TABLE_LIST}"										\
+	"${FEATURE_NAME_LIST}"										\
+	"${SUCCESS_TAG}"				    						\
+
+${SUBMIT}														\
+	--master yarn												\
+	--queue root.algorithm										\
+	--driver-memory	8g											\
+	--num-executors	64											\
+	--executor-cores 1											\
+	--executor-memory 7373m										\
+	--class com.mgj.userprefer.Train    				        \
+	"${JAR_PATH}"												\
+	"${BIZDATE}"												\
+	"${BIZDATE_SUB30}"											\
+	"${BIZDATE_SUB1}"											\
+	"${FEATURE_TYPE_LIST}"										\
+	"${SAMPLE_TYPE_LIST}"										\
+	"${ENTITY}"											        \
+	"${ENTITY_FEATURE_NAME}"								    \
+	"${ENTITY_TABLE_NAME}"									    \
+	"${ENTITY_MAP_PATH}"										\
+	"${ENTITY_SIM_PATH}"										\
+	"${SAMPLE_LIST}"											\
+	"${MODEL_LIST}"										    	\
+	"${PREDICT_BIZDATE}"										\
+	"${PREDICT_BIZDATE_SUB}"								    \
+	"${PREDICT_RESULT_LIST}"									\
+	"${PREDICT_TABLE_LIST}"										\
+	"${FEATURE_NAME_LIST}"										\
+	"${SUCCESS_TAG}"				    						\
+
+${SUBMIT}														\
+	--master yarn												\
+	--queue root.algorithm										\
+	--driver-memory	8g											\
+	--num-executors	64											\
+	--executor-cores 1											\
+	--executor-memory 7373m										\
+	--class com.mgj.userprefer.Predict  				        \
 	"${JAR_PATH}"												\
 	"${BIZDATE}"												\
 	"${BIZDATE_SUB30}"											\
