@@ -40,7 +40,7 @@ ${SUBMIT}														\
 	"${ITEM_SIM_SEARCH_DUMP_RESULT}"						    \
 	"${PRICE_PATH}"						                        \
 
-#${CURL} "http://dc.algo.service.mogujie.org/action/fieldUpdate/doUpdate?id=85"
+${CURL} "http://dc.algo.service.mogujie.org/action/fieldUpdate/doUpdate?id=156"
 #${CURL} "http://algodc_m.service.mogujie.org/dcAction/execTaskInstance?taskId=51"
 
 #DATA_DIR=${ITEM_SIM_MERGE_RESULT}
