@@ -215,7 +215,7 @@ class UserPreferProcessor extends java.io.Serializable {
       .drop("user_id_alias")
     featureDF.unpersist(blocking = false)
 
-    val sampleLabel = sample.select(sample("user_id"), sample("entity_id"), sample("feature"), getLabel(sample("entity_id_alias")).as("label"))
+    val sampleLabel = sample.select(sample("user_id"), sample("entity_id"), sample("feature"), getLabel(sample("entity_id_alias")).as("label")).cache()
     val ratioCount = sampleLabel.groupBy("label").count().rdd.map(x => (x(0).toString, x(1).toString.toDouble)).collect().toMap
     val ratio = ratioCount.get("1.0").get / (ratioCount.get("1.0").get + ratioCount.get("0.0").get)
 
@@ -226,7 +226,7 @@ class UserPreferProcessor extends java.io.Serializable {
 
     val posSample = sampleLabel.where(sampleLabel("label") > 0.5)
     val negSample = sampleLabel.where(sampleLabel("label") < 0.5).sample(false, ratio)
-    sample.unpersist(blocking = false)
+    sampleLabel.unpersist(blocking = false)
 
     val sampleDF = posSample.unionAll(negSample)
     posSample.unpersist(blocking = false)
