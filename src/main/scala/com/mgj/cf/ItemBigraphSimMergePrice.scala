@@ -29,9 +29,12 @@ object ItemBigraphSimMergePrice {
     val itemBigraphSimPath = args(1)
     val outputPath = args(2)
     val dumpOutputPath = args(3)
+    val pricePath = args(4)
 
     println(s"itemSimPath:${itemSimPath}")
     println(s"itemBigraphSimPath:${itemBigraphSimPath}")
+
+    val priceMap = sc.textFile(pricePath).map(x => (x.split(" ")(0).toInt, x.split(" ")(1).toInt)).collect().toMap
 
     val itemSim = sc.textFile(itemSimPath).map(x => (x.split(" ")(0).toInt, x.split(" ")(1).split(",").map(x => (x.split(":")(0).toInt, x.split(":")(1).toDouble)))).coalesce(2000)
     val itemBigraphSim = sc.textFile(itemBigraphSimPath).map(x => (x.split(" ")(0).toInt, x.split(" ")(1).split(",").map(x => (x.split(":")(0).toInt, x.split(":")(1).toDouble)))).coalesce(2000)
@@ -60,11 +63,11 @@ object ItemBigraphSimMergePrice {
         (itemx, list.map(x => {
           val score = NormalizeUtil.minMaxScaler(min, max, x._2, 1d / const)
           (x._1, Math.round(score * const))
-        }).take(N))
+        }).filter(x => priceMap.contains(itemx) && priceMap.contains(x._1) && priceMap.get(itemx).get <= priceMap.get(x._1).get).take(N))
       } else if (listA == None) {
-        (itemx, listB.get.toList.map(x => (x._1, x._2.toInt)).take(N))
+        (itemx, listB.get.toList.filter(x => priceMap.contains(itemx) && priceMap.contains(x._1) && priceMap.get(itemx).get <= priceMap.get(x._1).get).map(x => (x._1, x._2.toInt)).take(N))
       } else {
-        (itemx, listA.get.toList.map(x => (x._1, x._2.toInt)).take(N))
+        (itemx, listA.get.toList.filter(x => priceMap.contains(itemx) && priceMap.contains(x._1) && priceMap.get(itemx).get <= priceMap.get(x._1).get).map(x => (x._1, x._2.toInt)).take(N))
       }
     })
 
