@@ -59,7 +59,7 @@ remove_hdfs_file ${MODEL_LIST}
 PREDICT_BIZDATE=${DAY_SUB1}
 echo "predict bizdate: ${PREDICT_BIZDATE}"
 
-PREDICT_BIZDATE_SUB=${DAY_SUB3}
+PREDICT_BIZDATE_SUB=${DAY_SUB30}
 echo "predict bizdate_sub: ${PREDICT_BIZDATE_SUB}"
 
 PREDICT_RESULT_LIST="/user/test/testResult"
