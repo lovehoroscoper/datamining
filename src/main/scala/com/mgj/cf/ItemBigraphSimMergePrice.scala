@@ -69,7 +69,7 @@ object ItemBigraphSimMergePrice {
       } else {
         (itemx, listA.get.toList.filter(x => priceMap.contains(itemx) && priceMap.contains(x._1) && priceMap.get(itemx).get <= priceMap.get(x._1).get).map(x => (x._1, x._2.toInt)).take(N))
       }
-    })
+    }).filter(x => x._2.size > 0)
 
     val sdf = new SimpleDateFormat("yyyy-MM-dd")
     val calendar = Calendar.getInstance()
