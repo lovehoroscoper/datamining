@@ -34,7 +34,24 @@ object Train {
     var i = 0
     for (sampleType <- VariableFactory.sampleTypeList) {
       val sample = sqlContext.sql(s"select * from ${VariableFactory.sampleList.apply(i)}")
-      val model = VariableFactory.learner.train(sc, sqlContext, sample.select(toVector(sample("feature")).as("feature"), sample("label").as("label")))
+
+      val ratioCount = sample.groupBy("label").count().rdd.map(x => (x(0).toString, x(1).toString.toDouble)).collect().toMap
+      val ratio = ratioCount.get("1.0").get / (ratioCount.get("1.0").get + ratioCount.get("0.0").get)
+
+      println(s"sample type:${sampleType}")
+      println(s"total sample count:${(ratioCount.get("1.0").get + ratioCount.get("0.0").get)}")
+      println(s"total positive sample count:${ratioCount.get("1.0").get}")
+      println(s"positive negtive sample ratio:${ratio}")
+
+      val posSample = sample.where(sample("label") > 0.5)
+      val negSample = sample.where(sample("label") < 0.5).sample(false, ratio)
+      sample.unpersist(blocking = false)
+
+      val sampleDF = posSample.unionAll(negSample)
+      posSample.unpersist(blocking = false)
+      negSample.unpersist(blocking = false)
+
+      val model = VariableFactory.learner.train(sc, sqlContext, sampleDF.select(toVector(sample("feature")).as("feature"), sample("label").as("label")))
       sample.unpersist(blocking = false)
       sc.parallelize(Seq(model), 1).saveAsObjectFile(VariableFactory.modelList.apply(i))
       i += 1

@@ -216,23 +216,26 @@ class UserPreferProcessor extends java.io.Serializable {
     featureDF.unpersist(blocking = false)
 
     val sampleLabel = sample.select(sample("user_id"), sample("entity_id"), sample("feature"), getLabel(sample("entity_id_alias")).as("label")).cache()
-    val ratioCount = sampleLabel.groupBy("label").count().rdd.map(x => (x(0).toString, x(1).toString.toDouble)).collect().toMap
-    val ratio = ratioCount.get("1.0").get / (ratioCount.get("1.0").get + ratioCount.get("0.0").get)
 
-    println(s"sample type:${sampleType}")
-    println(s"total sample count:${(ratioCount.get("1.0").get + ratioCount.get("0.0").get)}")
-    println(s"total positive sample count:${ratioCount.get("1.0").get}")
-    println(s"positive negtive sample ratio:${ratio}")
+    //    val ratioCount = sampleLabel.groupBy("label").count().rdd.map(x => (x(0).toString, x(1).toString.toDouble)).collect().toMap
+    //    val ratio = ratioCount.get("1.0").get / (ratioCount.get("1.0").get + ratioCount.get("0.0").get)
+    //
+    //    println(s"sample type:${sampleType}")
+    //    println(s"total sample count:${(ratioCount.get("1.0").get + ratioCount.get("0.0").get)}")
+    //    println(s"total positive sample count:${ratioCount.get("1.0").get}")
+    //    println(s"positive negtive sample ratio:${ratio}")
+    //
+    //    val posSample = sampleLabel.where(sampleLabel("label") > 0.5)
+    //    val negSample = sampleLabel.where(sampleLabel("label") < 0.5).sample(false, ratio)
+    //    sampleLabel.unpersist(blocking = false)
+    //
+    //    val sampleDF = posSample.unionAll(negSample)
+    //    posSample.unpersist(blocking = false)
+    //    negSample.unpersist(blocking = false)
+    //
+    //    return sampleDF
 
-    val posSample = sampleLabel.where(sampleLabel("label") > 0.5)
-    val negSample = sampleLabel.where(sampleLabel("label") < 0.5).sample(false, ratio)
-    sampleLabel.unpersist(blocking = false)
-
-    val sampleDF = posSample.unionAll(negSample)
-    posSample.unpersist(blocking = false)
-    negSample.unpersist(blocking = false)
-
-    return sampleDF
+    return sampleLabel
   }
 
   def buildSample(sc: SparkContext, sqlContext: HiveContext, feature: RDD[(String, String, Vector)], bizdate: String, entity: String, sampleType: String): DataFrame = {
