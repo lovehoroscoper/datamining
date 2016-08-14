@@ -14,7 +14,7 @@ echo "output path: ${OUTPUT_PATH}"
 
 ${SUBMIT}														\
 	--master yarn												\
-	--queue root.data   										\
+	--queue root.algorithm   									\
 	--driver-memory	4g											\
 	--num-executors	8											\
 	--executor-cores 1											\
