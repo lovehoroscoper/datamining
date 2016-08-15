@@ -5,13 +5,14 @@ import java.util
 import java.util.HashMap
 
 import com.mgj.feature.FeatureConstant
+import org.apache.spark.api.java.function.MapGroupsFunction
 import org.apache.spark.ml.classification.LogisticRegressionModel
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types.{DoubleType, StringType, StructField, StructType}
 import org.apache.spark.{HashPartitioner, SparkContext}
 import org.apache.spark.mllib.linalg.{Vectors, Vector}
 import org.apache.spark.rdd.{CoGroupedRDD, RDD}
-import org.apache.spark.sql.{Row, DataFrame}
+import org.apache.spark.sql.{Dataset, Row, DataFrame}
 import org.apache.spark.sql.hive.HiveContext
 import scala.collection.JavaConversions._
 import scala.reflect.ClassTag
@@ -126,14 +127,21 @@ class UserPreferProcessor extends java.io.Serializable {
       return result
     }
 
-    val feature = logDS.rdd
+    val feature = logDS
       .groupBy(x => x._1)
-      .map(x => featureExtract(x._2))
+      .mapGroups((key, values) => featureExtract(values.toIterable))
       .flatMap(x => x)
+
+    //    val featureB = feature
+    //    feature.as("x").joinWith(featureB.as("y"),$"_1".as("x") === $"_1".as("y"),"outer").show
+    //    val feature = logDS.rdd
+    //      .groupBy(x => x._1)
+    //      .map(x => featureExtract(x._2))
+    //      .flatMap(x => x)
 
     logDS.unpersist(blocking = false)
 
-    return feature
+    return feature.rdd
   }
 
   private def joinFeature(featureList: util.ArrayList[RDD[((String, String), Array[Double])]]): RDD[(String, String, Vector)] = {
